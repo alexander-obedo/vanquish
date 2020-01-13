@@ -1,0 +1,51 @@
+{% include 'global_vars' %}
+<header class="hdr hdr-style-4 {{ header_width }}  {% if section.settings.sticky %}hdr_sticky{% endif %} {% unless column %}{% if template == 'index' or template == 'page.home-page-electronics2-4' %}hdr--light hdr--transparent{% endif %}{% endunless %} minicart-icon-style-2  hdr-mobile-style{{ section.settings.style_mobile }}">
+    {% include 'topline' %}
+    {% include 'mobile-navigation' %}
+    {% include 'header-mobile' %}
+    <div class="hdr-desktop hide-mobile">
+        <div class="hdr-topline hdr-topline--dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto hdr-topline-left">
+                        {% include 'social-media-links' in_header:1 %}
+                    </div>
+                    <div class="col-auto hdr-topline-right links-holder">
+                        {% include 'header-languages' %}
+                        {% include 'currency-picker' %}
+                      	{% include 'header-login-form' onlytext:1 %}
+                        {% include 'wishlist-header' onlytext:1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hdr-content hide-mobile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto logo-holder">
+                        {% include 'header-logo' %}
+                    </div>
+                    <!--navigation-->
+                    <div class="prev-menu-scroll icon-angle-left prev-menu-js"></div>
+                    <div class="nav-holder">
+                        <div class="hdr-nav">
+                            {% include 'header-navigation' %}
+                        </div>
+                    </div>
+                    <div class="next-menu-scroll icon-angle-right next-menu-js"></div>
+                    <!--//navigation-->
+                    <div class="col-auto hdr-content-right">
+                        <div class="search-holder">
+                            {% include 'header-search' classes:'only-icon' %}
+                        </div>
+
+                        <div class="minicart-holder">
+                            {% include 'header-cart' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'header-sticky' %}
+</header>

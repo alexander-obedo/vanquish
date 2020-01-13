@@ -1,0 +1,28 @@
+{% if title == blank %}{% assign title = block.settings.title %}{% endif %}
+{% if product_limit == blank %}{% assign product_limit = block.settings.limit %}{% endif %}
+{% if slidesToShow == blank %}{% assign slidesToShow = block.settings.slidesToShow %}{% endif %}
+{% if collection == blank %}{% assign collection = block.settings.collection %}{% endif %}
+{% assign collectionDrop = collections[collection] %}
+<div class="aside-block">
+    <div class="title-with-arrows">
+        <h2>{{ title }}</h2>
+        <div class="carousel-arrows"></div>
+    </div>
+    {% if collectionDrop.products.size > 0 %}
+        <div class="prd-carousel-vert js-prd-carousel-vert"  data-slick='{"slidesToShow": {{ slidesToShow }}, "responsive": [{"breakpoint": 768,"settings": {"slidesToShow": 2}}]}'>
+            {% for product in collectionDrop.products limit: product_limit %}
+                {% include 'product-card-vertical' %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            To Init <b>Product's carousel</b>:<br />
+            1.<b>Choose Collection</b><br />
+            2.<b>Save</b>
+        </div>
+    {% endif %}
+</div>
+{% assign title = '' %}
+{% assign product_limit = '' %}
+{% assign slidesToShow = '' %}
+{% assign collection = '' %}

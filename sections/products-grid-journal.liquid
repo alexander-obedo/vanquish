@@ -1,0 +1,156 @@
+{% unless settings.slides_mode %}
+<div class="holder fullwidth {{ section.settings.outer_margin }} full-nopad">
+    <div class="container">
+        <div class="title-wrap">
+            <ul class="tab-category text-center nav nav-tabs" role="tablist">
+                {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                <li class="nav-item {% if forloop.first %}active{% endif %}">
+                    <h2 class="h1-style">
+                        <a class="nav-link" data-toggle="tab" href="#tab{{ block.id }}">{{ block.settings.title }}</a>
+                    </h2>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="tab-content tab-category-content">
+            {% for block in section.blocks %}
+            {% if block.settings.enable %}
+                {%- assign collection = collections[block.settings.collection] -%}
+                <div class="tab-pane {% if forloop.first %}active{% else %}fade{% endif %}" id="tab{{ block.id }}">
+                    <div class="row no-gutters holder-bg-10 {% if section.settings.reverse %}flex-md-row-reverse{% endif %}" {% if section.settings.bg != blank %}style="background-color: {{ section.settings.bg }}"{% endif %}>
+                        <div class="col-md">
+                            <div class="tab-category-image lazyload blur-up" {% if block.settings.image %}data-bgset="{% include 'bgset', image: block.settings.image %}" data-sizes="auto"{% endif %}></div>
+                            {%- if block.settings.image == blank -%}<div class="placeholder-bg">{% include 'image-placeholder-bg', text: '800x933' %}</div>{%- endif -%}
+                        </div>
+                        <div class="col-md">
+                            <div class="prd-border-grid">
+                                {% for product in collection.products limit: 4 %}
+                                    <div class="prd-simple">
+                                        <div class="prd-inside">
+                                            <div class="prd-img-area">
+                                                <a href="{{ product.url }}" class="prd-img">
+                                                    {% assign _img = product.featured_image %}
+                                                    {% assign _img_size = '341x403' %}
+                                                    {% if _img %}
+                                                        <img class="lazyload blur-up js-prd-img"
+                                                             data-src="{{ _img | img_url: _img_size }}"
+                                                             data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                                             data-aspectratio="{{ _img.aspect_ratio }}"
+                                                             data-sizes="auto"
+                                                             alt="{{ _img.alt | escape }}">
+                                                    {%- else -%}
+                                                        {% include 'image-placeholder-aspect-ratio', width: 341, height: 403, text: 'product' %}
+                                                    {%- endif -%}
+                                                </a>
+                                            </div>
+                                            <div class="prd-info">
+                                                <h2 class="prd-title"><a href="{{ product.url }}" title="{{ product.title }}">{{ product.title | truncate: 27 }}</a></h2>
+                                                {% include 'product-card-price' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-warning">
+                                        To Init <b>Product's carousel</b>:<br />
+                                        1.<b>Choose Collection</b><br />
+                                        2.<b>Save</b>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Products Grid - Journal",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type":"checkbox",
+"id":"reverse",
+"label":"Reverse Image",
+"default":false
+},
+{
+"type":"color",
+"id":"bg",
+"label":"Section Background Color"
+}
+],
+"blocks": [
+{
+"type": "page",
+"name": "Collection Page",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "text",
+"id": "title",
+"label": "Name",
+"default": "Collection 1"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended size 800x933px"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection",
+"info":"auto limit 4"
+}
+]
+}
+],
+"presets": [{
+"name": "Products Grid - Journal",
+"category": "Collections Grid",
+"blocks": [
+{
+"type": "page"
+},
+{
+"type": "page"
+}
+]
+}]
+}
+{% endschema %}

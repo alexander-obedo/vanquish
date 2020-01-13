@@ -1,0 +1,18 @@
+{%- assign column = false -%}
+{%- unless settings.column-left-right == 'none-column' -%}{% if template == 'index' -%}{% assign column = true -%}{% endif -%}{% endunless -%}
+{%- unless settings.column-left-right == 'none-column' -%}{% if template contains 'home-page-' -%}{% assign column = true -%}{% endif -%}{% endunless -%}
+{%- assign column_side = settings.column-left-right -%}
+{%- assign skin = '' -%}
+{%- assign demo = false -%}
+{%- assign dark_skin = false -%}
+{%- assign tools = false -%}
+{%- assign slides_mode = settings.slides_mode -%}
+{%- if template contains 'page.home-page-toys-1' -%}{% assign slides_mode = true -%}{% endif -%}
+{%- assign color_mode = 'theme-light' -%}
+{%- if settings.color_scheme contains 'dark' -%}
+    {%- assign color_mode = 'theme-dark' -%}
+{%- endif -%}
+{%- assign home = false -%}
+{%- if template == 'index' or template contains 'page.home-page-' -%}
+    {%- assign home = true -%}
+{%- endif -%}

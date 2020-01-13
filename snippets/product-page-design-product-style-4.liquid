@@ -1,0 +1,17 @@
+<div class="holder mt-0">
+    <div class="container">
+        <div class="row prd-block prd-block--mobile-image-first js-prd-gallery" id="prdGallery100">
+            <div class="col-md-5 aside aside-fixed">
+              <div class="prd-block_info js-prd-m-holder mb-2 mb-md-0"></div>
+              {% include 'product-media' product:product %}
+            </div>
+            <div class="col-md-7 aside">
+                {% include 'product-page-info' quick_view:'no', style:'style-4' %}
+                {% unless product.metafields.c_f.notabs != blank %}{% include 'product-tabs' %}{% endunless %}
+            </div>
+            {% include 'product_prev_next' %}
+        </div>
+        <div class="ymax"></div>
+    </div>
+
+</div>

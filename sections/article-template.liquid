@@ -1,0 +1,177 @@
+{% comment %}
+Comments will not appear right after they are submitted, either to be checked for spam
+or to await moderation. When a comment is submitted, the browser is redirected to a page
+that includes the new comment id in its URL.
+Example: http://shopname.myshopify.com/blogs/news/2022072-my-post?comment=3721372
+{% endcomment %}
+
+{%- assign new_comment = false -%}
+{% if comment and comment.created_at %}
+    {%- assign new_comment = true -%}
+    {%- assign new_comment_id = comment.id -%}
+{% endif %}
+
+{% if new_comment %}
+    {%- assign duplicate_comment = false %}
+    {% for comment in article.comments %}
+        {% if comment.id == new_comment_id %}
+            {%- assign duplicate_comment = true %}
+            {% break %}
+        {% endif %}
+    {% endfor %}
+
+    {% if duplicate_comment %}
+        {%- assign number_of_comments = article.comments_count -%}
+    {% else %}
+        {%- assign number_of_comments = article.comments_count | plus: 1 -%}
+    {% endif %}
+{% else %}
+    {%- assign number_of_comments = article.comments_count -%}
+{% endif %}
+
+
+
+
+<div class="block offset-40">
+    <div class="container">
+        <!-- Page Title -->
+        <div class="page-title page-title--blog">
+            <div class="title">
+                <h1>{% if current_tags %}
+                        {{ article.title }} &mdash; {{ current_tags.first }}
+                    {% else %}
+                        {{ article.title }}
+                    {% endif %}</h1>
+            </div>
+        </div>
+        <!-- /Page Title -->
+        <div class="row">
+
+            {% if section.settings.sidebar %}{% assign left_col="col-md-9 aside" %}{% else %}{% assign left_col="col-md-12 aside" %}{% endif %}
+            <div class="{{ left_col }}" id="centerColumn">
+                <div class="post-full">
+                    <div class="post-bot">
+                        <div class="post-date">{{ article.published_at | date: format: "month_day_year" }}</div>
+                        <span class="post-link">{{ "general.theme.by" | t }} {{ article.author }}</span>
+                        <div class="post-action">
+                            {% if blog.comments_enabled? %}
+                                <span><a href="#postComments" class="js-scroll-to">{{ article.comments.size }} {{ "general.theme.comments" | t }}</a></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if article.tags.size > 0 %}
+                    <ul class="tags-list post-tags-list">
+                        {% for tag in article.tags %}
+                            <li><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% if article.image %}
+                    <div class="post-img">
+                        <a href="{{ article.url }}" class="post-img">
+                                {%- assign img_url = article | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                {%- assign image_alt = article.title | escape -%}
+                                <img class="lazyload blur-up"
+                                     data-src="{{ img_url }}"
+                                     data-widths="[900, 1200, 1800]"
+                                     data-aspectratio="{{ article.aspect_ratio }}"
+                                     data-sizes="auto"
+                                     alt="{{ image_alt }}">
+                         </a>
+                    </div>
+                    {% endif %}
+                    <div class="post-text">
+                        {{ article.content }}
+                    </div>
+                    <div class="post-bot flex-wrap">
+                        <div class="post-date">{{ article.published_at | date: format: "month_day_year" }}</div>
+                        <a href="#" class="post-link">by {{ article.author }}</a>
+                    </div>
+                </div>
+
+                {% paginate article.comments by 50 %}
+                {% if blog.comments_enabled? %}
+
+                    <div class="post-comments" id="postComments">
+                        <h3 class="h2-style">{{ "general.theme.post_comments" | t }}</h3>
+                        {% if comment and comment.created_at %}
+                            <p class="note form-success">
+                                {% if blog.moderated? %}
+                                    {{ "blogs.comments.success_moderated" | t  }}
+                                {% else %}
+                                    {{ "blogs.comments.success" | t  }}
+                                {% endif %}
+                            </p>
+                        {% endif %}
+                        {% if number_of_comments > 0 %}
+                            {% for comment in article.comments %}
+                                {% include "comment" %}
+                            {% endfor %}
+                        {% endif %}
+
+
+                    </div>
+
+                    <div class="post-comment-form">
+                    <h3 class="h2-style">{{ "blogs.comments.title" | t }}</h3>
+                   {% form "new_comment", article, class: "comment-form" %}
+                        {{ form.errors | default_errors }}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <input  class="form-control {% if form.errors contains "author" %}error{% endif %}" type="text" name="comment[author]" placeholder="{{ "blogs.comments.name" | t }}" id="CommentAuthor" value="{{ form.author }}" />
+                                </div>
+                                <div class="form-group">
+                                    <input  class="form-control {% if form.errors contains "email" %}error{% endif %}" type="email" name="comment[email]" placeholder="{{ "blogs.comments.email" | t }}" id="CommentEmail" value="{{ form.email }}"  />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <textarea class="form-control  textarea--height-200 {% if form.errors contains "body" %}error{% endif %}" name="comment[body]" id="CommentBody" placeholder="{{ "blogs.comments.message" | t }}">{{ form.body }}</textarea>
+                                </div>
+                                <button class="btn mt-15" type="submit">{{ "blogs.comments.post" | t }}</button>
+                            </div>
+                        </div>
+                        {% if blog.moderated? %}
+                            <br /><p><small>{{ "blogs.comments.moderated" | t }}</small></p>
+                        {% endif %}
+                        {% endform %}
+                </div>
+
+                {% endif %}
+                {% endpaginate %}
+
+
+
+            </div>
+
+
+            {% if section.settings.sidebar %}
+                <div class="col-md-3 aside aside--right" id="sideColumn">
+                    {% include "blog-sidebar" %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+"name": "Post page",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "checkbox",
+"id": "sidebar",
+"label": "Sidebar",
+"default": true
+}
+]
+}
+{% endschema %}

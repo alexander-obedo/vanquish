@@ -1,0 +1,17 @@
+{% if section.settings.sticky %}
+<div class="sticky-holder compensate-for-scrollbar">
+    <div class="container">
+        <div class="row">
+            <a href="#" class="mobilemenu-toggle show-mobile"><i class="icon icon-menu"></i></a>
+            <div class="col-auto logo-holder-s">
+          		{% include 'header-logo' %}
+          	</div>
+            <!--navigation-->
+            <div class="prev-menu-scroll icon-angle-left prev-menu-js"></div>
+            <div class="nav-holder-s"></div>
+            <div class="next-menu-scroll icon-angle-right next-menu-js"></div>
+            <!--//navigation-->
+            <div class="col-auto minicart-holder-s"></div>
+        </div></div>
+</div>
+{% endif %}

@@ -1,0 +1,212 @@
+{% unless settings.slides_mode %}
+<div class="holder global_width {{ section.settings.outer_margin }}">
+    <div class="container">
+        <h2 class="h1-style text-center">{{ section.settings.title }}</h2>
+        <div class="brand-prd-carousel vert-dots" data-slick='{"fade": true}'>
+            {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                    <div class="brand-prd">
+                    <div class="brand-prd-image">
+                        <div class="carousel-inside slide" data-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    {%- assign _img = block.settings.brand_slide_1 -%}
+                                    {%- assign _img_size = '570x339' -%}
+                                    {%- if _img -%}
+                                        <img class="lazyload blur-up"
+                                             data-src="{{ _img | img_url: _img_size }}"
+                                             data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                             data-aspectratio="{{ _img.aspect_ratio }}"
+                                             data-sizes="auto"
+                                             alt="{{ _img.alt | escape }}">
+                                    {%- else -%}
+                                        {%- include 'image-placeholder-aspect-ratio', width: 570, height: 340 -%}
+                                    {%- endif -%}
+                                </div>
+                                {% if block.settings.brand_slide_2 %}
+                                    <div class="item">
+                                        {%- assign _img = block.settings.brand_slide_2 -%}
+                                        {%- assign _img_size = '570x339' -%}
+                                        {%- if _img -%}
+                                            <img class="lazyload blur-up"
+                                                 data-src="{{ _img | img_url: _img_size }}"
+                                                 data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                                 data-sizes="auto"
+                                                 alt="{{ _img.alt | escape }}">
+                                        {%- else -%}
+                                            {%- include 'image-placeholder-aspect-ratio', width: 570, height: 340 -%}
+                                        {%- endif -%}
+                                    </div>
+                                {% endif %}
+                                {% if block.settings.brand_slide_3 %}
+                                    <div class="item">
+                                        {%- assign _img = block.settings.brand_slide_3 -%}
+                                        {%- assign _img_size = '570x339' -%}
+                                        {%- if _img -%}
+                                            <img class="lazyload blur-up"
+                                                 data-src="{{ _img | img_url: _img_size }}"
+                                                 data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                                 data-sizes="auto"
+                                                 alt="{{ _img.alt | escape }}">
+                                        {%- else -%}
+                                            {%- include 'image-placeholder-aspect-ratio', width: 570, height: 340 -%}
+                                        {%- endif -%}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if block.settings.brand_slide_2 or block.settings.brand_slide_3 %} <span class="carousel-control next"></span> <span class="carousel-control prev"></span>{% endif %}
+                        </div>
+                    </div>
+                        <div class="brand-prd-info">
+                            <div class="inside">
+                                <div class="text-center">
+                                    {% assign _img = block.settings.image %}
+                                    {% assign _img_size = '180x' %}
+                                    {% if _img %}
+                                        <img class="lazyload blur-up"
+                                             data-src="{{ _img | img_url: _img_size }}"
+                                             data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                             data-aspectratio="{{ _img.aspect_ratio }}"
+                                             data-sizes="auto"
+                                             alt="{{ _img.alt | escape }}">
+                                    {%- else -%}
+                                        {% include 'image-placeholder-aspect-ratio', width: 180, height: 53 %}
+                                    {%- endif -%}
+                                </div>
+                                <p>{{ block.settings.description }}</p>
+                                <div class="text-center">{{ block.settings.description_links }}</div>
+                            </div>
+                        </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Brands Advanced",
+"settings": [
+
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+    {"value":"mt-0","label":"None"},
+    {"value":"mt-1","label":"10px"},
+    {"value":"mt-2","label":"20px"},
+    {"value":"mt-3","label":"30px"},
+    {"value":"mt-4","label":"40px"},
+    {"value":"mt-5","label":"50px"},
+    {"value":"mt-6","label":"60px"},
+    {"value":"mt-65","label":"65px"},
+    {"value":"mt-7","label":"70px"},
+    {"value":"mt-8","label":"80px"},
+    {"value":"mt-9","label":"90px"},
+    {"value":"mt-10","label":"100px"}
+    ],
+    "default": "mt-65"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "SHOP BRANDS"
+}
+],
+"blocks": [
+{
+"type": "brand",
+"name": "Brand",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "text",
+"id": "title",
+"label": "Name",
+"default": "Zara"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended max width 200px and max height 53px"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Slide link"
+},
+{
+    "type": "select",
+    "id": "link_target",
+    "label": "Link Target",
+    "default":"_self",
+    "options": [
+    { "value": "_blank", "label": "New page" },
+    { "value": "_self",  "label": "In current page" }
+    ]
+},
+    {
+        "type": "textarea",
+        "id": "description",
+        "label": "Brand Description",
+        "default": "Lorem ipsum dolor sit amet consestuer adicpising elitr anno dolor sit amet. Lorem ipsum dolor sit amet consestuer adicpising elitr anno dolor sit amet. Lorem ipsum dolor sit amet consestuer adicpising elitr anno dolor sit amet."
+    },
+    {
+        "type": "textarea",
+        "id": "description_links",
+        "label": "Additional Description Links",
+        "default": "<a href='#' class='btn-decor'>shop men</a><a href='#' class='btn-decor'>shop women</a>"
+    },
+    {
+    "type": "image_picker",
+    "id": "brand_slide_1",
+    "label": "Brand Slide Image 1",
+    "info":"recommended size 570x339 px"
+    },{
+    "type": "image_picker",
+    "id": "brand_slide_2",
+    "label": "Brand Slide Image 2",
+    "info":"recommended size 570x339 px"
+    },{
+    "type": "image_picker",
+    "id": "brand_slide_3",
+    "label": "Brand Slide Image 3",
+    "info":"recommended size 570x339 px"
+    }
+
+]
+}
+],
+"presets": [{
+"name": "Brands Advanced",
+"category": "Brands",
+"blocks": [
+{
+"type": "brand"
+},
+{
+"type": "brand"
+}
+]
+}]
+}
+{% endschema %}

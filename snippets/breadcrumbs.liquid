@@ -1,0 +1,53 @@
+{% unless template == 'index' or template contains 'home-page-' or template contains '404' %}
+{% assign t_item =  'general.theme.item' | t %}
+{% assign t_items = 'general.theme.items_c' | t %}
+{% capture home_link %}<li><a href="/"  title="{{ 'homepage.breadcrumbs.home' | t }}">{{ 'homepage.breadcrumbs.home' | t }}</a></li>{% endcapture %}
+<div class="holder mt-0">
+    <div class="container">
+        <ul class="breadcrumbs">
+            {% if template contains 'product' %}
+                {% if collection %}
+                    {% if collection.handle %}
+                        {{ home_link }}
+                        {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+                        <li>{{ collection.title | link_to: url }}</li>
+                    {% endif %}
+                {% endif %}
+            {% elsif template contains 'collection' and collection.handle %}
+                {{ home_link }}
+                <li>
+
+                        <span>{{ collection.title }}</span>
+
+                </li>
+            {% elsif template == 'blog' %}
+                {{ home_link }}
+                <li>
+                    {% if current_tags %}
+                        {{ blog.title | link_to: blog.url }}
+                        <span>{{ current_tags | join: " + " }}</span>
+                    {% else %}
+                        <span>{{ blog.title }}</span>
+                    {% endif %}
+                </li>
+            {% elsif template == 'article' %}
+                {{ home_link }}
+                <li>{{ blog.title | link_to: blog.url }}</li>
+                <li>{{ article.title }}</li>
+            {% elsif template contains 'page' %}
+                {{ home_link }}
+                <li>
+                    <span>{{ page.title }}</span>
+                </li>
+            {% else %}
+                {{ home_link }}
+                <li>
+                    <span>{{ page_title }}</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endunless %}
+
+

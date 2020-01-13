@@ -1,0 +1,12 @@
+<div class="placeholder-svg-aspect-ratio">
+    {% assign h = height | times: 1 %}
+    {% assign w = width | times: 0.01 %}
+    {% assign top = h | divided_by: w %}
+    <div class="placeholder-frame" style="padding-top: {{ top }}%">
+        {% if text != blank %}
+            <span {% if toppos != blank %}style="top:{{ toppos }}%"{% endif %}>{{ text }}</span>
+        {% else %}
+            <span {% if toppos != blank %}style="top:{{ toppos }}%"{% endif %}>{{ width }}x{{ height }}</span>
+        {% endif %}
+    </div>
+</div>

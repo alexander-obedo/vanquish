@@ -1,0 +1,33 @@
+{% unless settings.catalog_mode %}
+{% if section.settings.login_box %}
+    {% if customer %}
+        <div class="dropdn dropdn_account {% if onlytext == 1 %}only-text{% endif %} {{ classes }}">
+            <a href="#" class="dropdn-link"><i class="icon icon-person"></i><span>{{ 'customer.account.title' | t }}</span></a>
+            <div class="dropdn-content">
+                <div class="container">
+                    <div class="dropdn-close">CLOSE</div>
+                    <ul>
+                        <li><a href="/account"><i class="icon icon-person-fill"></i><span>{{ 'general.theme.profile' | t }}</span></a></li>
+                        <li><a href="/account/logout"><i class="icon icon-return"></i><span>{{ 'layout.customer.log_out' | t }}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="dropdn dropdn_account {% if onlytext == 1 %}only-text{% endif %}  {{ classes }}">
+            <a href="#" class="dropdn-link"><i class="icon icon-person"></i><span>{{ 'customer.account.title' | t }}</span></a>
+            <div class="dropdn-content">
+                <div class="container">
+                    <div class="dropdn-close">CLOSE</div>
+                    <ul>
+                        <li><a href="/account"><i class="icon icon-person-fill"></i><span>{{ 'customer.account.title' | t }}</span></a></li>
+                        <li><a href="/account"><i class="icon icon-lock"></i><span>{{ 'layout.customer.log_in' | t }}</span></a></li>
+                        <li><a href="/account/register"><i class="icon icon-person-fill-add"></i><span>{{ 'general.theme.register' | t }}</span></a></li>
+                        <li><a href="/checkout"><i class="icon icon-check-box"></i><span>{{ 'general.theme.checkout' | t }}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+{% endunless %}

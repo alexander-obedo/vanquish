@@ -1,0 +1,121 @@
+{% unless settings.slides_mode %}
+{% include 'global_vars' %}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{%- assign collection = collections[section.settings.collection] -%}
+
+<div class="holder py-3 py-md-6 {{ section.settings.outer_margin }} fullboxed {% if column %}aside--bg-none{% endif %} holder-bg-09">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="h1-style">{{ section.settings.title }}</h2>
+            <div class="under-title">{{ section.settings.desc }}</div>
+            {% if section.settings.collection != blank and section.settings.tabs and section.settings.tags != blank %}
+            <div class="prd-carousel-tabs js-filters-prd">
+                <span class="filters-label active" data-filter=".tag-all-{{ collection.handle }}">{{ 'general.theme.all' | t }}</span>
+                {%  assign tags = section.settings.tags | split:',' %}
+                {% for tag in tags %}
+                    <span class="filters-label" data-filter=".tag-{{ tag | handle }}">{{ tag }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="prd-grid prd-grid--nopad data-to-show-3 data-to-show-md-2 data-to-show-sm-2 data-to-show-xs-1 js-product-isotope mt-4">
+            {% for product in collection.products limit: product_limit %}
+                {% include 'product-card-horizontal' %}
+            {% else %}
+                <div class="alert alert-warning" style="height: 97px;">
+                    To Init <b>Product's carousel</b>:<br />
+                    1.<b>Choose Collection</b><br />
+                    2.<b>Save</b>
+                </div>
+            {% endfor %}
+        </div>
+        {% if section.settings.show_view_all and section.settings.collection != blank %}<div class="more-link-wrapper text-center"><a href="{{ collection.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Products Grid + Filter 2",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Collection"
+},{
+"type": "text",
+"id": "desc",
+"label": "Description",
+"default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"6"
+},
+{
+"type": "checkbox",
+"id": "show_view_all",
+"label": "Show 'Show all' button",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "tabs",
+"label": "Show Filter by Tags",
+"default": false
+},
+{
+"type": "textarea",
+"id": "tags",
+"label": "Write product's tags separated by coma",
+"default": "popular, sale, new",
+"info": "for example popular, sale, new. Tags must be assigned to products from the selected collection as well."
+}
+],
+"presets": [
+{
+"name": "Products Grid + Filter 2",
+"category": "Collections Grid"
+}
+]
+}
+{% endschema %}

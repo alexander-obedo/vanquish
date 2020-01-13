@@ -1,0 +1,16 @@
+{% if section.settings.logo_yes %}
+    {%- assign logo = section.settings.logo -%}
+    {% if logo != blank %}
+        {% assign logo = section.settings.logo | img_url:'master' %}
+        {% assign logo_2x = section.settings.logo | img_url:'master', scale: 2 %}
+    {% endif %}
+    <a href="{{ shop.url }}" title="{{ shop.name }}">
+        {% if logo != blank %}
+            <img src="{{ logo }}" alt='{{ shop.name }}' srcset="{{ logo }} 1x, {{ logo_2x }} 2x"  class="img-responsive"/>
+        {% else %}
+            <div style="width: 180px; margin: 0 auto;">
+                {% include 'image-placeholder' size: 'Logo', width: section.settings.logo_max_width, height: '47', nosvg: true %}
+            </div>
+        {% endif %}
+    </a>
+{% endif %}

@@ -1,0 +1,95 @@
+<div class="hdr-wrap">
+    <div class="hdr-topline hdr-topline-rotate hide-mobile">
+        <div class="hdr-topline-left">
+            {% include 'social-media-links' in_header:1 %}
+        </div>
+        <div class="hdr-topline-center">
+            <div class="custom-text">{{ section.settings.phone_1 }}</div>
+        </div>
+        <div class="hdr-topline-right links-holder">
+            {% include 'header-languages' %}
+            {% include 'currency-picker' %}
+        </div>
+    </div>
+    <header class="hdr hdr-style-12 hdr--light hdr_sticky hdr--transparent minicart-icon-style-2  hdr-mobile-style{{ section.settings.style_mobile }}">
+        {% comment %}{% include 'topline' %}{% endcomment %}
+        {% include 'mobile-navigation' %}
+        {% include 'header-mobile' %}
+        <div class="hdr-desktop hide-mobile">
+            <div class="hdr-content hide-mobile">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-auto logo-holder">
+                            {% include 'header-logo' %}
+                        </div>
+                        <!--navigation-->
+                        <div class="prev-menu-scroll icon-angle-left prev-menu-js"></div>
+                        <div class="nav-holder">
+                            <div class="hdr-nav">
+                                {% include 'header-navigation' %}
+                            </div>
+                        </div>
+                        <div class="next-menu-scroll icon-angle-right next-menu-js"></div>
+                        <!--//navigation-->
+                        <div class="col-auto hdr-content-right">
+                            <div class="search-holder">
+                                {% include 'header-search' classes:"only-icon" %}
+                            </div>
+                            <div class="links-holder">
+                                {% include 'header-login-form' classes: "only-icon" %}
+                            </div>
+                            <div class="minicart-holder">
+                                {% include 'header-cart' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'header-sticky' %}
+    </header>
+    <!-- BN Slider -->
+    <div class="bnslider-wrapper">
+        <div class="bnslider bnslider-with-tabs" id="bnslider-{{ section.id }}" data-slick='{"arrows": false, "dots": true}' data-autoplay="false" data-speed="5000">
+            {% for i in (1..3) %}
+                {% capture enable %}header12_enable_{{ i }}{% endcapture %}
+                {% capture image %}header12_image_{{ i }}{% endcapture %}
+                {% capture link %}header12_link_{{ i }}{% endcapture %}
+                {% capture target %}header12_link_target_{{ i }}{% endcapture %}
+                {% capture link_text %}header12_link_text_{{ i }}{% endcapture %}
+                {% capture caption_1 %}header12_caption_{{ i }}_1{% endcapture %}
+                {% capture caption_2 %}header12_caption_{{ i }}_2{% endcapture %}
+                {% capture caption_3 %}header12_caption_{{ i }}_3{% endcapture %}
+                {% capture caption_tab %}header12_caption_tab_{{ i }}{% endcapture %}
+                {% if settings[enable] %}
+                <div class="bnslider-slide" data-text="{{ settings[caption_tab] }}">
+                    <div class="bnslider-image lazyload blur-up" {% if settings[image] %}data-bgset="{% include 'bgset', image: settings[image] %}" data-sizes="auto"{% endif %}></div>
+                    {%- if settings[image] == blank -%}<div class="placeholder-bg">{% include 'image-placeholder-bg', text: '1370x892' %}</div>{%- endif -%}
+                    <div class="bnslider-text-wrap bnslider-overlay">
+                        <div class="bnslider-text-content txt-middle txt-left">
+                            <div class="bnslider-text-content-flex container">
+                                <div class="bnslider-vert">
+                                    <div class="bnslider-text bnslider-text--xs" data-animation="fadeIn" data-animation-delay="0.2s">{{ settings[caption_1] }}</div>
+                                    <div class="bnslider-text bnslider-text--lg" data-animation="fadeIn" data-animation-delay="0.5s" style="margin-top: .5em">{{ settings[caption_2] }}</div>
+                                    <div class="bnslider-text bnslider-text--sm text-uppercase" data-animation="fadeIn" data-animation-delay="0.75s"  style="font-weight: 700">{{ settings[caption_3] }}</div>
+                                    <div class="btn-wrap" data-animation="fadeIn" data-animation-delay="1s" style="margin-top: .75em"><a href="{{ settings[link] }}" target="{{ settings[target] }}" class="btn-decor btn-decor--whiteline btn-decor--lg">{{ settings[link_text] }}</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="bnslider-loader">
+            <div class="loader-wrap">
+                <div class="dots">
+                    <div class="dot one"></div>
+                    <div class="dot two"></div>
+                    <div class="dot three"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //BN Slider -->
+</div>

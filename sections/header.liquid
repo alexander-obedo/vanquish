@@ -1,0 +1,1971 @@
+{% include 'global_vars' %}
+{% assign custom = '' %}
+{% assign style = section.settings.style %}
+{%- if section.settings.style_nav_color or section.settings.style_nav_hover_color or section.settings.style_nav_hover_color -%}
+    {% assign custom = 'hdr--custom-nav' %}
+    <style>
+        @media screen and (min-width: 992px) {
+        {%- if section.settings.style_nav_bg != blank and section.settings.style_nav_bg != 'rgba(0,0,0,0)' -%}
+            .hdr.hdr--custom-nav .nav-holder .hdr-nav, .hdr.hdr--custom-nav .hdr-bottom {
+                background-color: {{ section.settings.style_nav_bg }};
+            }
+        {%- endif -%}
+        {%- if section.settings.style_nav_color != blank and section.settings.style_nav_color != 'rgba(0,0,0,0)' -%}
+            .hdr.hdr--custom-nav .hdr-desktop .mmenu:not(.mmenu--vertical) > li > a,
+            .hdr.hdr--custom-nav .hdr-bottom .dropdn-link [class*='icon-'],
+            .hdr.hdr--custom-nav .hdr-bottom .minicart-link [class*='icon-'] {
+                color: {{ section.settings.style_nav_color }};
+            }
+        {%- endif -%}
+        {%- if section.settings.style_nav_hover_color != blank and section.settings.style_nav_hover_color != 'rgba(0,0,0,0)' -%}
+            .hdr.hdr--custom-nav .hdr-desktop .mmenu:not(.mmenu--vertical) > li > a:before {
+                background-color: {{ section.settings.style_nav_hover_color }};
+            }
+            .hdr.hdr--custom-nav .hdr-desktop .mmenu:not(.mmenu--vertical) > li > a:hover,
+            .hdr.hdr--custom-nav .hdr-bottom .dropdn-link:hover [class*='icon-'],
+            .hdr.hdr--custom-nav .hdr-bottom .minicart-link:hover [class*='icon-'] {
+                color: {{ section.settings.style_nav_hover_color }};
+            }
+        {%- endif -%}
+            .hdr.hdr--custom-nav {
+                border-bottom: 0;
+            }
+        {%- if style == '7' -%}
+            .hdr.hdr--custom-nav.hdr-style-7 .nav-holder .hdr-nav {
+                padding: 0;
+                border: 0;
+                min-height: 62px;
+            }
+            .hdr.hdr--custom-nav.hdr-style-7 .hdr-content {
+                padding: 35px 0 35px;
+            }
+        {%- endif -%}
+        }
+    </style>
+{%- endif -%}
+{% assign header_width = '' %}
+{% assign style_topbar = section.settings.style_topbar %}
+{% if style == '12' and template != 'index' %}{% assign style = '1' %}{% endif %}
+{% assign style_file = 'header-style-' | append:style %}
+{% if home and slides_mode %}{% assign style_file = 'header-style-13' %}{% endif %}
+{% include style_file %}
+{% schema %}
+{
+"name": "Header",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "style",
+"label": "Style for Desktop",
+"options": [
+{ "value": "1", "label": "Header 1 (Default)" },
+{ "value": "2", "label": "Header 2" },
+{ "value": "3", "label": "Header 3" },
+{ "value": "4", "label": "Header 4" },
+{ "value": "5", "label": "Header 5 (dark bg, t-hisrts home page style)"},
+{ "value": "6", "label": "Header 6" },
+{ "value": "7", "label": "Header 7" },
+{ "value": "8", "label": "Header 8" },
+{ "value": "9", "label": "Header 9 (transparent on Home page for slider)" },
+{ "value": "10", "label": "Header 10 (side navigation,transparent for slider)" },
+{ "value": "11", "label": "Header 11 (transparent for slider)" },
+{ "value": "12", "label": "Header 12 (with own slider)" },
+{ "value": "14", "label": "Header 14" },
+{ "value": "15", "label": "Header 15" }
+],
+"default": "14",
+"info": "Slides for header 12 are located in the General settings/Slides for Header 12"
+},{
+"type": "select",
+"id": "style_mobile",
+"label": "Style for Mobile",
+"options": [
+{ "value": "1", "label": "Header 1 (+phone)" },
+{ "value": "2", "label": "Header 2 (Short)" }
+],
+"default": "1"
+},
+{
+"type": "header",
+"content": "Logo"
+},
+{
+"type": "image_picker",
+"id": "logo",
+"label": "Logo image"
+},
+{
+"type": "range",
+"id": "logo_max_width",
+"label": "Custom logo width",
+"min": 50,
+"max": 220,
+"step": 2,
+"unit": "px",
+"default": 148
+},
+{
+"type": "checkbox",
+"id": "languages",
+"label": "Show languages",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "currencies",
+"label": "Show currencies",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "minicart_off_text",
+"label": "Header cart icon text hide",
+"default": true,
+"info": "* only for Headers 1 and 14"
+},
+{
+"type": "checkbox",
+"id": "minicart_off_qty",
+"label": "Header cart icon quantity hide",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "header_search",
+"label": "Show Search",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "search_keywords_yes",
+"label": "Show search keywords",
+"default": false
+},
+{
+"type": "textarea",
+"id": "search_keywords",
+"label": "Search keywords",
+"info": "write keywords, separated by coma, for example:Jeans,Sunglazsses,hand bags,Discount,St.Valentine’s gift,maxi dress,Underwear,new in clothing,men tops",
+"default": "Jeans,Sunglazsses,hand bags,Discount,St.Valentine’s gift,maxi dress,Underwear,new in clothing,men tops"
+},
+{
+"type": "checkbox",
+"id": "login_box",
+"label": "Show Login Box",
+"default": true
+},
+{
+"type": "textarea",
+"id": "delivery",
+"label": "Delivery",
+"default": "<span>FREE</span> STANDARD DELIVERY ON ORDERS OVER $ 150",
+"info": "is showing on the Headers 1,3,6,11 and if 'Slides mode' is disabled"
+},
+{
+"type": "textarea",
+"id": "phone_1",
+"label": "Phone 1",
+"default": "<i class='icon icon-mobile'></i><b>8 800 265 89 56</b>",
+"info": "is showing on the Headers 1,3,11,12 and if 'Slides mode' is disabled"
+},{
+"type": "textarea",
+"id": "phones",
+"label": "Phones for header 6",
+"default": "8 800 265 89 56<br /> 8 800 265 89 56"
+},
+{
+"type": "header",
+"content": "Sticky header"
+},
+{
+"type": "checkbox",
+"id": "sticky",
+"label": "Show",
+"default": true
+},
+{
+"type": "header",
+"content": "Topline"
+},
+{
+"type": "checkbox",
+"id": "topline_enable",
+"label": "Enable",
+"default": true
+},
+{
+"type": "radio",
+"id": "where_to_show",
+"label": "Show on:",
+"options": [
+{
+"value": "home",
+"label": "Home page"
+},
+{
+"value": "all",
+"label": "All pages"
+}
+],
+"default": "all"
+},
+{
+"type": "color",
+"id": "bgcolor_topline",
+"label": "Background color"
+},
+{
+"type": "color",
+"id": "color_topline",
+"label": "Text color"
+},
+{
+"type": "checkbox",
+"id": "bgcustom_topline",
+"label": "Enable Custom Image for background",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "bg_topline",
+"label": "Background image",
+"info": "it is recommended to use pattern for horizontal repeating"
+},
+{
+"type": "text",
+"id": "topline_caption",
+"label": "Text",
+"default":"GET 10% OFF YOUR FIRST ORDER WITH CODE <span style='color: #000'>GOODWIN</span>&nbsp;<span class='hidden-xs'>&nbsp;|&nbsp;&nbsp; FREE GROUND SHIPPING OVER $250</span>"
+},
+{
+"type": "checkbox",
+"id": "topline_enable_animation",
+"label": "Enable text animation for topline",
+"default": true
+},
+{
+"type": "text",
+"id": "topline_caption_1",
+"label": "Animated text 1",
+"default":"GET 10% OFF YOUR FIRST ORDER WITH CODE GOODWIN",
+"info":"caption 1 only for animated text"
+},{
+"type": "text",
+"id": "topline_caption_2",
+"label": "Animated text 2",
+"default":"FREE GROUND SHIPPING OVER $250",
+"info":"caption 2 only for animated text"
+},
+{
+"type": "text",
+"id": "topline_expires",
+"label": "Expires days:",
+"info":"period to show after click x",
+"default":"1"
+},
+{
+"type": "header",
+"content": "Topbar"
+},
+{
+"type": "select",
+"id": "style_topbar",
+"label": "Topbar style",
+"options": [
+{ "value": "hdr-topline--default", "label": "Light" },
+{ "value": "hdr-topline--dark", "label": "Dark" },
+{ "value": "hdr-topline--color", "label": "Theme Color" }
+],
+"default": "hdr-topline--dark"
+},
+{
+"type": "color",
+"id": "style_topbar_bg",
+"label": "Topbar custom background"
+},
+{
+"type": "header",
+"content": "Navigation row"
+},
+{
+"type": "paragraph",
+"content": "*only for headers 2,6,7,8,15"
+},
+{
+"type": "color",
+"id": "style_nav_bg",
+"label": "Background"
+},
+{
+"type": "color",
+"id": "style_nav_color",
+"label": "Links color"
+},
+{
+"type": "color",
+"id": "style_nav_hover_color",
+"label": "Links hover color"
+},
+{
+"type": "header",
+"content": "Banners (Only For Header Style 5)"
+},
+{
+"type":"select",
+"id":"bnr_source",
+"label":"Сreate banner with:",
+"default":"admin",
+"options":[
+{
+"value":"online",
+"label":"Banner generator"
+},
+{
+"value":"admin",
+"label":"Admin panel"
+}
+],
+"info":"*All banner's setting in the Admin panel don't apply for a banner made with the Banner generator"
+},
+{
+"type":"textarea",
+"id":"html_header_5",
+"label":"Paste generated banners HTML here",
+"info":"*Will apply only if you check 'Banner generator'. Generate banners [here](http://frontend.big-skins.com/goodwin-html/banners-generator)"
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type": "paragraph",
+"content": "BANNER 1"
+},
+{
+"type": "checkbox",
+"id": "bnr_enable",
+"default": true,
+"label": "Banner 1 enable"
+},
+{
+"type":"image_picker",
+"id":"bnr_image",
+"label":"Image"
+},
+{
+"type":"url",
+"id":"bnr_link",
+"label":"Collection link"
+},
+{
+"type":"select",
+"id":"bnr_link_target",
+"label":"Link Target",
+"default":"_self",
+"options":[
+{
+"value":"_blank",
+"label":"New page"
+},
+{
+"value":"_self",
+"label":"In current page"
+}
+]
+},
+{
+"type": "select",
+"id": "bnr_text_pos",
+"options": [
+{ "value": "bnr--top bnr--left", "label": "Top/Left"},
+{ "value": "bnr--top bnr--right", "label": "Top/Right"},
+{ "value": "bnr--top bnr--center", "label": "Top/Center"},
+{ "value": "bnr--bottom bnr--left", "label": "Bottom/Left"},
+{ "value": "bnr--bottom bnr--right", "label": "Bottom/Right"},
+{ "value": "bnr--bottom bnr--center", "label": "Bottom/Center"},
+{ "value": "bnr--middle bnr--left", "label": "Middle/Left"},
+{ "value": "bnr--middle bnr--right", "label": "Middle/Right"},
+{ "value": "bnr--middle bnr--center", "label": "Middle/Center"}
+],
+"label": "Text Position (Vertical/Horizontal)",
+"default":"bnr--middle bnr--left"
+},
+{
+"type": "checkbox",
+"id": "bnr_text",
+"default": true,
+"label": "Caption 1 enable"
+},
+{
+"type":"text",
+"id":"bnr_text_text",
+"label":"Caption 1 text",
+"default":"T-SHIRTS"
+},
+{
+"type":"color",
+"id":"bnr_text_color",
+"label":"Caption 1 color"
+},
+{
+"type":"select",
+"id": "bnr_text_fontweight",
+"label": "Caption 1 font weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"600"
+},
+{
+"type":"range",
+"id":"bnr_text_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Caption 1 font size",
+"unit":"%",
+"default":26
+},
+{
+"type": "checkbox",
+"id": "bnr_text2",
+"default": true,
+"label": "Caption 2 enable"
+},
+{
+"type":"text",
+"id":"bnr_text2_text",
+"label":"Caption 2 text",
+"default":"MEN'S"
+},
+{
+"type":"color",
+"id":"bnr_text2_color",
+"label":"Caption 2 color"
+},
+{
+"type":"select",
+"id": "bnr_text2_fontweight",
+"label": "Caption 2 font weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text2_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Caption 2 font size",
+"unit":"%",
+"default":90
+},
+{
+"type": "checkbox",
+"id": "bnr_button_enable",
+"default": true,
+"label": "Button enable"
+},
+{
+"type":"text",
+"id":"bnr_button_text",
+"label":"Button text",
+"default":"Shop Now"
+},
+{
+"type":"color",
+"id": "bnr_button_color",
+"label": "Button color"
+},
+{
+"type":"color",
+"id": "bnr_button_line_color",
+"label": "Button line color"
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type": "paragraph",
+"content": "BANNER 2"
+},
+{
+"type": "checkbox",
+"id": "bnr2_enable",
+"default": true,
+"label": "Banner 2 enable"
+},
+{
+"type":"image_picker",
+"id":"bnr2_image",
+"label":"Image"
+},
+{
+"type":"url",
+"id":"bnr2_link",
+"label":"Collection link"
+},
+{
+"type":"select",
+"id":"bnr2_link_target",
+"label":"Link Target",
+"default":"_self",
+"options":[
+{
+"value":"_blank",
+"label":"New page"
+},
+{
+"value":"_self",
+"label":"In current page"
+}
+]
+},
+{
+"type": "select",
+"id": "bnr2_text_pos",
+"options": [
+{ "value": "bnr--top bnr--left", "label": "Top/Left"},
+{ "value": "bnr--top bnr--right", "label": "Top/Right"},
+{ "value": "bnr--top bnr--center", "label": "Top/Center"},
+{ "value": "bnr--bottom bnr--left", "label": "Bottom/Left"},
+{ "value": "bnr--bottom bnr--right", "label": "Bottom/Right"},
+{ "value": "bnr--bottom bnr--center", "label": "Bottom/Center"},
+{ "value": "bnr--middle bnr--left", "label": "Middle/Left"},
+{ "value": "bnr--middle bnr--right", "label": "Middle/Right"},
+{ "value": "bnr--middle bnr--center", "label": "Middle/Center"}
+],
+"label": "Text Position (Vertical/Horizontal)",
+"default":"bnr--middle bnr--right"
+},
+{
+"type": "checkbox",
+"id": "bnr2_text",
+"default": true,
+"label": "Caption 1 enable"
+},
+{
+"type":"text",
+"id":"bnr2_text_text",
+"label":"Caption 1 text",
+"default":"T-SHIRTS"
+},
+{
+"type":"color",
+"id":"bnr2_text_color",
+"label":"Caption 1 color"
+},
+{
+"type":"select",
+"id": "bnr2_text_fontweight",
+"label": "Caption 1 font weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"600"
+},
+{
+"type":"range",
+"id":"bnr2_text_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Caption 1 font size",
+"unit":"%",
+"default":26
+},
+{
+"type": "checkbox",
+"id": "bnr2_text2",
+"default": true,
+"label": "Caption 2 enable"
+},
+{
+"type":"text",
+"id":"bnr2_text2_text",
+"label":"Caption 2 text",
+"default":"WOMEN'S"
+},
+{
+"type":"color",
+"id":"bnr2_text2_color",
+"label":"Caption 2 color"
+},
+{
+"type":"select",
+"id": "bnr2_text2_fontweight",
+"label": "Caption 2 font weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr2_text2_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Caption 2 font size",
+"unit":"%",
+"default":90
+},
+{
+"type": "checkbox",
+"id": "bnr2_button_enable",
+"default": true,
+"label": "Button enable"
+},
+{
+"type":"text",
+"id":"bnr2_button_text",
+"label":"Button text",
+"default":"Shop Now"
+},
+{
+"type":"color",
+"id": "bnr2_button_color",
+"label": "Button color"
+},
+{
+"type":"color",
+"id": "bnr2_button_line_color",
+"label": "Button line color"
+},
+{
+"type": "header",
+"content": "Navigation"
+},
+{
+"type": "paragraph",
+"content": "[Documentation](http://big-skins.com/goodwin/shopify/manuals/#SetupNavigation)"
+},
+{
+"type": "paragraph",
+"content": "You can choose default Shopify dropdown navigation from selectbox or create Megamenu dropdowns with our sections constructor"
+},
+{
+"type":"link_list",
+"id":"default_navigation",
+"label":"Default navigation",
+"info":"if you select 'None' then the Megamenu that is based on sections will be enabled",
+"default":"main-menu"
+},
+{
+"type": "checkbox",
+"id": "menu_arrows_off",
+"label": "Hide 1st level item's arrow",
+"default": false
+}
+],
+"blocks": [
+{
+"type": "tree",
+"name": "Navigation Item - Simple",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "text",
+"id": "title",
+"label": "Title",
+"default":"Item"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Url"
+},
+{
+"type": "text",
+"id": "label",
+"label": "Label",
+"info":"1st level items only"
+},
+{
+"type": "select",
+"id": "label_color",
+"label": "Label color",
+"options": [
+{ "value": "1", "label": "Color 1" },
+{ "value": "2", "label": "Color 2" },
+{ "value": "3", "label": "Color 3" },
+{ "value": "4", "label": "Color 4" }
+],
+"default": "1",
+"info":"change color in General Settings/Colors"
+},
+{
+"type":"link_list",
+"id":"dropdown_list",
+"label":"Dropdown navigation"
+}
+]
+},
+{
+"type": "columns",
+"name": "Navigation Item - Columns",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "text",
+"id": "title",
+"label": "Title",
+"default":"Item"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Url"
+},
+{
+"type": "text",
+"id": "label",
+"label": "Label",
+"info":"1st level items only"
+},
+{
+"type": "select",
+"id": "label_color",
+"label": "Label color",
+"options": [
+{ "value": "1", "label": "Color 1" },
+{ "value": "2", "label": "Color 2" },
+{ "value": "3", "label": "Color 3" },
+{ "value": "4", "label": "Color 4" }
+],
+"default": "1",
+"info":"change color in General Settings/Colors"
+},
+{
+"type": "select",
+"id": "columns_in_row",
+"label": "Columns in one row",
+"options": [
+{ "value": "2", "label": "2" },
+{ "value": "3", "label": "3" },
+{ "value": "4", "label": "4" },
+{ "value": "5", "label": "5" },
+{ "value": "6", "label": "6" }
+],
+"default": "4"
+},
+{
+"type":"header",
+"content":"Navigation's columns"
+},
+{
+"type":"header",
+"content":"Column 1"
+},
+{
+"type":"checkbox",
+"id":"nav_col_1_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_1_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_1_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_1_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_1_list",
+"label":"Navigation"
+},
+{
+"type":"checkbox",
+"id":"nav_col_1_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_1_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_1_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 2"
+},
+{
+"type":"checkbox",
+"id":"nav_col_2_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_2_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_2_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_2_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_2_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_2_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_2_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_2_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 3"
+},
+{
+"type":"checkbox",
+"id":"nav_col_3_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_3_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_3_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_3_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_3_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_3_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_3_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_3_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 4"
+},
+{
+"type":"checkbox",
+"id":"nav_col_4_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_4_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_4_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_4_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_4_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_4_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_4_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_4_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 5"
+},
+{
+"type":"checkbox",
+"id":"nav_col_5_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_5_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_5_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_5_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_5_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_5_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_5_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_5_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 6"
+},
+{
+"type":"checkbox",
+"id":"nav_col_6_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_6_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_6_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_6_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_6_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_6_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_6_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_6_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 7"
+},
+{
+"type":"checkbox",
+"id":"nav_col_7_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_7_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_7_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_7_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_7_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_7_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_7_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_7_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 8"
+},
+{
+"type":"checkbox",
+"id":"nav_col_8_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_8_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_8_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_8_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_8_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_8_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_8_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_8_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 9"
+},
+{
+"type":"checkbox",
+"id":"nav_col_9_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_9_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_9_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_9_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_9_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_9_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_9_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_9_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 10"
+},
+{
+"type":"checkbox",
+"id":"nav_col_10_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_10_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_10_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_10_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_10_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_10_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_10_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_10_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 11"
+},
+{
+"type":"checkbox",
+"id":"nav_col_11_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_11_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_11_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_11_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_11_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_11_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_11_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_11_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 12"
+},
+{
+"type":"checkbox",
+"id":"nav_col_12_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_12_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_12_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_12_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_12_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_12_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_12_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_12_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 13"
+},
+{
+"type":"checkbox",
+"id":"nav_col_13_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_13_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_13_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_13_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_13_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_13_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_13_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_13_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 14"
+},
+{
+"type":"checkbox",
+"id":"nav_col_14_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_14_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_14_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_14_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_14_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_14_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_14_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_14_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Column 15"
+},
+{
+"type":"checkbox",
+"id":"nav_col_15_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"image_picker",
+"id":"nav_col_15_preview",
+"label":"Preview",
+"info":"268x207 px"
+},
+{
+"type":"text",
+"id":"nav_col_15_title",
+"label":"Title",
+"default":"Column title"
+},
+{
+"type":"url",
+"id":"nav_col_15_link",
+"label":"Url",
+"info":"for preview and title"
+},
+{
+"type":"link_list",
+"id":"nav_col_15_list",
+"label":"Navigation"
+},{
+"type":"checkbox",
+"id":"nav_col_15_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_15_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_15_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Left Column"
+},
+{
+"type":"checkbox",
+"id":"left_col_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type": "radio",
+"id": "left_col_src",
+"label": "What to show?",
+"options": [
+{ "value": "html", "label": "HTML" },
+{ "value": "carousel", "label": "Carousel" }
+],
+"default": "html"
+},
+{
+"type":"textarea",
+"id":"left_col_html",
+"label":"HTML"
+},
+{
+"type":"collection",
+"id":"left_col_collection",
+"label":"Carousel",
+"info":"Choose collection for  carousel. Limit is 4 products"
+},
+{
+"type": "select",
+"id": "left_col_html_width",
+"label": "Width",
+"options": [
+{ "value": "20", "label": "20%" },
+{ "value": "25", "label": "25%" }
+],
+"default": "20"
+},
+{
+"type":"header",
+"content":"Right Column"
+},
+{
+"type":"checkbox",
+"id":"right_col_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type": "radio",
+"id": "right_col_src",
+"label": "What to show?",
+"options": [
+{ "value": "html", "label": "HTML" },
+{ "value": "carousel", "label": "Carousel" }
+],
+"default": "html"
+},
+{
+"type":"textarea",
+"id":"right_col_html",
+"label":"Paste generated banners HTML here",
+"info":"*Will apply only if you check 'Banner generator'. Generate banners [here](http://frontend.big-skins.com/goodwin-html/banners-generator)"
+},
+{
+"type":"collection",
+"id":"right_col_collection",
+"label":"Carousel",
+"info":"Choose collection for  carousel. Limit is 4 products"
+},
+{
+"type": "select",
+"id": "right_col_html_width",
+"label": "Width",
+"options": [
+{ "value": "20", "label": "20%" },
+{ "value": "25", "label": "25%" }
+],
+"default": "20"
+},
+{
+"type":"header",
+"content":"Bottom Row"
+},
+{
+"type":"checkbox",
+"id":"btm_row_yes",
+"label":"Enable",
+"default":true
+},
+{
+"type":"textarea",
+"id":"btm_row_html",
+"label":"HTML",
+"default":"<div class='custom-text'><span>FREE</span> STANDARD DELIVERY ON ORDERS OVER $ 150</div> <div class='custom-text'><span>100%</span> money back guarantee</div> <div class='custom-text'><span>24/7</span> customer support</div>"
+}
+]
+},
+{
+"type": "shop_by",
+"name": "Navigation Item - Shop By",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "text",
+"id": "title",
+"label": "Title",
+"default":"Item"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Url"
+},
+{
+"type": "text",
+"id": "label",
+"label": "Label",
+"info":"1st level items only"
+},
+{
+"type": "select",
+"id": "label_color",
+"label": "Label color",
+"options": [
+{ "value": "1", "label": "Color 1" },
+{ "value": "2", "label": "Color 2" },
+{ "value": "3", "label": "Color 3" },
+{ "value": "4", "label": "Color 4" }
+],
+"default": "1",
+"info":"change color in General Settings/Colors"
+},
+{
+"type":"header",
+"content":"SHOP BY COLLECTION"
+},
+{
+"type":"checkbox",
+"id":"nav_col_1_yes",
+"label":"Enable",
+"default":true
+},
+{
+"type":"link_list",
+"id":"nav_col_1_list",
+"label":"Collections navigation"
+},
+{
+"type":"header",
+"content":"SHOP BY BRAND"
+},
+{
+"type":"checkbox",
+"id":"nav_col_2_yes",
+"label":"Enable",
+"default":true
+},
+{
+"type":"text",
+"id":"nav_col_2_title",
+"label":"Title",
+"default":"SHOP BY BRAND"
+},
+{
+"type":"url",
+"id":"nav_col_2_title_link",
+"label":"Title Url",
+"info":"keep it empty for using the Title without link"
+},
+{
+"type":"link_list",
+"id":"nav_col_2_list",
+"label":"Brands navigation"
+},
+{
+"type":"checkbox",
+"id":"nav_col_2_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_2_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_2_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"SHOP BY COLOR"
+},
+{
+"type":"checkbox",
+"id":"nav_col_3_yes",
+"label":"Enable",
+"default":true
+},
+{
+"type":"text",
+"id":"nav_col_3_title",
+"label":"Title",
+"default":"SHOP BY COLOR"
+},
+{
+"type":"url",
+"id":"nav_col_3_title_link",
+"label":"Title Url",
+"info":"keep it empty for using the Title without link"
+},
+{
+"type":"link_list",
+"id":"nav_col_3_list",
+"label":"Colors Navigation",
+"info":"IMPORTANT! color names in the navigation must be taken from [here](https://www.w3schools.com/colors/colors_names.asp) "
+},
+{
+"type":"checkbox",
+"id":"nav_col_3_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_3_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_3_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"SHOP BY STYLE"
+},
+{
+"type":"checkbox",
+"id":"nav_col_4_yes",
+"label":"Enable",
+"default":true
+},
+{
+"type":"text",
+"id":"nav_col_4_title",
+"label":"Title",
+"default":"SHOP BY STYLE"
+},
+{
+"type":"url",
+"id":"nav_col_4_title_link",
+"label":"Title Url",
+"info":"keep it empty for using the Title without link"
+},
+{
+"type":"link_list",
+"id":"nav_col_4_list",
+"label":"Styles navigation"
+},
+{
+"type":"checkbox",
+"id":"nav_col_4_view_more_yes",
+"label":"Enable 'View More' link",
+"default":false
+},
+{
+"type":"text",
+"id":"nav_col_4_view_more_text",
+"label":"'View More' title",
+"info":"default is 'View More'"
+},{
+"type":"url",
+"id":"nav_col_4_view_more_url",
+"label":"'View More' url",
+"info":"default is 'All collections'"
+},
+{
+"type":"header",
+"content":"Right Column"
+},
+{
+"type":"checkbox",
+"id":"right_col_yes",
+"label":"Enable",
+"default":false
+},
+{
+"type":"select",
+"id":"bnr_right_source",
+"label":"Сreate banner with:",
+"default":"admin",
+"options":[
+{
+"value":"online",
+"label":"Banner generator"
+},
+{
+"value":"admin",
+"label":"Admin panel"
+}
+],
+"info":"*All banner's setting in the Admin panel don't apply for a banner made with the Banner generator"
+},
+{
+"type":"textarea",
+"id":"right_col_html",
+"label":"HTML (from Banner generator)",
+"info":"generate banner [here](http://frontend.big-skins.com/goodwin-html/banners-generator)"
+},
+{
+"type":"image_picker",
+"id":"bnr_right_image",
+"label":"Banner Image"
+},
+{
+"type":"url",
+"id":"bnr_right_link",
+"label":"Collection link"
+},
+{
+"type":"select",
+"id":"bnr_right_link_target",
+"label":"Link Target",
+"default":"_self",
+"options":[
+{
+"value":"_blank",
+"label":"New page"
+},
+{
+"value":"_self",
+"label":"In current page"
+}
+]
+},
+{
+"type": "select",
+"id": "bnr_right_text_pos",
+"options": [
+{ "value": "bnr--top bnr--left", "label": "Top/Left"},
+{ "value": "bnr--top bnr--right", "label": "Top/Right"},
+{ "value": "bnr--top bnr--center", "label": "Top/Center"},
+{ "value": "bnr--bottom bnr--left", "label": "Bottom/Left"},
+{ "value": "bnr--bottom bnr--right", "label": "Bottom/Right"},
+{ "value": "bnr--bottom bnr--center", "label": "Bottom/Center"},
+{ "value": "bnr--middle bnr--left", "label": "Middle/Left"},
+{ "value": "bnr--middle bnr--right", "label": "Middle/Right"},
+{ "value": "bnr--middle bnr--center", "label": "Middle/Center"}
+],
+"label": "Text Position (Vertical/Horizontal)",
+"default":"bnr--bottom bnr--left"
+},
+{
+"type":"text",
+"id":"bnr_right_text_text",
+"label":"Caption text",
+"default":"TRY<br>TO BE FIRST"
+},
+{
+"type":"color",
+"id":"bnr_right_text_color",
+"label":"Caption color"
+},
+{
+"type":"select",
+"id": "bnr_right_text_fontweight",
+"label": "Caption font weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_right_text_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Caption font size",
+"unit":"%",
+"default":30
+},
+{
+"type": "checkbox",
+"id": "bnr_right_button_enable",
+"default": true,
+"label": "Button enable"
+},
+{
+"type":"text",
+"id":"bnr_right_button_text",
+"label":"Button text",
+"default":"Shop Now"
+},
+{
+"type":"color",
+"id": "bnr_right_button_color",
+"label": "Button color"
+},
+{
+"type":"color",
+"id": "bnr_right_button_line_color",
+"label": "Button line color"
+},
+{
+"type":"header",
+"content":"Bottom Row"
+},
+{
+"type":"checkbox",
+"id":"btm_row_yes",
+"label":"Enable",
+"default":true
+},
+{
+"type":"textarea",
+"id":"btm_row_html",
+"label":"HTML",
+"default":"<div class='custom-text'><span>FREE</span> STANDARD DELIVERY ON ORDERS OVER $ 150</div> <div class='custom-text'><span>100%</span> money back guarantee</div> <div class='custom-text'><span>24/7</span> customer support</div>"
+}
+]
+}
+]
+}
+{% endschema %}

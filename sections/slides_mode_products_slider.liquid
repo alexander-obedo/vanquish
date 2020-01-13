@@ -1,0 +1,117 @@
+{% include 'global_vars' %}
+{% if slides_mode %}
+<div style="background-image: url({% if section.settings.image %}{{ section.settings.image | img_url:'master' }}{% else %}{{ 'slide-toys-02.jpg'  | asset_url }}{% endif %})">
+    <div class="holder boxed">
+        <div class="container">
+            <div class="title-wrap text-center">
+                <h2 class="h1-style">{{ section.settings.title }}</h2>
+            </div>
+            <div class="product-slider-2 slick-arrows-squared data-slick"
+                 data-slick='{"slidesToShow": 1, "dots": false, "arrows": true, "responsive": [{"breakpoint": 1200,"settings": {"dots": true, "arrows": false}}]}'>
+                {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                {% assign product = all_products[block.settings.product] %}
+                {% assign on_sale = false %}
+                <div class="product-slider-item">
+                    {% assign _img = block.settings.image %}
+                    {% assign _img_size = '730x674' %}
+                    {%- if _img -%}
+                        <img class="lazyload blur-up"
+                             data-src="{{ _img | img_url: _img_size }}"
+                             data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                             data-aspectratio="{{ _img.aspect_ratio }}"
+                             data-sizes="auto"
+                             alt="{{ product.title }}">
+                    {%- else -%}
+                        <div style="width: 56%; float: right;">
+                            {% include 'image-placeholder-aspect-ratio', width: 730, height: 674 %}
+                        </div>
+                    {%- endif -%}
+                    <div class="product-slider-inside">
+                        {% if block.settings.product != blank %}
+                        <div class="product-slider-info justify-content-center">
+                            <h2 class="prd-title"><a title="{{ product.title }}" href="{{ product.url | within: collection }}">{{ product.title | truncate:30 }}</a></h2>
+                            <div class="d-flex align-items-center">
+                                {% if settings.show_vendor %}<div class="prd-tag">{{ product.vendor }}</div>{% endif %}
+                                <div class="prd-rating prd-hidemobile"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></div>
+                            </div>
+                            {% include 'product-card-price' %}
+                            <div class="prd-description">
+                                {{ block.settings.desc }}
+                            </div>
+                            {% include 'prd-action' %}
+                        </div>
+                        {% else %}
+                            Choose the product
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% schema %}
+{
+"name": "Items Slider(SLIDES MODE)",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default":"Collection"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Background image",
+"info":"recommended size 1600x1200px"
+}
+],
+"blocks": [
+{
+"type": "product",
+"name": "product",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "product",
+"id": "product",
+"label": "Product"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended size 730x674px png"
+},
+{
+"type": "textarea",
+"id": "desc",
+"label": "Description",
+"default":"Lorem ipsum dolor sit amet consestuer adicpising elitr anno dolor sit amet. Lorem ipsum dolor sit amet consestuer adicpising dolor sit amet consestuer adicpising elitr anno dolor sit amet elitr anno dolor sit amet. Lorem ipsum dolor sit amet consestuer adicpising elitr anno dolor sit amet. Lorem ipsum dolor amet consestuer adicpising dolor sit amet."
+}
+]
+}
+],
+"presets": [{
+"name": "Items Slider(SLIDES MODE)",
+"category": "for SLIDES MODE",
+"blocks": [
+{
+"type": "product"
+},
+{
+"type": "product"
+}
+]
+}]
+}
+{% endschema %}

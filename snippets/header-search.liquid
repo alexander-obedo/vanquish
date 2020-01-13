@@ -1,0 +1,21 @@
+{% if section.settings.header_search %}
+    <!-- Header Search -->
+    <div class="dropdn dropdn_search hide-mobile {{ classes }}">
+        <a href="#" class="dropdn-link"><i class="icon icon-search2"></i><span>{{ 'general.theme.search' | t }}</span></a>
+        <div class="dropdn-content">
+            <div class="container">
+                <form action="/search" class="search {% unless section.settings.search_keywords_yes %}search-off-popular{% endunless %}">
+                    <button type="submit" class="search-button"><i class="icon-search2"></i></button>
+                    <input name="q" class="search-input" placeholder="{{ 'general.theme.search_keyword' | t }}" type="text" value="{{ search.terms | escape }}">
+                    {% if section.settings.search_keywords_yes %}
+                        <div class="search-popular  js-search-autofill"><span	class="search-popular-label">{{ 'general.theme.popular_searches' | t }}:</span>
+                            {% assign keywords = section.settings.search_keywords | split:',' %}
+                            {% for keyword in keywords %}<a href="#">{{ keyword }}</a>{% endfor %}
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Header Search -->
+{% endif %}

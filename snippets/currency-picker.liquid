@@ -1,0 +1,23 @@
+<!-- Header Currency -->
+{% assign supported_full_codes = settings.supported_currencies | split: '|' %}
+<div class="dropdn dropdn_currency header-currency {{ classes }} {% if onlytext == 1 %}only-text{% endif %}">
+        <div class="dropdn {% unless nocaret == 1 %}dropdn_caret{% endunless %}" {% unless section.settings.currencies %}style="display:none"{% endunless %}>
+                {% if nocaret == 1 %}
+                <a href="#" class="dropdn-link selected-currency"><i class="icon icon-global"></i><span>{{ 'general.theme.currency' | t }}</span></a>
+                {% else %}
+                <a href="#" class="dropdn-link selected-currency">{{ shop.currency }}</a>
+                {% endif %}
+
+                <div class="dropdn-content">
+                        <div class="container">
+                                <ul class="currencies-list">
+                                        {% for full_code in supported_full_codes %}
+                                                {% assign code=full_code|split:':' %}
+                                                <li class="{{ code[1] }}"><a href="#" data-value="{{ code[1] }}"><span>{{ code[0] }} {{ code[1] }}</span><span>{{ code[2] }}</span></a></li>
+                                        {% endfor %}
+                                </ul>
+                        </div>
+                </div>
+        </div>
+</div>
+<!-- /Header Currency -->

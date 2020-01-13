@@ -1,0 +1,37 @@
+{% unless settings.slides_mode %}
+<div class="holder holder-divider {{ section.settings.outer_margin }}"></div>
+{% endunless %}
+{% schema %}
+{
+"name": "Delimiter",
+"class": "index-section",
+"settings": [
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+}
+],
+"presets": [
+{
+"name": "Delimiter",
+"category": "Other"
+}
+]
+}
+{% endschema %}

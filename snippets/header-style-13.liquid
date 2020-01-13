@@ -1,0 +1,35 @@
+<header class="hdr hdr-style-13 boxed hdr--light hdr--transparent minicart-icon-style-3  hdr-mobile-style{{ section.settings.style_mobile }}">
+    {% include 'mobile-navigation' %}
+    {% include 'header-mobile' %}
+    <div class="hdr-desktop hide-mobile">
+        <div class="hdr-content hide-mobile">
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto logo-holder">
+                        <div class="menu-toggle"> <a href="#" class="mobilemenu-toggle"><i class="icon icon-menu"></i></a> </div>
+                        {% include 'header-logo' %}
+                    </div>
+                    <div class="prev-menu-scroll icon-angle-left prev-menu-js"></div>
+                    <div class="nav-holder">
+                        <div class="hdr-nav">
+                            {% include 'header-navigation' %}
+                        </div>
+                    </div>
+                    <div class="next-menu-scroll icon-angle-right next-menu-js"></div>
+                    <!--//navigation-->
+                    <div class="col-auto hdr-content-right">
+                        <div class="search-holder">
+                            {% include 'header-search' classes: "only-icon" %}
+                        </div>
+                        <div class="links-holder">
+                            {% include 'header-login-form' classes: "only-icon" %}
+                        </div>
+                        <div class="minicart-holder">
+                            {% include 'header-cart' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

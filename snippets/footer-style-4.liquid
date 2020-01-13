@@ -1,0 +1,55 @@
+<footer class="page-footer footer-style-4  {{ section.settings.outer_margin }}">
+    <div class="footer-top container">
+        <div class="text-center py-1 py-md-3">
+            <div class="footer-logo-lined">
+                {% include 'footer-logo' %}
+            </div>
+        </div>
+        <div class="row mt-2 align-items-center">
+            <div class="col-md col-lg py-1 py-md-0 order-lg-0">
+                {% if section.settings.navigation_5 != blank %}
+                <div class="footer-block text-center">
+                    <ul>
+                        {% for link in linklists[section.settings.navigation_5].links %}
+                            <li>
+                                {{ link.title | append:label | link_to: link.url }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md col-lg py-1 py-md-0 order-lg-2">
+                {% if section.settings.navigation_6 != blank %}
+                    <div class="footer-block text-center">
+                        <ul>
+                            {% for link in linklists[section.settings.navigation_6].links %}
+                                <li>
+                                    {{ link.title | append:label | link_to: link.url }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-12 col-lg mt-3 mt-lg-0 order-lg-1">
+                <div class="footer-block text-center">
+                    {% include 'social-media-links' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container footer-bottom">
+        <div class="row py-4 justify-content-center">
+            <div class="col-md-6 col-lg-5 text-center">
+                <div class="subscribe-wrap">
+                    <h4>{{ 'general.theme.newsletter' | t }}</h4>
+                  	<div class="subscribe-form">
+                   		{% include 'newsletter-footer-form' %}
+                  	</div>
+                </div>
+                <div class="footer-copyright">{{ section.settings.copyright }}</div>
+            </div>
+        </div>
+    </div>
+</footer>

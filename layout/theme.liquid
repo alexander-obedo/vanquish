@@ -1,0 +1,38 @@
+{% include 'global_vars' %}
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="zxx"  itemscope itemtype="http://schema.org/WebPage"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="zxx"  itemscope itemtype="http://schema.org/WebPage"> <!--<![endif]-->
+<head>
+    {% include 'head' %}
+    {% capture content_for_header %}{{content_for_header}}{% endcapture %}
+</head>
+<body class="{{ color_mode }} page-{{ template | handle }} {% if settings.equal_height %}equal-height{% endif %}{% if settings.zoom_off %} zoom-off{% endif %} {% unless settings.prd_uppercase %}prd-noupper{% endunless %} {% unless settings.headings_uppercase %}h-noupper{% endunless %} {% if settings.slides_mode %}slides-mode{% endif %} {% if home and slides_mode %}fullwidth fullpage-layout{% else %}boxed{% endif %} {% if home %}home-page{% endif %}   {% if column %}left-column{% endif %} is-dropdn-click   {% if settings.ajax_cart %}ajax_cart{% endif %} {% if settings.rtl or template contains 'rtl' %}rtl{% endif %} {% if settings.rounded %}rounded{% endif %} {% if settings.megamenu_spy_navigation %}has-spymenu{% endif %} {% if settings.checkout_popup %}checkout-popup{% endif %} {{ settings.loader }} {% if tools %}hide-until-loaded{% endif %} {% if demo %}demo{% endif %} {% if settings.agreement_checkout_yes %}has-checkout-checkbox{% endif %}">
+{% section 'header' %}
+<div {% if home and slides_mode %}id="fullpage"{% endif %} class="page-content">
+    {% include 'breadcrumbs' %}
+    {% include 'body-loader' %}
+    {% if column and slides_mode != true %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9 aside centerColumn">
+              {{content_for_layout}}
+          </div>
+          <div class="col-md-3 aside mt-3 mt-md-0 sideColumn {{ column_side }}">
+              {% section 'column-vertical-navigation' %}
+              {% section 'column' %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+        {% if home and slides_mode %}
+            {{content_for_layout | replace:'shopify-section index-section index-section--flush','fullpage-section' | replace:'shopify-section  index-section index-section--flush','fullpage-section' | replace:'class="shopify-section"','class="fullpage-section"'}}
+        {% else %}
+            {{content_for_layout }}
+        {% endif %}
+    {% endif %}
+</div>
+{% section 'footer' %}
+{% section 'promo-products' %}
+{% include 'before_body_end' %}
+</body>
+</html>

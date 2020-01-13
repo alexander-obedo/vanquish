@@ -1,0 +1,16 @@
+{% assign on_sale = false %}
+{% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+    {% assign on_sale = true %}
+{% endif %}
+{% if product.price_varies %}
+    {% capture price %}{{ product.price_min | money }}{% endcapture %}
+{% else %}
+    {% capture price %}{{ product.selected_or_first_available_variant.price | money }}{% endcapture %}
+{% endif %}
+<div class="prd-price">
+    <div class="price-new">{% if product.price_varies %}{{ 'products.general.from_html' | t: price: price }}{% else %}{{ price }}{% endif %}</div>
+    {% if on_sale %}
+        <div class="price-old">{{ product.selected_or_first_available_variant.compare_at_price | money }}</div>
+        {% if settings.show_you_save %}<div class="price-comment">{{ 'general.theme.you_save' | t }} {{ product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | money }}</div>{% endif %}
+    {% endif %}
+</div>

@@ -1,0 +1,334 @@
+{% capture view_more %}{{ 'general.theme.view_more' | t }}{% endcapture %}
+{% assign default_link = shop.url | append:'/collections/all' %}
+{% if section.settings.default_navigation != blank %}
+    {% if linklists[section.settings.default_navigation].links.size > 0 %}
+        <ul class="mmenu mmenu-js {% if section.settings.menu_arrows_off %}mmenu-off_drop_arrows{% endif %}">
+            {% for link in  linklists[section.settings.default_navigation].links %}
+                <li class="mmenu-item--simple title-{{ link.title | handle }}">
+                    {{ link.title | append:label | link_to: link.url }}
+                    {% if linklists[link.handle].links.size > 0 %}
+                        <div class="mmenu-submenu">
+                            <ul class="submenu-list">
+                                {% for link_1 in linklists[link.handle].links %}
+                                    <li>
+                                        {{ link_1.title | append:label | link_to: link_1.url }}
+                                        {% if linklists[link_1.handle].links.size > 0 %}
+                                            <ul>
+                                                {% for link_2 in linklists[link_1.handle].links %}
+                                                    <li>
+                                                        {{ link_2.title | append:label | link_to: link_2.url }}
+                                                        {% if linklists[link_2.handle].links.size > 0 %}
+                                                            <ul>
+                                                                {% for link_3 in linklists[link_2.handle].links %}
+                                                                    <li>
+                                                                        {{ link_3.title | append:label | link_to: link_3.url }}
+                                                                        {% if linklists[link_3.handle].links.size > 0 %}
+                                                                            <ul>
+                                                                                {% for link_4 in linklists[link_3.handle].links %}
+                                                                                    <li>
+                                                                                        {{ link_4.title | append:label | link_to: link_4.url }}
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        {% endif %}
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% else if section.blocks.size > 0 %}
+    <ul class="mmenu mmenu-js {% if section.settings.menu_arrows_off %}mmenu-off_drop_arrows{% endif %}">
+        {% for block in section.blocks %}
+            {% if block.settings.enable %}
+                <li class="mmenu-item--{% case block.type %}{% when 'tree' %}simple{% when 'columns' %}mega{% when 'shop_by' %}mega{% endcase %} title-{{ block.settings.title | handle }}"><a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %}>{{ block.settings.title }}{% if block.settings.label != blank %}<span class="menu-label menu-label--color{{ block.settings.label_color }}">{{ block.settings.label }}</span>{% endif %}</a>
+                    {% case block.type %}
+                    {% when 'tree' %}
+                    {% assign list = block.settings.dropdown_list %}
+                    {% if list != blank %}
+                        <div class="mmenu-submenu">
+                            <ul class="submenu-list">
+                                {% for link in  linklists[list].links %}
+                                    <li>
+                                        {% if link.title contains 'GRID EDITOR' or link.title contains 'Documentation' or link.title contains 'Online support' %}
+                                            {{ link.title | append:label | link_to: link.url | replace:'<a','<a target="_blank" ' }}
+                                        {% else %}
+                                            {{ link.title | append:label | link_to: link.url }}
+                                        {% endif %}
+                                        {% if linklists[link.handle].links.size > 0 %}
+                                            <ul>
+                                                {% for link_1 in linklists[link.handle].links %}
+                                                    <li>
+                                                        {% if link_1.title contains 'Coming Soon' %}
+                                                            {{ link_1.title | append:label | link_to: link_1.url | replace:'<a','<a target="_blank" ' }}
+                                                        {% else %}
+                                                            {{ link_1.title | append:label | link_to: link_1.url }}
+                                                        {% endif %}
+                                                        {% if linklists[link_1.handle].links.size > 0 %}
+                                                            <ul>
+                                                                {% for link_2 in linklists[link_1.handle].links %}
+                                                                    <li>
+                                                                        {{ link_2.title | append:label | link_to: link_2.url }}
+                                                                        {% if linklists[link_2.handle].links.size > 0 %}
+                                                                            <ul>
+                                                                                {% for link_3 in linklists[link_2.handle].links %}
+                                                                                    <li>
+                                                                                        {{ link_3.title | append:label | link_to: link_3.url }}
+                                                                                        {% if linklists[link_3.handle].links.size > 0 %}
+                                                                                            <ul>
+                                                                                                {% for link_4 in linklists[link_3.handle].links %}
+                                                                                                    <li>
+                                                                                                        {{ link_4.title | append:label | link_to: link_4.url }}
+                                                                                                    </li>
+                                                                                                {% endfor %}
+                                                                                            </ul>
+                                                                                        {% endif %}
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        {% endif %}
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% when 'columns' %}
+                    <div class="mmenu-submenu mmenu-submenu-with-sublevel">
+                        <div class="mmenu-submenu-inside">
+                            <div class="container">
+                                {% if block.settings.left_col_yes %}
+                                    <div class="mmenu-left width-{{ block.settings.left_col_html_width }}">
+                                        {% if block.settings.left_col_src == 'html' %}
+                                            {{ block.settings.left_col_html }}
+                                        {% else %}
+                                            {%- assign collection = collections[block.settings.left_col_collection] -%}
+                                            {% include 'header-navigation-carousel' %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {% if block.settings.right_col_yes %}
+                                    <div class="mmenu-right width-{{ block.settings.right_col_html_width }}">
+                                        {% if block.settings.right_col_src == 'html' %}
+                                            {% if block.settings.bnr_right_source == 'online' %}
+                                                {{ block.settings.right_col_html }}
+                                            {% else %}
+                                                <a href="{{ block.settings.bnr_right_link }}" target="{{ block.settings.bnr_right_link_target }}" class="bnr-wrap">
+                                                    <div class="bnr bnr21 bnr--style-1-1 {{ block.settings.bnr_right_text_pos }} bnr-hover-scale" data-fontratio="11.4">
+                                                        {% if block.settings.bnr_right_image %}
+                                                            {%- assign img_url = block.settings.bnr_right_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                                            <img class="lazyload blur-up"
+                                                                 src="{{ block.settings.bnr_right_image | img_url: '300x300' }}"
+                                                                 data-src="{{ img_url }}"
+                                                                 data-widths="[180, 360, 540, 720, 900, 1200, 1800]"
+                                                                 data-aspectratio="{{ block.settings.bnr_right_image.aspect_ratio }}"
+                                                                 data-sizes="auto"
+                                                                 alt="">
+                                                        {% else %}
+                                                            {% include 'image-placeholder-aspect-ratio', width: '260', height: '300' %}
+                                                        {% endif %}
+                                                        <span class="bnr-caption" style="padding: 8% 8%;">
+                                                                <span class="bnr-text-wrap">
+                                                                    <span class="bnr-text5" style="color:{{ block.settings.bnr_right_text_color }}; font-size:{{ block.settings.bnr_right_text_size | times: 0.01 }}em; font-weight:{{ block.settings.bnr_right_text_fontweight }}; line-height: 1em;">{{ block.settings.bnr_right_text_text }}</span>
+                                                                    {% if block.settings.bnr_right_button_enable %}
+                                                                        <span class="btn-decor btn-decor--xs bnr-btn" style="color:{{ block.settings.bnr_right_button_color }}">{{ block.settings.bnr_right_button_text }}<span class="btn-line" style="background: {{ block.settings.bnr_right_button_line_color }}"></span></span>
+                                                                    {% endif %}
+                                                                </span>
+                                                            </span>
+                                                    </div>
+                                                </a>
+                                            {% endif %}
+                                        {% else %}
+                                            {%- assign collection = collections[block.settings.right_col_collection] -%}
+                                            {% include 'header-navigation-carousel' %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <div class="mmenu-cols column-{{ block.settings.columns_in_row }}">
+                                    {% for i in (1..15) %}
+                                        {% capture enable %}nav_col_{{ i }}_yes{% endcapture %}
+                                        {% capture preview %}nav_col_{{ i }}_preview{% endcapture %}
+                                        {% capture title %}nav_col_{{ i }}_title{% endcapture %}
+                                        {% capture link %}nav_col_{{ i }}_link{% endcapture %}
+                                        {% capture list %}nav_col_{{ i }}_list{% endcapture %}{% assign list = block.settings[list] %}
+                                        {% capture view_more_yes %}nav_col_{{ i }}_view_more_yes{% endcapture %}
+                                        {% capture view_more_text %}nav_col_{{ i }}_view_more_text{% endcapture %}
+                                        {% capture view_more_url %}nav_col_{{ i }}_view_more_url{% endcapture %}
+                                        {% if block.settings[enable] %}
+                                            <div class="mmenu-col">
+                                                {% if block.settings[title] != blank %} <h3 class="submenu-title"><a {% if block.settings[link] != blank %}href="{{ block.settings[link] }}"{% endif %}>{{ block.settings[title] }}</a></h3> {% endif %}
+                                                {% if list != blank %}
+                                                    <ul class="submenu-list">
+                                                        {% for link in  linklists[list].links %}
+                                                            <li>
+                                                                {{ link.title | append:label | link_to: link.url }}
+                                                                {% if linklists[link.handle].links.size > 0 %}
+                                                                    <ul class="sub-level">
+                                                                        {% for link_1 in linklists[link.handle].links %}
+                                                                            <li> {{ link_1.title | link_to: link_1.url }}
+                                                                                {% if linklists[link_1.handle].links.size > 0 %}
+                                                                                    <ul class="sub-level">
+                                                                                        {% for link_2 in linklists[link_1.handle].links %}
+                                                                                            <li> {{ link_2.title | link_to: link_2.url }} </li>
+                                                                                        {% endfor %}
+                                                                                    </ul>
+                                                                                {% endif %}
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                {% endif %}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                    {% if block.settings[view_more_yes] %}<a href="{{ block.settings[view_more_url] | default:default_link }}" class="submenu-view-more">{{ block.settings[view_more_text] | default:view_more }}</a>{% endif %}
+                                                {% endif %}
+                                                {% if block.settings[preview] != blank %}
+                                                    <div class="submenu-img">
+                                                        <a {% if block.settings[link] != blank %}href="{{ block.settings[link] }}"{% endif %}>
+                                                        {% assign _img = block.settings[preview] %}
+                                                        {% if _img %}
+                                                            <img class="lazyload blur-up"
+                                                                 data-src="{{ _img | img_url: '390x' }}"
+                                                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                                                 data-sizes="auto"
+                                                                 alt="{{ block.settings[title] }}">
+                                                        {%- else -%}
+                                                            {% include 'image-placeholder-aspect-ratio', width: 185, height: 75 %}
+                                                        {%- endif -%}
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% if block.settings.btm_row_yes and block.settings.btm_row_html != blank %}
+                                    <div class="mmenu-bottom">
+                                        {{ block.settings.btm_row_html }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% when 'shop_by' %}
+                    <div class="mmenu-submenu">
+                        <div class="mmenu-submenu-inside">
+                            <div class="container">
+                                {% if block.settings.right_col_yes %}
+                                    <div class="mmenu-right width-25">
+                                        {% if block.settings.bnr_right_source == 'online' %}
+                                            {{ block.settings.right_col_html }}
+                                        {% else %}
+                                            <a href="{{ block.settings.bnr_right_link }}" target="{{ block.settings.bnr_right_link_target }}" class="bnr-wrap">
+                                                <div class="bnr bnr21 bnr--style-1-1 {{ block.settings.bnr_right_text_pos }} bnr-hover-scale" data-fontratio="2.62">
+                                                    {% if block.settings.bnr_right_image %}
+                                                        {%- assign img_url = block.settings.bnr_right_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                                        <img class="lazyload blur-up"
+                                                             data-src="{{ img_url }}"
+                                                             data-widths="[180, 360, 540, 720, 900, 1200, 1800]"
+                                                             data-aspectratio="{{ block.settings.bnr_right_image.aspect_ratio }}"
+                                                             data-sizes="auto"
+                                                             alt="">
+                                                    {%- else -%}
+                                                        {% include 'image-placeholder-aspect-ratio', width: 250, height: 300 %}
+                                                    {%- endif -%}
+                                                    <span class="bnr-caption" style="padding: 8% 8%;">
+                                                            <span class="bnr-text-wrap">
+                                                                <span class="bnr-text5" style="color:{{ block.settings.bnr_right_text_color }}; font-size:{{ block.settings.bnr_right_text_size | times: 0.01 }}em; font-weight:{{ block.settings.bnr_right_text_fontweight }}; line-height: 1.1em;">{{ block.settings.bnr_right_text_text }}</span>
+                                                                {% if block.settings.bnr_right_button_enable %}
+                                                                    <span class="btn-decor btn-decor--xs bnr-btn" style="color:{{ block.settings.bnr_right_button_color }}">{{ block.settings.bnr_right_button_text }}<span class="btn-line" style="background: {{ block.settings.bnr_right_button_line_color }}"></span></span>
+                                                                {% endif %}
+                                                            </span>
+                                                        </span>
+                                                </div>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                <div class="mmenu-cols column-5">
+                                    {% if block.settings.nav_col_1_yes %}
+                                        <div class="mmenu-col">
+                                            {% assign list = block.settings.nav_col_1_list %}
+                                            {% for link in  linklists[list].links %}
+                                                <h3 class="submenu-title">{{ link.title | append:label | link_to: link.url }}</h3>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if block.settings.nav_col_2_yes %}
+                                        <div class="mmenu-col mmenu-col--double">
+                                            <h3 class="submenu-title"><a {% if block.settings.nav_col_2_title_link != blank %}href="{{ block.settings.nav_col_2_title_link }}"{% endif %}>{{ block.settings.nav_col_2_title }}</a></h3>
+                                            <ul class="submenu-list two-cols">
+                                                {% assign list = block.settings.nav_col_2_list %}
+                                                {% for link in  linklists[list].links %}
+                                                    <li>{{ link.title | append:label | link_to: link.url }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% capture view_more_yes %}nav_col_2_view_more_yes{% endcapture %}
+                                            {% capture view_more_text %}nav_col_2_view_more_text{% endcapture %}
+                                            {% capture view_more_url %}nav_col_2_view_more_url{% endcapture %}
+                                            {% if block.settings[view_more_yes] %}<a href="{{ block.settings[view_more_url] | default:default_link }}" class="submenu-view-more">{{ block.settings[view_more_text] | default:view_more }}</a>{% endif %}
+                                        </div>
+                                    {% endif %}
+                                    {% if block.settings.nav_col_3_yes %}
+                                        <div class="mmenu-col">
+                                            <h3 class="submenu-title"><a {% if block.settings.nav_col_3_title_link != blank %}href="{{ block.settings.nav_col_3_title_link }}"{% endif %}>{{ block.settings.nav_col_3_title }}</a></h3>
+                                            {% assign list = block.settings.nav_col_3_list %}
+                                            <ul class="submenu-list">
+                                                {% for link in  linklists[list].links %}
+                                                    <li><a href="{{ link.url }}"><span class="color" style="background-color:{{ link.title | split: '~' | first }};"></span><span>{{ link.title | split: '~' | last }}</span></a></li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% capture view_more_yes %}nav_col_3_view_more_yes{% endcapture %}
+                                            {% capture view_more_text %}nav_col_3_view_more_text{% endcapture %}
+                                            {% capture view_more_url %}nav_col_3_view_more_url{% endcapture %}
+                                            {% if block.settings[view_more_yes] %}<a href="{{ block.settings[view_more_url] | default:default_link }}" class="submenu-view-more">{{ block.settings[view_more_text] | default:view_more }}</a>{% endif %}
+                                        </div>
+                                    {% endif %}
+                                    {% if block.settings.nav_col_4_yes %}
+                                        <div class="mmenu-col">
+                                            <h3 class="submenu-title"><a {% if block.settings.nav_col_4_title_link != blank %}href="{{ block.settings.nav_col_4_title_link }}"{% endif %}>{{ block.settings.nav_col_4_title }}</a></h3>
+                                            <ul class="submenu-list">
+                                                {% assign list = block.settings.nav_col_4_list %}
+                                                {% for link in  linklists[list].links %}
+                                                    <li>{{ link.title | append:label | link_to: link.url }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% capture view_more_yes %}nav_col_4_view_more_yes{% endcapture %}
+                                            {% capture view_more_text %}nav_col_4_view_more_text{% endcapture %}
+                                            {% capture view_more_url %}nav_col_4_view_more_url{% endcapture %}
+                                            {% if block.settings[view_more_yes] %}<a href="{{ block.settings[view_more_url] | default:default_link }}" class="submenu-view-more">{{ block.settings[view_more_text] | default:view_more }}</a>{% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% if block.settings.btm_row_yes and block.settings.btm_row_html != blank %}
+                                    <div class="mmenu-bottom">
+                                        {{ block.settings.btm_row_html }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endcase %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}

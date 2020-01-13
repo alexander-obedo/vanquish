@@ -1,0 +1,225 @@
+{% assign collection_filter_ajax = settings.ajax %}{% if collection_filter_ajax %}{% assign collection_filter_ajax = 1 %}{% endif %}
+{% assign collection_left_sidebar = settings.collection_left_sidebar %}{% if collection_left_sidebar %}{% assign collection_left_sidebar = 1 %}{% endif %}
+{% if collection.image and settings.collection_image_enable %}
+<div class="page-title-collection-image">
+<div class="holder mt-0 {{ settings.collection_image_width }}">
+  <div class="container">
+    <div class="collection-bg">
+      <div class="collection-bg-image" style="{% unless section.collection_image_height_d == "" %}height: {{ settings.collection_image_height_d | floor }}px;{% endunless %} background-image: url('{{ collection.image | img_url: 'master' }}');background-repeat: {{ settings.collection_image_bg_repeat }};background-size: {% if settings.collection_image_bg_att == 'fixed' %}auto auto{% else %}{{ settings.collection_image_bg_size }}{% endif %};background-attachment: {{ settings.collection_image_bg_att }}; background-position: {{ settings.collection_image_bg_posX }} {{ settings.collection_image_bg_posY }};">
+        <div class="collection-bg-darkness" style="opacity: 0.{{ settings.collection_image_bg_dark }};"></div>
+        <div class="page-title">
+          <div class="title">
+            <h1 {% if settings.collection_title_size == "h-lg" %}class="h-lg"{% endif %} {% if settings.collection_title_color %}style="color: {{ settings.collection_title_color }};"{% endif %}>{{ collection.title }}</h1>
+            <span class="collection-title-line" {% if settings.collection_title_color %}style="background-color: {{ settings.collection_title_color }};"{% endif %}></span>
+          </div>
+        </div>
+        {% unless section.collection_image_height_m == "" %}
+        <STYLE scoped>
+          @media (max-width: 767px) {
+            .collection-bg-image {
+              height: {{ settings.collection_image_height_m | floor }}px !important;
+            }
+          }          
+        </STYLE>
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endif %}	
+<div class="container">
+  {% unless collection.image and settings.collection_image_enable %}
+    <div class="page-title-collection-image">
+      <div class="page-title text-center d-none d-lg-block">
+        <div class="title">
+          <h1>{{ collection.title }}</h1>
+        </div>
+      </div>
+    </div>
+  {% endunless %}
+  <div class="row">
+    {% if settings.collection_left_sidebar %}
+    <div class="col-lg-3 fixed-col aside  {% unless collection_filter_ajax == 1 %}no-ajax-filter{% endunless %} js-filter-col">
+      {% section 'collection-sidebar' %}
+    </div>
+    {% endif %}
+    <div class="col-lg aside">
+      <div class="prd-grid-wrap">
+        {% section 'collection-section' %}
+      </div>
+    </div>
+  </div>
+  <div class="ymax"></div>
+</div>
+
+<script>
+    function updateQueryParams(){
+        if (location.search.length) {
+            for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+                aKeyValue = aCouples[i].split('=');
+                if (aKeyValue.length > 1) {
+                    Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+                }
+            }
+        }
+    }
+    function updateURLParameter(url, param, paramVal){
+        var newAdditionalURL = "";
+        var tempArray = url.split("?");
+        var baseURL = tempArray[0];
+        var additionalURL = tempArray[1];
+        var temp = "";
+        if (additionalURL) {
+            tempArray = additionalURL.split("&");
+            for (i=0; i<tempArray.length; i++){
+                if(tempArray[i].split('=')[0] != param){
+                    newAdditionalURL += temp + tempArray[i];
+                    temp = "&";
+                }
+            }
+        }
+        var rows_txt = temp + "" + param + "=" + paramVal;
+        return baseURL + "?" + newAdditionalURL + rows_txt;
+    }
+    function getUrlLastTag(url)
+    {
+        last_tag=0;
+        url_array=url.split('+');
+        last_tag=url_array[url_array.length-1].split('/')[0].split('?')[0];
+        if(!last_tag){
+            last_tag=url.split('collections/')[1];
+            if(last_tag.split('/').length > 1){
+                last_tag=last_tag.split('/')[1].split('?')[0];
+            } else{
+                last_tag = 0
+            }
+        }
+        return last_tag;
+    }
+    function postAjaxJsInit(url,name="",val=""){
+        window.history.pushState('', '', url);
+        updateQueryParams();
+        $.get(url, function(data) {
+            if(getUrlLastTag(url))
+            {
+                group=tag_group[getUrlLastTag(url)];
+            }else{
+                group='colors';
+            }
+            listing=$('.product-listing', data).html().split('<div class="product-item ').join('<div style="opacity:0" class="product-item ');
+            {% if settings.collection_left_sidebar %}
+            filters=$('.fixed-col_content', data).html().split('style="display: block;"').join('');
+            {% endif %}
+            $(".product-listing").html(listing);
+            {% if settings.collection_left_sidebar %}$(".fixed-col_content").html(filters);{% endif %}
+            $('.breadcrumbs').html($('.breadcrumbs', data).html());
+            $('.page-title-collection-image').html($('.page-title-collection-image', data).html());
+            $('h1.category-title').html($('h1.category-title', data).html());
+            $('.sort-by-holder').html($('.sort-by-holder', data).html());
+            $('.toolbar-selected').html($('.toolbar-selected', data).html());
+            showProduct(1,'fadeInUp','.product-item');
+            $('.empty-category-button.all-products').addClass('hidden');
+            $('.empty-category-button.clear-all').removeClass('hidden');
+            countDownIni('.countdown');
+            currencyUpdate();
+            updateProductCardSelectbox();
+            show_more=$('.show_more_wrapper', data).html();
+            pagination=$('.pagination', data).html();
+            if((typeof show_more === 'undefined'))
+            {
+                $('.show_more_wrapper').empty();
+            } else{
+                $('.show_more_wrapper').html(show_more);
+            }
+
+            if((typeof pagination === 'undefined'))
+            {
+                $('.pagination').empty();
+            } else{
+                $('.pagination').html(pagination);
+            }
+            GOODWIN.catalog.postAjaxCatalog();
+            $('.prd-grid-wrap').removeClass('is-loading');
+        });
+    }
+    $(function(){
+        Shopify.queryParams = {};
+        updateQueryParams();
+        {% if collection_filter_ajax == 1 %}
+        $(document).on('click','.fixed-col_content li a, a.clear-filters, .clear-all a',function(e){
+            url=$(this).attr('href').replace('#','');
+            $('.prd-grid-wrap').addClass('is-loading');
+            postAjaxJsInit(url);
+            e.preventDefault();
+        })
+        {% endif %}
+    })
+    {% if collection_filter_ajax == 1 %}
+    $(function(){
+        if($('body').hasClass('ie'))
+        {
+            $('.sort-by-js')
+                    .bind('change', function() {
+                                Shopify.queryParams.sort_by = jQuery(this).val();
+                                location.search = jQuery.param(Shopify.queryParams);
+                            }
+                    );
+            $('select[name=view]')
+                    .bind('change', function() {
+                                Shopify.queryParams.view = jQuery(this).val();
+                                location.search = jQuery.param(Shopify.queryParams);
+                            }
+                    );
+        }else
+        {
+            $(document).on('change','.filter-row select,.aside-filter-row select',function(e){
+                name=$(this).attr('name');
+                val=$(this).val();
+                url=updateURLParameter(window.location.href.replace('#','').replace('{{ shop.url }}',''), name, val);
+                $('.prd-grid-wrap').addClass('is-loading');
+                postAjaxJsInit(url,name,val);
+                e.preventDefault();
+            })
+        }
+    })
+
+
+    {% else %}
+    $(function(){
+        $('.sort-by-js')
+                .on('change', function() {
+                            Shopify.queryParams.sort_by = jQuery(this).val();
+                            location.search = jQuery.param(Shopify.queryParams);
+                        }
+                );
+
+        $('select[name=view]')
+                .on('change', function() {
+                            Shopify.queryParams.view = jQuery(this).val();
+                            location.search = jQuery.param(Shopify.queryParams);
+                        }
+                );
+    })
+    {% endif %}
+
+    $(document).on('click','.show_more',function(e){
+        url=$(this).attr('href');
+        window.history.pushState('', '', url);
+        $('.prd-grid-wrap').addClass('is-loading');
+        $.get(url, function(data) {
+            listing=$('.product-listing', data).html().split('<div class="product-item ').join('<div style="opacity:0" class="product-item ');
+            if(listing)$('.product-listing').append(listing);
+            show_more=$('.show_more_wrapper', data).html();
+            pagination=$('.pagination', data).html();
+            if(show_more)$('.show_more_wrapper').html(show_more);
+            if(pagination)$('.pagination').html(pagination);
+            showProduct(1,'fadeInUp','.product-item');
+            GOODWIN.catalog.postAjaxCatalog();
+            countDownIni('.countdown');
+            updateProductCardSelectbox();
+            $('.prd-grid-wrap').removeClass('is-loading');
+        })
+        e.preventDefault();
+    })
+</script>

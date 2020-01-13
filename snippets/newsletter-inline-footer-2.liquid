@@ -1,0 +1,9 @@
+<div class="holder bg-cover fullboxed holder--custom-color py-6 mt-0 lazyload blur-up" {% if settings.newsletter_footer_2_bg %}data-bgset="{% include 'bgset', image: settings.newsletter_footer_2_bg %}" data-sizes="auto"{% endif %}>
+      <div class="container">
+        <div class="subscribe-form subscribe-form--style2">
+            <h2 class="h1-style text-center">{{ settings.newsletter_title }}:</h2>
+            <p>{{ settings.newsletter_desc }}</p>
+            {% include 'newsletter-footer-form' %}
+        </div>
+    </div>
+</div>

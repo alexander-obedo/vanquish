@@ -1,0 +1,2410 @@
+{% assign enabled = true %}
+{% if enabled %}
+    {% unless settings.slides_mode %}
+    {%- if section.blocks.size > 0 -%}
+        <div class="holder  {% if section.settings.block_width == "fullboxed" %} fullwidth{% else %} {{ section.settings.block_width }}{% endif %} {{ section.settings.outer_margin }} full-nopad {% if section.settings.show_under_header %}show_under_header{% endif %}">
+            <div class="container">
+                {% if section.settings.right_column %}
+                <div class="row row--sm-pad {% if section.settings.column == 'left' %}flex-md-row-reverse{% endif %}">
+                    <div class="col-md-9 centerColumn">
+                        {% endif %}
+                        <div class="bnslider-wrapper">
+                            <div class="bnslider bnslider--{{ section.settings.slideshow_height }} {% if section.settings.arowsdark %}bnslider--darkarrows{% endif %} {% if section.settings.keep_scale %}keep-scale{% endif %}" {% if section.settings.keep_scale_width %}data-start-width='{{ section.settings.keep_scale_width }}'{% endif %}  {% if section.settings.keep_scale_height %}data-start-height='{{ section.settings.keep_scale_height }}'{% endif %} {% if section.settings.keep_scale_mwidth %}data-start-mwidth='{{ section.settings.keep_scale_mwidth }}'{% endif %}  {% if section.settings.keep_scale_mheight %}data-start-mheight='{{ section.settings.keep_scale_mheight }}'{% endif %} id="bnslider-{{ section.id }}" data-slick='{"dots": {{ section.settings.dots }}}' data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.autoplay_speed }}">
+                                {% for block in section.blocks %}
+                                    {% if block.settings.enable and block.type == 'image' %}
+                                        {%- assign is_background_video = false -%}
+                                        {% if block.settings.type == 'box' or block.settings.type == 'background-box' or  block.settings.type == 'background' %}
+                                            {% unless block.settings.link_all_slide %}
+                                        <div class="bnslider-slide {% if block.settings.type == 'background-box' or  block.settings.type == 'background' %}bnslider-slide--background-video{% endif %}">
+                                        {% else %}
+                                            <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" target="{{ block.settings.link_target }}" class="bnslider-slide {% if block.settings.type == 'background-box' or  block.settings.type == 'background' %}bnslider-slide--background-video{% endif %}">
+                                                {% endunless %}
+                                                {% unless block.settings.type == 'background' %}
+                                                <div class="video-loader"><i class="spinner icon-spinner3"></i></div>
+                                                <button type="button" class="bnslider-video-control bnslider-video-control--close" data-controls="bnsliderVideo-{{ block.id }}">
+                                                    <svg width="80" height="80" class="slider-control-icon" viewBox="0 0 100 100">
+                                                        <rect x="4" y="4" width="92" height="92" class="box"></rect>
+                                                        <line x1="35" y1="35" x2="65" y2="65" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-miterlimit="10"></line>
+                                                        <line x1="65" y1="35" x2="35" y2="65" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-miterlimit="10"></line>
+                                                    </svg>
+                                                </button>
+                                                <button type="button" class="bnslider-video-control bnslider-video-control--play" data-controls="bnsliderVideo-{{ block.id }}" data-tooltip="Youtube Player">
+                                                    <svg width="80" height="80" class="slider-control-icon" viewBox="0 0 100 100">
+                                                        <rect x="4" y="4" width="92" height="92" class="box"></rect>
+                                                        <polygon points="30,30 70,50 30,70" class="play"/>
+                                                    </svg>
+                                                </button>
+                                                {% endunless %}
+                                                <div id="bnsliderVideo-{{ block.id }}" class="bnslider-video {% if block.settings.type == 'background-box' or  block.settings.type == 'background' %} bnslider-video--background {% endif %} {% if block.settings.type == 'box' %} bnslider-video--box {% endif %} " data-id="{{ block.settings.video_id }}" data-type="{{ block.settings.type }}" data-bnslider="bnslider-{{ section.id }}"></div>
+                                                {% capture current %}{% cycle 1,2 %}{% endcapture %}
+                                                {% if block.settings.image_mobile != blank %}
+                                                    <div class="bnslider-image-mobile lazyload blur-up" {% if block.settings.image_mobile != blank %}data-bgset="{% include 'bgset', image: block.settings.image_mobile %}" data-sizes="auto"{% endif %}></div>
+                                                {% else %}
+                                                    <div class="bnslider-image-mobile">{% include 'image-placeholder-bg', text: '800x800' %}</div>
+                                                {% endif %}
+                                                {% if block.settings.image != blank %}
+                                                    <div class="bnslider-image {{ block.settings.bg_v_alignment }} lazyload blur-up" {% if block.settings.image != blank %}data-bgset="{% include 'bgset', image: block.settings.image %}" data-sizes="auto"{% endif %}></div>
+                                                {% else %}
+                                                    <div class="bnslider-image">{% include 'image-placeholder-bg', text: '1920x800' %}</div>
+                                                {% endif %}
+                                                <div class="bnslider-text-wrap bnslider-overlay">
+                                                    <div class="bnslider-text-content {{ block.settings.captions_v_alignment }} {{ block.settings.captions_h_alignment }}">
+                                                        <div class="bnslider-text-content-flex {% if section.settings.block_width == 'fullboxed' %} container {% endif %}">
+                                                            <div class="bnslider-vert {{ block.settings.captions_border }} {% if block.settings.captions_half %}w-50{% endif %}" data-animation="fadeIn" data-animation-delay="0.5s">
+
+                                                                {% if block.settings.caption_num_yes %}
+                                                                    <div class="bnslider-text bnslider-text--num-wrap text-{{ block.settings.caption_num_hor_alignment }} {% if block.settings.caption_num_hidemobile_yes %} d-none d-md-flex{% endif %}">
+                                                                        <div class="bnslider-text--num" data-animation="{{ block.settings.caption_num1_animation }}" data-animation-delay="{{ block.settings.caption_num1_delay }}ms" data-fontcolor="{{ block.settings.caption_num1_color }}" data-fontweight="{{ block.settings.caption_num1_fontweight }}" data-otherstyle="{{ block.settings.caption_num1_othercss }}">{{ block.settings.caption_num1 }}</div>
+                                                                        <div class="bnslider-text--num-text mt-0 bnslider-text--{{ block.settings.caption_num2_fontsize }}" data-animation="{{ block.settings.caption_num2_animation }}" data-animation-delay="{{ block.settings.caption_num2_delay }}ms" data-fontcolor="{{ block.settings.caption_num2_color }}" data-fontweight="{{ block.settings.caption_num2_fontweight }}" data-lineheight="{{ block.settings.caption_num2_lineheight }}" data-otherstyle="{{ block.settings.caption_num2_othercss }}">{{ block.settings.caption_num2 }}</div>
+                                                                    </div>
+                                                                {% endif %}
+
+                                                                {%- for i in (1..3) -%}
+                                                                    {%- capture enable -%}caption_{{ i }}_yes{%- endcapture -%}
+                                                                    {%- capture hidemobile -%}caption_{{ i }}_hidemobile_yes{%- endcapture -%}
+                                                                    {%- capture text -%}caption_{{ i }}{%- endcapture -%}
+                                                                    {%- capture text_hor_alignment -%}caption_{{ i }}_hor_alignment{%- endcapture -%}
+                                                                    {%- capture animation -%}caption_{{ i }}_animation{%- endcapture -%}
+                                                                    {%- capture delay -%}caption_{{ i }}_delay{%- endcapture -%}
+                                                                    {%- capture color -%}caption_{{ i }}_color{%- endcapture -%}
+                                                                    {%- capture bgcolor -%}caption_{{ i }}_bgcolor{%- endcapture -%}
+                                                                    {%- capture fontweight -%}caption_{{ i }}_fontweight{%- endcapture -%}
+                                                                    {%- capture fontsize -%}caption_{{ i }}_fontsize{%- endcapture -%}
+                                                                    {%- capture lineheight -%}caption_{{ i }}_lineheight{%- endcapture -%}
+                                                                    {%- capture othercss -%}caption_{{ i }}_othercss{%- endcapture -%}
+                                                                    {%- if block.settings[enable] %}
+                                                                        <div class="bnslider-text bnslider-text--{{ block.settings[fontsize] }}  text-{{ block.settings[text_hor_alignment] }} {%- if block.settings[hidemobile] %} d-none d-md-block{%- endif -%}" data-animation="{{ block.settings[animation] }}" data-animation-delay="{{ block.settings[delay] }}ms" data-fontcolor="{{ block.settings[color] }}" data-bgcolor="{{ block.settings[bgcolor] }}" data-fontweight="{{ block.settings[fontweight] }}" data-lineheight="{{ block.settings[lineheight] }}" data-otherstyle="{{ block.settings[othercss] }}">{{ block.settings[text] }}</div>
+                                                                    {%- endif -%}
+                                                                {% endfor %}
+                                                                {% if block.settings.link_button_yes %}
+
+                                                                <div class="btn-wrap text-{{ block.settings.btn_hor_aligment }}"
+                                                                     data-animation="{{ block.settings.button_animation }}"
+                                                                     data-animation-delay="{{ block.settings.button_delay }}ms"
+                                                                     data-otherstyle="{{ block.settings.button_othercss }}">
+                                                                    {% if block.settings.link_button_small %}<span>{% endif %}
+                                                                        {% unless block.settings.link_all_slide %}
+
+                                                                        <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" target="{{ block.settings.link_target }}" class="btn-decor"
+                                                                           data-fontcolor="{{ block.settings.button_text_color }}">
+                                                                                  {{ block.settings.link_button_text }}
+                                                                            <span class="btn-line" data-bgcolor="{{ block.settings.button_bgcolor }}"></span>
+                                                                        </a>
+
+                                                                        {% else %}
+                                                                        <div class="btn-decor"
+                                                                             data-fontcolor="{{ block.settings.button_text_color }}">
+                                                                                  {{ block.settings.link_button_text }}
+                                                                            <span class="btn-line" data-bgcolor="{{ block.settings.button_bgcolor }}"></span>
+                                                                              </div>
+                                                                        {% endunless %}
+                                                                        {% if block.settings.link_button_small %}</span>{% endif %}
+                                                                    </div>
+
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% unless block.settings.link_all_slide %}
+                                            </div>
+                                        {% else %}
+                                            </a>
+                                            {% endunless %}
+                                        {% else %}
+                                            {% unless block.settings.link_all_slide %}
+                                            <div class="bnslider-slide">
+                                        {% else %}
+                                            <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" target="{{ block.settings.link_target }}" class="bnslider-slide">
+                                                {% endunless %}
+                                                {% capture current %}{% cycle 1,2 %}{% endcapture %}
+                                                {% if block.settings.image_mobile != blank %}
+                                                    <div class="bnslider-image-mobile lazyload blur-up" {% if block.settings.image_mobile != blank %}data-bgset="{% include 'bgset', image: block.settings.image_mobile %}" data-sizes="auto"{% endif %}></div>
+                                                {% else %}
+                                                <div class="bnslider-image-mobile">{% include 'image-placeholder-bg', text: '800x800' %}</div>
+                                                {% endif %}
+                                                {% if block.settings.image != blank %}
+                                                <div class="bnslider-image {{ block.settings.bg_v_alignment }} lazyload blur-up" {% if block.settings.image != blank %}data-bgset="{% include 'bgset', image: block.settings.image %}" data-sizes="auto"{% endif %}></div>
+                                                {% else %}
+                                                    <div class="bnslider-image">{% include 'image-placeholder-bg', text: '1920x800' %}</div>
+                                                {% endif %}
+                                                <div class="bnslider-text-wrap bnslider-overlay">
+                                                    <div class="bnslider-text-content {{ block.settings.captions_v_alignment }} {{ block.settings.captions_h_alignment }}">
+                                                        <div class="bnslider-text-content-flex {% if section.settings.block_width == 'fullboxed' %} container {% endif %}">
+                                                            <div class="bnslider-vert {{ block.settings.captions_border }} {% if block.settings.captions_half %}w-50 {% unless block.settings.caption_num_yes %}mx-0{% endunless %}{% endif %}" data-animation="fadeIn" data-animation-delay="0.5s">
+
+                                                                {% if block.settings.caption_num_yes %}
+                                                                    <div class="bnslider-text bnslider-text--num-wrap text-{{ block.settings.caption_num_hor_alignment }} {% if block.settings.caption_num_hidemobile_yes %} d-none d-md-flex{% endif %}">
+                                                                        <div class="bnslider-text--num" data-animation="{{ block.settings.caption_num1_animation }}" data-animation-delay="{{ block.settings.caption_num1_delay }}ms" data-fontcolor="{{ block.settings.caption_num1_color }}" data-fontweight="{{ block.settings.caption_num1_fontweight }}" data-otherstyle="{{ block.settings.caption_num1_othercss }}">{{ block.settings.caption_num1 }}</div>
+                                                                        <div class="bnslider-text--num-text mt-0 bnslider-text--{{ block.settings.caption_num2_fontsize }}" data-animation="{{ block.settings.caption_num2_animation }}" data-animation-delay="{{ block.settings.caption_num2_delay }}ms" data-fontcolor="{{ block.settings.caption_num2_color }}" data-fontweight="{{ block.settings.caption_num2_fontweight }}" data-lineheight="{{ block.settings.caption_num2_lineheight }}" data-otherstyle="{{ block.settings.caption_num2_othercss }}">{{ block.settings.caption_num2 }}</div>
+                                                                    </div>
+                                                                {% endif %}
+
+                                                                {%- for i in (1..3) -%}
+                                                                    {%- capture enable -%}caption_{{ i }}_yes{%- endcapture -%}
+                                                                    {%- capture hidemobile -%}caption_{{ i }}_hidemobile_yes{%- endcapture -%}
+                                                                    {%- capture text -%}caption_{{ i }}{%- endcapture -%}
+                                                                    {%- capture text_hor_alignment -%}caption_{{ i }}_hor_alignment{%- endcapture -%}
+                                                                    {%- capture animation -%}caption_{{ i }}_animation{%- endcapture -%}
+                                                                    {%- capture delay -%}caption_{{ i }}_delay{%- endcapture -%}
+                                                                    {%- capture color -%}caption_{{ i }}_color{%- endcapture -%}
+                                                                    {%- capture bgcolor -%}caption_{{ i }}_bgcolor{%- endcapture -%}
+                                                                    {%- capture fontweight -%}caption_{{ i }}_fontweight{%- endcapture -%}
+                                                                    {%- capture fontsize -%}caption_{{ i }}_fontsize{%- endcapture -%}
+                                                                    {%- capture lineheight -%}caption_{{ i }}_lineheight{%- endcapture -%}
+                                                                    {%- capture othercss -%}caption_{{ i }}_othercss{%- endcapture -%}
+                                                                    {%- if block.settings[enable] %}
+                                                                        <div class="bnslider-text bnslider-text--{{ block.settings[fontsize] }}  text-{{ block.settings[text_hor_alignment] }} {%- if block.settings[hidemobile] %} d-none d-md-block{%- endif -%}" data-animation="{{ block.settings[animation] }}" data-animation-delay="{{ block.settings[delay] }}ms" data-fontcolor="{{ block.settings[color] }}" data-bgcolor="{{ block.settings[bgcolor] }}" data-fontweight="{{ block.settings[fontweight] }}" data-lineheight="{{ block.settings[lineheight] }}" data-otherstyle="{{ block.settings[othercss] }}">{{ block.settings[text] }}</div>
+                                                                    {%- endif -%}
+                                                                {% endfor %}
+                                                                {% if block.settings.link_button_yes %}
+
+
+                                                                <div class="btn-wrap text-{{ block.settings.btn_hor_aligment }}"
+                                                                     data-animation="{{ block.settings.button_animation }}"
+                                                                     data-animation-delay="{{ block.settings.button_delay }}ms"
+                                                                     data-otherstyle="{{ block.settings.button_othercss }}">
+                                                                    {% if block.settings.link_button_small %}<span>{% endif %}
+                                                                        {% unless block.settings.link_all_slide %}
+                                                                        <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" target="{{ block.settings.link_target }}" class="btn-decor"
+                                                                           data-fontcolor="{{ block.settings.button_text_color }}">
+                                                                                {{ block.settings.link_button_text }}
+                                                                            <span class="btn-line" data-bgcolor="{{ block.settings.button_bgcolor }}"></span>
+                                                                            </a>
+                                                                        {% else %}
+                                                                        <div class="btn-decor"
+                                                                             data-fontcolor="{{ block.settings.button_text_color }}">
+                                                                                {{ block.settings.link_button_text }}
+                                                                            <span class="btn-line" data-bgcolor="{{ block.settings.button_bgcolor }}"></span>
+                                                                            </div>
+                                                                        {% endunless %}
+                                                                        {% if block.settings.link_button_small %}</span>{% endif %}
+                                                                    </div>
+
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% unless block.settings.link_all_slide %}
+                                            </div>
+                                        {% else %}
+                                            </a>
+                                            {% endunless %}
+                                        {% endif %}
+                                    {% endif %}
+                                {%- endfor %}
+                            </div>
+                            {% comment %}
+                            <div class="bnslider-loader">
+                                <div class="loader-wrap">
+                                    <div class="dots">
+                                        <div class="dot one"></div>
+                                        <div class="dot two"></div>
+                                        <div class="dot three"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endcomment %}
+                            {% if section.settings.arrows %}
+                                <div class="bnslider-arrows {% if section.settings.arowsbg %}bnslider-arrows--bg{% endif %} {% if section.settings.arowsshift %}{{ section.settings.arowsshiftside }}{% endif %} {% if section.settings.block_width == 'fullwidth' %}container-fluid{% else %}container{% endif %}">
+                                    <div></div></div>{% endif %}
+                            {% if section.settings.dots %}
+                                <div class="bnslider-dots {% if section.settings.dotspos %}vert-dots {{ section.settings.dotsposide }}{% endif %} {% if section.settings.block_width == 'fullwidth' or section.settings.dotsfullwidth %}container-fluid{% else %}container{% endif %}"></div>
+                            {% endif %}
+                            {% if section.settings.snow %}
+                                <canvas class="snow-effect" id="SnowEffect{{ section.id }}"></canvas>
+                            {% endif %}
+                        </div>
+                        {% if section.settings.right_column %}
+                    </div>
+                    <div class="col-md-3 mt-15 mt-md-0 sideColumn">
+                        {% assign gutters = 0.3 %}
+                        {% assign body_w = 1170 %}
+                        <div class="bnrs-column">
+                            {% for block in section.blocks %}
+                                {% if block.settings.enable and block.type == 'right_banner' %}
+                                    {% if section.settings.bnr_source == 'admin' %}
+                                        {% assign banner = block.settings %}
+                                        {% assign col_md = 3 %}
+                                        {% unless banner.image %}
+                                        {% include 'image-placeholder-aspect-ratio', width: 530, height: 370 %}
+                                        {%- endunless -%}
+                                        {% render 'banner', banner: banner, col_md: col_md, gutters: gutters, body_w: body_w %}
+                                    {% else %}
+                                        {{ section.settings.html }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    {% endunless %}
+{% endif %}
+{% schema %}
+{
+"name": "Slideshow",
+"class": "index-section index-section--flush",
+"max_blocks": 8,
+"settings": [
+{
+"type": "paragraph",
+"content": "[Documentation](http://big-skins.com/goodwin/shopify/manuals/#Slider)"
+},
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type":"select",
+"id":"block_width",
+"label":"Width",
+"options":[
+{"value":"boxed","label":"Boxed"},
+{"value":"fullboxed","label":"Fullboxed"},
+{"value":"fullwidth","label":"Fullwidth"},
+{"value":"global_width","label":"Use global site width"}
+],
+"default":"fullwidth",
+"info":"click Save to see changes"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-0"
+},
+{
+"type": "checkbox",
+"id": "show_under_header",
+"label": "Show block under the header",
+"default": false,
+"info":"usefull when column is enabled"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "checkbox",
+"id": "autoplay",
+"label": "Auto-rotate slides",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "dots",
+"label": "Show dots",
+"info":"slider navigation",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "dotspos",
+"label": "Vertical dots",
+"info":"slider dots position (if 'Show dots' checked)",
+"default": true
+},
+{
+   "type": "radio",
+   "id": "dotsposide",
+   "options": [
+      { "value": "vert-dots--right", "label": "Right"},
+	  { "value": "vert-dots--left", "label": "Left"}
+   ],
+   "label": "Vertical Dots Position"
+},
+{
+"type": "checkbox",
+"id": "dotsfullwidth",
+"label": "Dots always fullwidth",
+"info":"slider dots always fullwidth",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "arrows",
+"label": "Show arrows",
+"info":"slider navigation",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "arowsdark",
+"label": "Dark arrows",
+"info":"slider arrows dark (if 'Show arrows' checked)",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "arowsbg",
+"label": "Arrows with background",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "arowsshift",
+"label": "Shifted arrows",
+"info":"slider dots position (if 'Show dots' checked)",
+"default": false
+},
+{
+   "type": "radio",
+   "id": "arowsshiftside",
+   "options": [
+      { "value": "bnslider-arrows--pullright", "label": "Shift arrows to the right"},
+	  { "value": "bnslider-arrows--pullleft", "label": "Shift arrows to the left"}
+   ],
+   "label": "Shifted arrows position"
+},
+{
+"type": "select",
+"id": "autoplay_speed",
+"label": "Autoplay speed",
+"default": "5000",
+"options": [
+{ "value": "3000", "label": "3 seconds" },
+{ "value": "4000", "label": "4 seconds" },
+{ "value": "5000", "label": "5 seconds" },
+{ "value": "7000", "label": "7 seconds" },
+{ "value": "10000", "label": "10 seconds" },
+{ "value": "15000", "label": "15 seconds" }
+]
+},
+{
+"type": "select",
+"id": "slideshow_height",
+"label": "Section height",
+"default": "lg",
+"options": [
+{ "value": "sm", "label": "Small" },
+{ "value": "md", "label": "Medium" },
+{ "value": "lg", "label": "Large" },
+{ "value": "fullheight", "label": "Fullheight" }
+],
+"info":"this option will be ignored if you check 'Keep aspect ratio'"
+},
+{
+"type": "paragraph",
+"content": "Custom slider height/width. We advise to use these settings if you want to keep original slides bg images width/height for mobile and desktop"
+},
+{
+"type": "checkbox",
+"id": "keep_scale",
+"label": "Keep aspect ratio",
+"info":"(it makes own proportion for the slider)",
+"default": false
+},
+{
+"type": "text",
+"id": "keep_scale_width",
+"label": "Slider width",
+"default": "1920",
+"info": "Only if 'Keep aspect ratio' is checked. We advise to write original slide image width in px"
+},
+{
+"type": "text",
+"id": "keep_scale_height",
+"label": "Slider height",
+"default": "820",
+"info": "Only if 'Keep aspect ratio' is checked. We advise to write original slide image height in px"
+},
+{
+"type": "paragraph",
+"content": "Only For Mobile (max 768px):"
+},
+{
+"type": "text",
+"id": "keep_scale_mwidth",
+"label": "Slider width",
+"default": "1920"
+},
+{
+"type": "text",
+"id": "keep_scale_mheight",
+"label": "Slider height",
+"default": "820"
+},
+{
+"type": "checkbox",
+"id": "snow",
+"label": "Add snow effect",
+"default": false
+},
+{
+"type": "header",
+"content": "Side Column"
+},
+{
+"type": "checkbox",
+"id": "right_column",
+"label": "Enable",
+"default": false
+},
+{
+"type":"select",
+"id":"column",
+"label":"Column position",
+"default":"right",
+"options":[
+{
+"value":"left",
+"label":"Left"
+},
+{
+"value":"right",
+"label":"Right"
+}
+]
+},
+{
+"type":"select",
+"id":"bnr_source",
+"label":"Сreate banner with:",
+"default":"admin",
+"options":[
+{
+"value":"online",
+"label":"Banner generator"
+},
+{
+"value":"admin",
+"label":"Admin panel"
+}
+],
+"info":"*All banner's setting in the Admin panel don't apply for a banner made with the Banner generator."
+},
+{
+"type":"textarea",
+"id":"html",
+"label":"HTML (from Banner generator)",
+"info":"*Will apply only if you check 'Banner generator'. Generate banners [here](http://frontend.big-skins.com/goodwin-html/banners-generator)"
+},
+{
+"type": "paragraph",
+"content": "To add the banner via Admin, click '+Add Content' and select 'Banner for side column'"
+}
+],
+"blocks": [
+{
+"type": "image",
+"name": "Slide",
+"settings": [
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image For Desktop"
+},
+{
+"type": "image_picker",
+"id": "image_mobile",
+"label": "Image For Mobile",
+"info": "480x578px"
+},
+{
+"type": "checkbox",
+"id": "enable",
+"label": "Enable",
+"default": true
+},
+{
+"type": "select",
+"id": "bg_v_alignment",
+"label": "Image vertical alignment",
+"default": "bg-middle",
+"options": [
+{ "value": "bg-top", "label": "Top" },
+{ "value": "bg-middle", "label": "Middle" },
+{ "value": "bg-bottom", "label": "Bottom" }
+]
+},
+{
+"type": "header",
+"content": "VIDEO"
+},
+{
+"type":"select",
+"id": "type",
+"label": "Apply video",
+"options": [
+{ "value": "none", "label": "None" },
+{ "value": "box", "label": "Use slide image with play button" },
+{ "value": "background-box", "label": "Background video with play button" },
+{ "value": "background", "label": "Background video without play button" }
+],
+"default":"none"
+},
+{
+"type": "text",
+"id": "video_id",
+"label": "YouTube video ID",
+"default": "_9VUPq3SxOc",
+"info": "[Find your YouTube video ID](https://docs.joeworkman.net/rapidweaver/stacks/youtube/video-id)."
+},
+{
+"type": "header",
+"content": "LINK"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Slide link"
+},
+{
+"type": "select",
+"id": "link_target",
+"label": "Link Target",
+"default":"_self",
+"options": [
+{ "value": "_blank", "label": "New page" },
+{ "value": "_self",  "label": "In current page" }
+]
+},
+{
+"type": "header",
+"content": "Button Link"
+},
+{
+"type": "checkbox",
+"id": "link_button_yes",
+"label": "Add link button",
+"default":true
+},
+{
+"type": "checkbox",
+"id": "link_all_slide",
+"label": "Make entire slide a link",
+"default":false
+},
+{
+"type": "text",
+"id": "link_button_text",
+"label": "Link button text",
+"default":"Shop now"
+},
+{
+"type": "checkbox",
+"id": "link_button_small",
+"label": "Buttont small size",
+"default":false
+},
+{
+"type": "select",
+"id": "btn_hor_aligment",
+"label": "Btn Horizontal alignment",
+"default": "center",
+"options": [
+{ "value": "left", "label": "Left" },
+{ "value": "center", "label": "Center" },
+{ "value": "right", "label": "Right" }
+]
+},
+{
+"type": "select",
+"id": "button_animation",
+"label": "Button CSS Animation",
+"default": "fadeIn",
+"options": [
+{ "group": "Attention Seekers", "value": "bounce", "label": "bounce" },
+{ "group": "Attention Seekers", "value": "flash", "label": "flash" },
+{ "group": "Attention Seekers", "value": "pulse", "label": "pulse" },
+{ "group": "Attention Seekers", "value": "rubberBand", "label": "rubberBand" },
+{ "group": "Attention Seekers", "value": "shake", "label": "shake" },
+{ "group": "Attention Seekers", "value": "swing", "label": "swing" },
+{ "group": "Attention Seekers", "value": "tada", "label": "tada" },
+{ "group": "Attention Seekers", "value": "wobble", "label": "wobble" },
+{ "group": "Attention Seekers", "value": "jello", "label": "jello" },
+
+{ "group": "Bouncing Entrances", "value": "bounceIn", "label": "bounceIn" },
+{ "group": "Bouncing Entrances", "value": "bounceInDown", "label": "bounceInDown" },
+{ "group": "Bouncing Entrances", "value": "bounceInLeft", "label": "bounceInLeft" },
+{ "group": "Bouncing Entrances", "value": "bounceInRight", "label": "bounceInRight" },
+{ "group": "Bouncing Entrances", "value": "bounceInUp", "label": "bounceInUp" },
+
+{ "group": "Fading Entrances", "value": "fadeIn", "label": "fadeIn" },
+{ "group": "Fading Entrances", "value": "fadeInDown", "label": "fadeInDown" },
+{ "group": "Fading Entrances", "value": "fadeInDownBig", "label": "fadeInDownBig" },
+{ "group": "Fading Entrances", "value": "fadeInLeft", "label": "fadeInLeft" },
+{ "group": "Fading Entrances", "value": "fadeInLeftBig", "label": "fadeInLeftBig" },
+{ "group": "Fading Entrances", "value": "fadeInRight", "label": "fadeInRight" },
+{ "group": "Fading Entrances", "value": "fadeInRightBig", "label": "fadeInRightBig" },
+{ "group": "Fading Entrances", "value": "fadeInUp", "label": "fadeInUp" },
+{ "group": "Fading Entrances", "value": "fadeInUpBig", "label": "fadeInUpBig" },
+
+{ "group": "Flippers", "value": "flip", "label": "flip" },
+{ "group": "Flippers", "value": "flipInX", "label": "flipInX" },
+{ "group": "Flippers", "value": "flipInY", "label": "flipInY" },
+
+{ "group": "Lightspeed", "value": "lightSpeedIn", "label": "lightSpeedIn" },
+{ "group": "Lightspeed", "value": "lightSpeedOut", "label": "lightSpeedOut" },
+
+{ "group": "Rotating Entrances", "value": "rotateIn", "label": "rotateIn" },
+{ "group": "Rotating Entrances", "value": "rotateInDownLeft", "label": "rotateInDownLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInDownRight", "label": "rotateInDownRight" },
+{ "group": "Rotating Entrances", "value": "rotateInUpLeft", "label": "rotateInUpLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInUpRight", "label": "rotateInUpRight" },
+
+{ "group": "Sliding Entrances", "value": "slideInUp", "label": "slideInUp" },
+{ "group": "Sliding Entrances", "value": "slideInDown", "label": "slideInDown" },
+{ "group": "Sliding Entrances", "value": "slideInLeft", "label": "slideInLeft" },
+{ "group": "Sliding Entrances", "value": "slideInRight", "label": "slideInRight" },
+
+{ "group": "Zoom Entrances", "value": "zoomIn", "label": "zoomIn" },
+{ "group": "Zoom Entrances", "value": "zoomInDown", "label": "zoomInDown" },
+{ "group": "Zoom Entrances", "value": "zoomInLeft", "label": "zoomInLeft" },
+{ "group": "Zoom Entrances", "value": "zoomInRight", "label": "zoomInRight" },
+{ "group": "Zoom Entrances", "value": "zoomInUp", "label": "zoomInUp" },
+
+{ "group": "Pop Enter", "value": "popIn", "label": "popIn" },
+{ "group": "Pop Enter", "value": "popInLeft", "label": "popInLeft" },
+{ "group": "Pop Enter", "value": "popInRight", "label": "popInRight" },
+{ "group": "Pop Enter", "value": "popInTop", "label": "popInTop" },
+{ "group": "Pop Enter", "value": "popInBottom", "label": "popInBottom" },
+
+{ "group": "Jump", "value": "jumpInLeft", "label": "jumpInLeft" },
+{ "group": "Jump", "value": "jumpInRight", "label": "jumpInRight" },
+
+{ "group": "Swoop", "value": "swoopInLeft", "label": "swoopInLeft" },
+{ "group": "Swoop", "value": "swoopInRight", "label": "swoopInRight" },
+{ "group": "Swoop", "value": "swoopInTop", "label": "swoopInTop" },
+{ "group": "Swoop", "value": "swoopInBottom", "label": "swoopInBottom" },
+
+{ "group": "Drive", "value": "driveInLeft", "label": "driveInLeft" },
+{ "group": "Drive", "value": "driveInRight", "label": "driveInRight" },
+{ "group": "Drive", "value": "driveInTop", "label": "driveInTop" },
+{ "group": "Drive", "value": "driveInBottom", "label": "driveInBottom" },
+
+{ "group": "Pull", "value": "pullUp", "label": "pullUp" },
+{ "group": "Pull", "value": "pullDown", "label": "pullDown" },
+{ "group": "Pull", "value": "pullLeft", "label": "pullLeft" },
+{ "group": "Pull", "value": "pullRight", "label": "pullRight" },
+
+{ "group": "Specials", "value": "hinge", "label": "hinge" },
+{ "group": "Specials", "value": "rollIn", "label": "rollIn" },
+{ "group": "Specials", "value": "ball", "label": "ball" },
+{ "group": "Specials", "value": "pulsate", "label": "pulsate" },
+{ "group": "Specials", "value": "blink", "label": "blink" },
+{ "group": "Specials", "value": "fold", "label": "fold" },
+{ "group": "Specials", "value": "spinIn", "label": "spinIn" }
+]
+},
+{
+"type": "text",
+"id": "button_delay",
+"label": "Button Delay",
+"default": "2000",
+"info":"from 0 (in ms)"
+},
+{
+"type":"color",
+"id": "button_text_color",
+"label": "Button Text Color",
+"default": "#FFFFFF"
+},
+{
+"type":"color",
+"id": "button_bgcolor",
+"label": "Button Line Color",
+"default": "#ff358b"
+},
+{
+"type":"textarea",
+"id": "button_othercss",
+"label": "Button Own css",
+"info":"for ex., display: table;padding: 0.1em 0.5em;"
+},
+{
+"type": "header",
+"content": "CAPTIONS"
+},
+{
+"type": "checkbox",
+"id": "captions_half",
+"label": "Set the maximum captions width to 50%",
+"default": false
+},
+{
+"type": "select",
+"id": "captions_border",
+"label": "Caption Border",
+"default": "no-border",
+"options": [
+{ "value": "no-border", "label": "No Border" },
+{ "value": "border", "label": "Outer Border" },
+{ "value": "border-half", "label": "Inside Border" }
+],
+"info":"captions border"
+},
+{
+"type": "select",
+"id": "captions_h_alignment",
+"label": "Horizontal alignment",
+"default": "txt-center",
+"options": [
+{ "value": "txt-left", "label": "Left" },
+{ "value": "txt-center", "label": "Center" },
+{ "value": "txt-right", "label": "Right" }
+],
+"info":"global alignment for captions, but every caption has also individual horizontal alignment"
+},
+{
+"type": "select",
+"id": "captions_v_alignment",
+"label": "Vertical alignment",
+"default": "txt-middle",
+"options": [
+{ "value": "txt-top", "label": "Top" },
+{ "value": "txt-middle", "label": "Middle" },
+{ "value": "txt-bottom", "label": "Bottom" }
+]
+},
+{
+"type": "header",
+"content": "Caption 1"
+},
+{
+"type": "checkbox",
+"id": "caption_1_yes",
+"default":true,
+"label":"Enable"
+},
+{
+"type": "checkbox",
+"id": "caption_1_hidemobile_yes",
+"default":false,
+"label":"Hide on screens smaller than 768px"
+},
+{
+"type": "text",
+"id": "caption_1",
+"label": "Text",
+"default": "50% OFF"
+},
+{
+"type": "select",
+"id": "caption_1_animation",
+"label": "CSS Animation",
+"default": "pulsate",
+"options": [
+{ "group": "Attention Seekers", "value": "bounce", "label": "bounce" },
+{ "group": "Attention Seekers", "value": "flash", "label": "flash" },
+{ "group": "Attention Seekers", "value": "pulse", "label": "pulse" },
+{ "group": "Attention Seekers", "value": "rubberBand", "label": "rubberBand" },
+{ "group": "Attention Seekers", "value": "shake", "label": "shake" },
+{ "group": "Attention Seekers", "value": "swing", "label": "swing" },
+{ "group": "Attention Seekers", "value": "tada", "label": "tada" },
+{ "group": "Attention Seekers", "value": "wobble", "label": "wobble" },
+{ "group": "Attention Seekers", "value": "jello", "label": "jello" },
+
+{ "group": "Bouncing Entrances", "value": "bounceIn", "label": "bounceIn" },
+{ "group": "Bouncing Entrances", "value": "bounceInDown", "label": "bounceInDown" },
+{ "group": "Bouncing Entrances", "value": "bounceInLeft", "label": "bounceInLeft" },
+{ "group": "Bouncing Entrances", "value": "bounceInRight", "label": "bounceInRight" },
+{ "group": "Bouncing Entrances", "value": "bounceInUp", "label": "bounceInUp" },
+
+{ "group": "Fading Entrances", "value": "fadeIn", "label": "fadeIn" },
+{ "group": "Fading Entrances", "value": "fadeInDown", "label": "fadeInDown" },
+{ "group": "Fading Entrances", "value": "fadeInDownBig", "label": "fadeInDownBig" },
+{ "group": "Fading Entrances", "value": "fadeInLeft", "label": "fadeInLeft" },
+{ "group": "Fading Entrances", "value": "fadeInLeftBig", "label": "fadeInLeftBig" },
+{ "group": "Fading Entrances", "value": "fadeInRight", "label": "fadeInRight" },
+{ "group": "Fading Entrances", "value": "fadeInRightBig", "label": "fadeInRightBig" },
+{ "group": "Fading Entrances", "value": "fadeInUp", "label": "fadeInUp" },
+{ "group": "Fading Entrances", "value": "fadeInUpBig", "label": "fadeInUpBig" },
+
+{ "group": "Flippers", "value": "flip", "label": "flip" },
+{ "group": "Flippers", "value": "flipInX", "label": "flipInX" },
+{ "group": "Flippers", "value": "flipInY", "label": "flipInY" },
+
+{ "group": "Lightspeed", "value": "lightSpeedIn", "label": "lightSpeedIn" },
+{ "group": "Lightspeed", "value": "lightSpeedOut", "label": "lightSpeedOut" },
+
+{ "group": "Rotating Entrances", "value": "rotateIn", "label": "rotateIn" },
+{ "group": "Rotating Entrances", "value": "rotateInDownLeft", "label": "rotateInDownLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInDownRight", "label": "rotateInDownRight" },
+{ "group": "Rotating Entrances", "value": "rotateInUpLeft", "label": "rotateInUpLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInUpRight", "label": "rotateInUpRight" },
+
+{ "group": "Sliding Entrances", "value": "slideInUp", "label": "slideInUp" },
+{ "group": "Sliding Entrances", "value": "slideInDown", "label": "slideInDown" },
+{ "group": "Sliding Entrances", "value": "slideInLeft", "label": "slideInLeft" },
+{ "group": "Sliding Entrances", "value": "slideInRight", "label": "slideInRight" },
+
+{ "group": "Zoom Entrances", "value": "zoomIn", "label": "zoomIn" },
+{ "group": "Zoom Entrances", "value": "zoomInDown", "label": "zoomInDown" },
+{ "group": "Zoom Entrances", "value": "zoomInLeft", "label": "zoomInLeft" },
+{ "group": "Zoom Entrances", "value": "zoomInRight", "label": "zoomInRight" },
+{ "group": "Zoom Entrances", "value": "zoomInUp", "label": "zoomInUp" },
+
+{ "group": "Pop Enter", "value": "popIn", "label": "popIn" },
+{ "group": "Pop Enter", "value": "popInLeft", "label": "popInLeft" },
+{ "group": "Pop Enter", "value": "popInRight", "label": "popInRight" },
+{ "group": "Pop Enter", "value": "popInTop", "label": "popInTop" },
+{ "group": "Pop Enter", "value": "popInBottom", "label": "popInBottom" },
+
+{ "group": "Jump", "value": "jumpInLeft", "label": "jumpInLeft" },
+{ "group": "Jump", "value": "jumpInRight", "label": "jumpInRight" },
+
+{ "group": "Swoop", "value": "swoopInLeft", "label": "swoopInLeft" },
+{ "group": "Swoop", "value": "swoopInRight", "label": "swoopInRight" },
+{ "group": "Swoop", "value": "swoopInTop", "label": "swoopInTop" },
+{ "group": "Swoop", "value": "swoopInBottom", "label": "swoopInBottom" },
+
+{ "group": "Drive", "value": "driveInLeft", "label": "driveInLeft" },
+{ "group": "Drive", "value": "driveInRight", "label": "driveInRight" },
+{ "group": "Drive", "value": "driveInTop", "label": "driveInTop" },
+{ "group": "Drive", "value": "driveInBottom", "label": "driveInBottom" },
+
+{ "group": "Pull", "value": "pullUp", "label": "pullUp" },
+{ "group": "Pull", "value": "pullDown", "label": "pullDown" },
+{ "group": "Pull", "value": "pullLeft", "label": "pullLeft" },
+{ "group": "Pull", "value": "pullRight", "label": "pullRight" },
+
+{ "group": "Specials", "value": "hinge", "label": "hinge" },
+{ "group": "Specials", "value": "rollIn", "label": "rollIn" },
+{ "group": "Specials", "value": "ball", "label": "ball" },
+{ "group": "Specials", "value": "pulsate", "label": "pulsate" },
+{ "group": "Specials", "value": "blink", "label": "blink" },
+{ "group": "Specials", "value": "fold", "label": "fold" },
+{ "group": "Specials", "value": "spinIn", "label": "spinIn" }
+]
+},
+{
+"type": "text",
+"id": "caption_1_delay",
+"label": "Delay",
+"default": "800",
+"info":"from 0 (in ms)"
+},
+{
+"type":"color",
+"id": "caption_1_color",
+"label": "Color",
+"default": "#FFFFFF"
+},
+{
+"type":"select",
+"id": "caption_1_hor_alignment",
+"label": "Horizontal alignment",
+"options": [
+{ "value": "global", "label": "Use parent alignment" },
+{ "value": "left", "label": "Left" },
+{ "value": "center", "label": "Center" },
+{ "value": "right", "label": "Right" }
+],
+"default":"global"
+},
+{
+"type":"color",
+"id": "caption_1_bgcolor",
+"label": "Background color"
+},
+{
+"type":"select",
+"id": "caption_1_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"400"
+},
+{
+"type":"select",
+"id": "caption_1_fontsize",
+"label": "Font Size",
+"options": [
+{ "value": "xxs", "label": "XX Small" },
+{ "value": "xs", "label": "Extra Small" },
+{ "value": "sm", "label": "Small" },
+{ "value": "md", "label": "Medium" },
+{ "value": "lg", "label": "Large" }
+],
+"default":"lg"
+},
+{
+"type":"text",
+"id": "caption_1_lineheight",
+"label": "Font Lineheight",
+"default":"1.00",
+"info":"from 1.00"
+},
+{
+"type":"textarea",
+"id": "caption_1_othercss",
+"label": "Own css",
+"info":"for ex., display: table;padding: 0.1em 0.5em;"
+},
+{
+"type": "header",
+"content": "Caption 2"
+},
+{
+"type": "checkbox",
+"id": "caption_2_yes",
+"default":true,
+"label":"Enable"
+},
+{
+"type": "checkbox",
+"id": "caption_2_hidemobile_yes",
+"default":false,
+"label":"Hide on screens smaller than 768px"
+},
+{
+"type": "text",
+"id": "caption_2",
+"label": "Text",
+"default": "TILL DECEMBER 13"
+},
+{
+"type": "select",
+"id": "caption_2_animation",
+"label": "CSS Animation",
+"default": "fadeInUp",
+"options": [
+{ "group": "Attention Seekers", "value": "bounce", "label": "bounce" },
+{ "group": "Attention Seekers", "value": "flash", "label": "flash" },
+{ "group": "Attention Seekers", "value": "pulse", "label": "pulse" },
+{ "group": "Attention Seekers", "value": "rubberBand", "label": "rubberBand" },
+{ "group": "Attention Seekers", "value": "shake", "label": "shake" },
+{ "group": "Attention Seekers", "value": "swing", "label": "swing" },
+{ "group": "Attention Seekers", "value": "tada", "label": "tada" },
+{ "group": "Attention Seekers", "value": "wobble", "label": "wobble" },
+{ "group": "Attention Seekers", "value": "jello", "label": "jello" },
+
+{ "group": "Bouncing Entrances", "value": "bounceIn", "label": "bounceIn" },
+{ "group": "Bouncing Entrances", "value": "bounceInDown", "label": "bounceInDown" },
+{ "group": "Bouncing Entrances", "value": "bounceInLeft", "label": "bounceInLeft" },
+{ "group": "Bouncing Entrances", "value": "bounceInRight", "label": "bounceInRight" },
+{ "group": "Bouncing Entrances", "value": "bounceInUp", "label": "bounceInUp" },
+
+{ "group": "Fading Entrances", "value": "fadeIn", "label": "fadeIn" },
+{ "group": "Fading Entrances", "value": "fadeInDown", "label": "fadeInDown" },
+{ "group": "Fading Entrances", "value": "fadeInDownBig", "label": "fadeInDownBig" },
+{ "group": "Fading Entrances", "value": "fadeInLeft", "label": "fadeInLeft" },
+{ "group": "Fading Entrances", "value": "fadeInLeftBig", "label": "fadeInLeftBig" },
+{ "group": "Fading Entrances", "value": "fadeInRight", "label": "fadeInRight" },
+{ "group": "Fading Entrances", "value": "fadeInRightBig", "label": "fadeInRightBig" },
+{ "group": "Fading Entrances", "value": "fadeInUp", "label": "fadeInUp" },
+{ "group": "Fading Entrances", "value": "fadeInUpBig", "label": "fadeInUpBig" },
+
+{ "group": "Flippers", "value": "flip", "label": "flip" },
+{ "group": "Flippers", "value": "flipInX", "label": "flipInX" },
+{ "group": "Flippers", "value": "flipInY", "label": "flipInY" },
+
+{ "group": "Lightspeed", "value": "lightSpeedIn", "label": "lightSpeedIn" },
+{ "group": "Lightspeed", "value": "lightSpeedOut", "label": "lightSpeedOut" },
+
+{ "group": "Rotating Entrances", "value": "rotateIn", "label": "rotateIn" },
+{ "group": "Rotating Entrances", "value": "rotateInDownLeft", "label": "rotateInDownLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInDownRight", "label": "rotateInDownRight" },
+{ "group": "Rotating Entrances", "value": "rotateInUpLeft", "label": "rotateInUpLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInUpRight", "label": "rotateInUpRight" },
+
+{ "group": "Sliding Entrances", "value": "slideInUp", "label": "slideInUp" },
+{ "group": "Sliding Entrances", "value": "slideInDown", "label": "slideInDown" },
+{ "group": "Sliding Entrances", "value": "slideInLeft", "label": "slideInLeft" },
+{ "group": "Sliding Entrances", "value": "slideInRight", "label": "slideInRight" },
+
+{ "group": "Zoom Entrances", "value": "zoomIn", "label": "zoomIn" },
+{ "group": "Zoom Entrances", "value": "zoomInDown", "label": "zoomInDown" },
+{ "group": "Zoom Entrances", "value": "zoomInLeft", "label": "zoomInLeft" },
+{ "group": "Zoom Entrances", "value": "zoomInRight", "label": "zoomInRight" },
+{ "group": "Zoom Entrances", "value": "zoomInUp", "label": "zoomInUp" },
+
+{ "group": "Pop Enter", "value": "popIn", "label": "popIn" },
+{ "group": "Pop Enter", "value": "popInLeft", "label": "popInLeft" },
+{ "group": "Pop Enter", "value": "popInRight", "label": "popInRight" },
+{ "group": "Pop Enter", "value": "popInTop", "label": "popInTop" },
+{ "group": "Pop Enter", "value": "popInBottom", "label": "popInBottom" },
+
+{ "group": "Jump", "value": "jumpInLeft", "label": "jumpInLeft" },
+{ "group": "Jump", "value": "jumpInRight", "label": "jumpInRight" },
+
+{ "group": "Swoop", "value": "swoopInLeft", "label": "swoopInLeft" },
+{ "group": "Swoop", "value": "swoopInRight", "label": "swoopInRight" },
+{ "group": "Swoop", "value": "swoopInTop", "label": "swoopInTop" },
+{ "group": "Swoop", "value": "swoopInBottom", "label": "swoopInBottom" },
+
+{ "group": "Drive", "value": "driveInLeft", "label": "driveInLeft" },
+{ "group": "Drive", "value": "driveInRight", "label": "driveInRight" },
+{ "group": "Drive", "value": "driveInTop", "label": "driveInTop" },
+{ "group": "Drive", "value": "driveInBottom", "label": "driveInBottom" },
+
+{ "group": "Pull", "value": "pullUp", "label": "pullUp" },
+{ "group": "Pull", "value": "pullDown", "label": "pullDown" },
+{ "group": "Pull", "value": "pullLeft", "label": "pullLeft" },
+{ "group": "Pull", "value": "pullRight", "label": "pullRight" },
+
+{ "group": "Specials", "value": "hinge", "label": "hinge" },
+{ "group": "Specials", "value": "rollIn", "label": "rollIn" },
+{ "group": "Specials", "value": "ball", "label": "ball" },
+{ "group": "Specials", "value": "pulsate", "label": "pulsate" },
+{ "group": "Specials", "value": "blink", "label": "blink" },
+{ "group": "Specials", "value": "fold", "label": "fold" },
+{ "group": "Specials", "value": "spinIn", "label": "spinIn" }
+]
+},
+{
+"type": "text",
+"id": "caption_2_delay",
+"label": "Delay",
+"default": "1000",
+"info":"from 0 (in ms)"
+},
+{
+"type":"select",
+"id": "caption_2_hor_alignment",
+"label": "Horizontal alignment",
+"options": [
+{ "value": "global", "label": "Use parent alignment" },
+{ "value": "left", "label": "Left" },
+{ "value": "center", "label": "Center" },
+{ "value": "right", "label": "Right" }
+],
+"default":"global"
+},
+{
+"type":"color",
+"id": "caption_2_color",
+"label": "Color",
+"default": "#FFFFFF"
+},
+{
+"type":"color",
+"id": "caption_2_bgcolor",
+"label": "Background color"
+},
+{
+"type":"select",
+"id": "caption_2_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"400"
+},
+{
+"type":"select",
+"id": "caption_2_fontsize",
+"label": "Font Size",
+"options": [
+{ "value": "xxs", "label": "XX Small" },
+{ "value": "xs", "label": "Extra Small" },
+{ "value": "sm", "label": "Small" },
+{ "value": "md", "label": "Medium" },
+{ "value": "lg", "label": "Large" }
+],
+"default":"xs"
+},
+{
+"type":"text",
+"id": "caption_2_lineheight",
+"label": "Font Lineheight",
+"default":"1.00",
+"info":"from 1.00"
+},
+{
+"type":"textarea",
+"id": "caption_2_othercss",
+"label": "Own css",
+"info":"for ex., display: table;padding: 0.1em 0.5em;",
+"default":"font-size: 0.18em"
+},
+{
+"type": "header",
+"content": "Caption 3"
+},
+{
+"type": "checkbox",
+"id": "caption_3_yes",
+"default":true,
+"label":"Enable"
+},
+{
+"type": "checkbox",
+"id": "caption_3_hidemobile_yes",
+"default":false,
+"label":"Hide on screens smaller than 768px"
+},
+{
+"type": "text",
+"id": "caption_3",
+"label": "Text",
+"default": "ALL THESE STYLES MUST GO!"
+},
+{
+"type": "select",
+"id": "caption_3_animation",
+"label": "CSS Animation",
+"default": "fadeInUp",
+"options": [
+{ "group": "Attention Seekers", "value": "bounce", "label": "bounce" },
+{ "group": "Attention Seekers", "value": "flash", "label": "flash" },
+{ "group": "Attention Seekers", "value": "pulse", "label": "pulse" },
+{ "group": "Attention Seekers", "value": "rubberBand", "label": "rubberBand" },
+{ "group": "Attention Seekers", "value": "shake", "label": "shake" },
+{ "group": "Attention Seekers", "value": "swing", "label": "swing" },
+{ "group": "Attention Seekers", "value": "tada", "label": "tada" },
+{ "group": "Attention Seekers", "value": "wobble", "label": "wobble" },
+{ "group": "Attention Seekers", "value": "jello", "label": "jello" },
+
+{ "group": "Bouncing Entrances", "value": "bounceIn", "label": "bounceIn" },
+{ "group": "Bouncing Entrances", "value": "bounceInDown", "label": "bounceInDown" },
+{ "group": "Bouncing Entrances", "value": "bounceInLeft", "label": "bounceInLeft" },
+{ "group": "Bouncing Entrances", "value": "bounceInRight", "label": "bounceInRight" },
+{ "group": "Bouncing Entrances", "value": "bounceInUp", "label": "bounceInUp" },
+
+{ "group": "Fading Entrances", "value": "fadeIn", "label": "fadeIn" },
+{ "group": "Fading Entrances", "value": "fadeInDown", "label": "fadeInDown" },
+{ "group": "Fading Entrances", "value": "fadeInDownBig", "label": "fadeInDownBig" },
+{ "group": "Fading Entrances", "value": "fadeInLeft", "label": "fadeInLeft" },
+{ "group": "Fading Entrances", "value": "fadeInLeftBig", "label": "fadeInLeftBig" },
+{ "group": "Fading Entrances", "value": "fadeInRight", "label": "fadeInRight" },
+{ "group": "Fading Entrances", "value": "fadeInRightBig", "label": "fadeInRightBig" },
+{ "group": "Fading Entrances", "value": "fadeInUp", "label": "fadeInUp" },
+{ "group": "Fading Entrances", "value": "fadeInUpBig", "label": "fadeInUpBig" },
+
+{ "group": "Flippers", "value": "flip", "label": "flip" },
+{ "group": "Flippers", "value": "flipInX", "label": "flipInX" },
+{ "group": "Flippers", "value": "flipInY", "label": "flipInY" },
+
+{ "group": "Lightspeed", "value": "lightSpeedIn", "label": "lightSpeedIn" },
+{ "group": "Lightspeed", "value": "lightSpeedOut", "label": "lightSpeedOut" },
+
+{ "group": "Rotating Entrances", "value": "rotateIn", "label": "rotateIn" },
+{ "group": "Rotating Entrances", "value": "rotateInDownLeft", "label": "rotateInDownLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInDownRight", "label": "rotateInDownRight" },
+{ "group": "Rotating Entrances", "value": "rotateInUpLeft", "label": "rotateInUpLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInUpRight", "label": "rotateInUpRight" },
+
+{ "group": "Sliding Entrances", "value": "slideInUp", "label": "slideInUp" },
+{ "group": "Sliding Entrances", "value": "slideInDown", "label": "slideInDown" },
+{ "group": "Sliding Entrances", "value": "slideInLeft", "label": "slideInLeft" },
+{ "group": "Sliding Entrances", "value": "slideInRight", "label": "slideInRight" },
+
+{ "group": "Zoom Entrances", "value": "zoomIn", "label": "zoomIn" },
+{ "group": "Zoom Entrances", "value": "zoomInDown", "label": "zoomInDown" },
+{ "group": "Zoom Entrances", "value": "zoomInLeft", "label": "zoomInLeft" },
+{ "group": "Zoom Entrances", "value": "zoomInRight", "label": "zoomInRight" },
+{ "group": "Zoom Entrances", "value": "zoomInUp", "label": "zoomInUp" },
+
+{ "group": "Pop Enter", "value": "popIn", "label": "popIn" },
+{ "group": "Pop Enter", "value": "popInLeft", "label": "popInLeft" },
+{ "group": "Pop Enter", "value": "popInRight", "label": "popInRight" },
+{ "group": "Pop Enter", "value": "popInTop", "label": "popInTop" },
+{ "group": "Pop Enter", "value": "popInBottom", "label": "popInBottom" },
+
+{ "group": "Jump", "value": "jumpInLeft", "label": "jumpInLeft" },
+{ "group": "Jump", "value": "jumpInRight", "label": "jumpInRight" },
+
+{ "group": "Swoop", "value": "swoopInLeft", "label": "swoopInLeft" },
+{ "group": "Swoop", "value": "swoopInRight", "label": "swoopInRight" },
+{ "group": "Swoop", "value": "swoopInTop", "label": "swoopInTop" },
+{ "group": "Swoop", "value": "swoopInBottom", "label": "swoopInBottom" },
+
+{ "group": "Drive", "value": "driveInLeft", "label": "driveInLeft" },
+{ "group": "Drive", "value": "driveInRight", "label": "driveInRight" },
+{ "group": "Drive", "value": "driveInTop", "label": "driveInTop" },
+{ "group": "Drive", "value": "driveInBottom", "label": "driveInBottom" },
+
+{ "group": "Pull", "value": "pullUp", "label": "pullUp" },
+{ "group": "Pull", "value": "pullDown", "label": "pullDown" },
+{ "group": "Pull", "value": "pullLeft", "label": "pullLeft" },
+{ "group": "Pull", "value": "pullRight", "label": "pullRight" },
+
+{ "group": "Specials", "value": "hinge", "label": "hinge" },
+{ "group": "Specials", "value": "rollIn", "label": "rollIn" },
+{ "group": "Specials", "value": "ball", "label": "ball" },
+{ "group": "Specials", "value": "pulsate", "label": "pulsate" },
+{ "group": "Specials", "value": "blink", "label": "blink" },
+{ "group": "Specials", "value": "fold", "label": "fold" },
+{ "group": "Specials", "value": "spinIn", "label": "spinIn" }
+]
+},
+{
+"type": "text",
+"id": "caption_3_delay",
+"label": "Delay",
+"default": "1600",
+"info":"from 0 (in ms)"
+},
+{
+"type":"select",
+"id": "caption_3_hor_alignment",
+"label": "Horizontal alignment",
+"options": [
+{ "value": "global", "label": "Use parent alignment" },
+{ "value": "left", "label": "Left" },
+{ "value": "center", "label": "Center" },
+{ "value": "right", "label": "Right" }
+],
+"default":"global"
+},
+{
+"type":"color",
+"id": "caption_3_color",
+"label": "Color",
+"default": "#FFFFFF"
+},
+{
+"type":"color",
+"id": "caption_3_bgcolor",
+"label": "Background color"
+},
+{
+"type":"select",
+"id": "caption_3_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"400"
+},
+{
+"type":"select",
+"id": "caption_3_fontsize",
+"label": "Font Size",
+"options": [
+{ "value": "xxs", "label": "XX Small" },
+{ "value": "xs", "label": "Extra Small" },
+{ "value": "sm", "label": "Small" },
+{ "value": "md", "label": "Medium" },
+{ "value": "lg", "label": "Large" }
+],
+"default":"sm"
+},
+{
+"type":"text",
+"id": "caption_3_lineheight",
+"label": "Font Lineheight",
+"default":"1.00",
+"info":"from 1.00"
+},
+{
+"type":"textarea",
+"id": "caption_3_othercss",
+"label": "Own css",
+"default":"font-size: 0.3em",
+"info":"for ex., display: table;padding: 0.1em 0.5em;"
+},
+{
+"type": "header",
+"content": "Caption With Number"
+},
+{
+"type": "checkbox",
+"id": "caption_num_yes",
+"default":false,
+"label":"Enable"
+},
+{
+"type": "checkbox",
+"id": "caption_num_hidemobile_yes",
+"default":true,
+"label":"Hide on screens smaller than 768px"
+},
+{
+"type":"select",
+"id": "caption_num_hor_alignment",
+"label": "Horizontal alignment",
+"options": [
+{ "value": "global", "label": "Use parent alignment" },
+{ "value": "left", "label": "Left" },
+{ "value": "center", "label": "Center" },
+{ "value": "right", "label": "Right" }
+],
+"default":"left"
+},
+      {
+        "type": "paragraph",
+        "content": "————————————————"
+      },
+{
+"type": "text",
+"id": "caption_num1",
+"label": "Number",
+"default": "01"
+},
+{
+"type": "select",
+"id": "caption_num1_animation",
+"label": "CSS Animation",
+"default": "flipInX",
+"options": [
+{ "group": "Attention Seekers", "value": "bounce", "label": "bounce" },
+{ "group": "Attention Seekers", "value": "flash", "label": "flash" },
+{ "group": "Attention Seekers", "value": "pulse", "label": "pulse" },
+{ "group": "Attention Seekers", "value": "rubberBand", "label": "rubberBand" },
+{ "group": "Attention Seekers", "value": "shake", "label": "shake" },
+{ "group": "Attention Seekers", "value": "swing", "label": "swing" },
+{ "group": "Attention Seekers", "value": "tada", "label": "tada" },
+{ "group": "Attention Seekers", "value": "wobble", "label": "wobble" },
+{ "group": "Attention Seekers", "value": "jello", "label": "jello" },
+
+{ "group": "Bouncing Entrances", "value": "bounceIn", "label": "bounceIn" },
+{ "group": "Bouncing Entrances", "value": "bounceInDown", "label": "bounceInDown" },
+{ "group": "Bouncing Entrances", "value": "bounceInLeft", "label": "bounceInLeft" },
+{ "group": "Bouncing Entrances", "value": "bounceInRight", "label": "bounceInRight" },
+{ "group": "Bouncing Entrances", "value": "bounceInUp", "label": "bounceInUp" },
+
+{ "group": "Fading Entrances", "value": "fadeIn", "label": "fadeIn" },
+{ "group": "Fading Entrances", "value": "fadeInDown", "label": "fadeInDown" },
+{ "group": "Fading Entrances", "value": "fadeInDownBig", "label": "fadeInDownBig" },
+{ "group": "Fading Entrances", "value": "fadeInLeft", "label": "fadeInLeft" },
+{ "group": "Fading Entrances", "value": "fadeInLeftBig", "label": "fadeInLeftBig" },
+{ "group": "Fading Entrances", "value": "fadeInRight", "label": "fadeInRight" },
+{ "group": "Fading Entrances", "value": "fadeInRightBig", "label": "fadeInRightBig" },
+{ "group": "Fading Entrances", "value": "fadeInUp", "label": "fadeInUp" },
+{ "group": "Fading Entrances", "value": "fadeInUpBig", "label": "fadeInUpBig" },
+
+{ "group": "Flippers", "value": "flip", "label": "flip" },
+{ "group": "Flippers", "value": "flipInX", "label": "flipInX" },
+{ "group": "Flippers", "value": "flipInY", "label": "flipInY" },
+
+{ "group": "Lightspeed", "value": "lightSpeedIn", "label": "lightSpeedIn" },
+{ "group": "Lightspeed", "value": "lightSpeedOut", "label": "lightSpeedOut" },
+
+{ "group": "Rotating Entrances", "value": "rotateIn", "label": "rotateIn" },
+{ "group": "Rotating Entrances", "value": "rotateInDownLeft", "label": "rotateInDownLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInDownRight", "label": "rotateInDownRight" },
+{ "group": "Rotating Entrances", "value": "rotateInUpLeft", "label": "rotateInUpLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInUpRight", "label": "rotateInUpRight" },
+
+{ "group": "Sliding Entrances", "value": "slideInUp", "label": "slideInUp" },
+{ "group": "Sliding Entrances", "value": "slideInDown", "label": "slideInDown" },
+{ "group": "Sliding Entrances", "value": "slideInLeft", "label": "slideInLeft" },
+{ "group": "Sliding Entrances", "value": "slideInRight", "label": "slideInRight" },
+
+{ "group": "Zoom Entrances", "value": "zoomIn", "label": "zoomIn" },
+{ "group": "Zoom Entrances", "value": "zoomInDown", "label": "zoomInDown" },
+{ "group": "Zoom Entrances", "value": "zoomInLeft", "label": "zoomInLeft" },
+{ "group": "Zoom Entrances", "value": "zoomInRight", "label": "zoomInRight" },
+{ "group": "Zoom Entrances", "value": "zoomInUp", "label": "zoomInUp" },
+
+{ "group": "Pop Enter", "value": "popIn", "label": "popIn" },
+{ "group": "Pop Enter", "value": "popInLeft", "label": "popInLeft" },
+{ "group": "Pop Enter", "value": "popInRight", "label": "popInRight" },
+{ "group": "Pop Enter", "value": "popInTop", "label": "popInTop" },
+{ "group": "Pop Enter", "value": "popInBottom", "label": "popInBottom" },
+
+{ "group": "Jump", "value": "jumpInLeft", "label": "jumpInLeft" },
+{ "group": "Jump", "value": "jumpInRight", "label": "jumpInRight" },
+
+{ "group": "Swoop", "value": "swoopInLeft", "label": "swoopInLeft" },
+{ "group": "Swoop", "value": "swoopInRight", "label": "swoopInRight" },
+{ "group": "Swoop", "value": "swoopInTop", "label": "swoopInTop" },
+{ "group": "Swoop", "value": "swoopInBottom", "label": "swoopInBottom" },
+
+{ "group": "Drive", "value": "driveInLeft", "label": "driveInLeft" },
+{ "group": "Drive", "value": "driveInRight", "label": "driveInRight" },
+{ "group": "Drive", "value": "driveInTop", "label": "driveInTop" },
+{ "group": "Drive", "value": "driveInBottom", "label": "driveInBottom" },
+
+{ "group": "Pull", "value": "pullUp", "label": "pullUp" },
+{ "group": "Pull", "value": "pullDown", "label": "pullDown" },
+{ "group": "Pull", "value": "pullLeft", "label": "pullLeft" },
+{ "group": "Pull", "value": "pullRight", "label": "pullRight" },
+
+{ "group": "Specials", "value": "hinge", "label": "hinge" },
+{ "group": "Specials", "value": "rollIn", "label": "rollIn" },
+{ "group": "Specials", "value": "ball", "label": "ball" },
+{ "group": "Specials", "value": "pulsate", "label": "pulsate" },
+{ "group": "Specials", "value": "blink", "label": "blink" },
+{ "group": "Specials", "value": "fold", "label": "fold" },
+{ "group": "Specials", "value": "spinIn", "label": "spinIn" }
+]
+},
+{
+"type": "text",
+"id": "caption_num1_delay",
+"label": "Delay",
+"default": "0",
+"info":"from 0 (in ms)"
+},
+{
+"type":"color",
+"id": "caption_num1_color",
+"label": "Color",
+"default": "#e1dde5"
+},
+{
+"type":"select",
+"id": "caption_num1_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"900"
+},
+{
+"type":"textarea",
+"id": "caption_num1_othercss",
+"label": "Own css",
+"info":"for ex., display: table;padding: 0.1em 0.5em;"
+},
+      {
+        "type": "paragraph",
+        "content": "————————————————"
+      },
+{
+"type": "text",
+"id": "caption_num2",
+"label": "Text",
+"default": "NEW AWESOME<br>COLLECTION"
+},
+{
+"type": "select",
+"id": "caption_num2_animation",
+"label": "CSS Animation",
+"default": "fadeInRight",
+"options": [
+{ "group": "Attention Seekers", "value": "bounce", "label": "bounce" },
+{ "group": "Attention Seekers", "value": "flash", "label": "flash" },
+{ "group": "Attention Seekers", "value": "pulse", "label": "pulse" },
+{ "group": "Attention Seekers", "value": "rubberBand", "label": "rubberBand" },
+{ "group": "Attention Seekers", "value": "shake", "label": "shake" },
+{ "group": "Attention Seekers", "value": "swing", "label": "swing" },
+{ "group": "Attention Seekers", "value": "tada", "label": "tada" },
+{ "group": "Attention Seekers", "value": "wobble", "label": "wobble" },
+{ "group": "Attention Seekers", "value": "jello", "label": "jello" },
+
+{ "group": "Bouncing Entrances", "value": "bounceIn", "label": "bounceIn" },
+{ "group": "Bouncing Entrances", "value": "bounceInDown", "label": "bounceInDown" },
+{ "group": "Bouncing Entrances", "value": "bounceInLeft", "label": "bounceInLeft" },
+{ "group": "Bouncing Entrances", "value": "bounceInRight", "label": "bounceInRight" },
+{ "group": "Bouncing Entrances", "value": "bounceInUp", "label": "bounceInUp" },
+
+{ "group": "Fading Entrances", "value": "fadeIn", "label": "fadeIn" },
+{ "group": "Fading Entrances", "value": "fadeInDown", "label": "fadeInDown" },
+{ "group": "Fading Entrances", "value": "fadeInDownBig", "label": "fadeInDownBig" },
+{ "group": "Fading Entrances", "value": "fadeInLeft", "label": "fadeInLeft" },
+{ "group": "Fading Entrances", "value": "fadeInLeftBig", "label": "fadeInLeftBig" },
+{ "group": "Fading Entrances", "value": "fadeInRight", "label": "fadeInRight" },
+{ "group": "Fading Entrances", "value": "fadeInRightBig", "label": "fadeInRightBig" },
+{ "group": "Fading Entrances", "value": "fadeInUp", "label": "fadeInUp" },
+{ "group": "Fading Entrances", "value": "fadeInUpBig", "label": "fadeInUpBig" },
+
+{ "group": "Flippers", "value": "flip", "label": "flip" },
+{ "group": "Flippers", "value": "flipInX", "label": "flipInX" },
+{ "group": "Flippers", "value": "flipInY", "label": "flipInY" },
+
+{ "group": "Lightspeed", "value": "lightSpeedIn", "label": "lightSpeedIn" },
+{ "group": "Lightspeed", "value": "lightSpeedOut", "label": "lightSpeedOut" },
+
+{ "group": "Rotating Entrances", "value": "rotateIn", "label": "rotateIn" },
+{ "group": "Rotating Entrances", "value": "rotateInDownLeft", "label": "rotateInDownLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInDownRight", "label": "rotateInDownRight" },
+{ "group": "Rotating Entrances", "value": "rotateInUpLeft", "label": "rotateInUpLeft" },
+{ "group": "Rotating Entrances", "value": "rotateInUpRight", "label": "rotateInUpRight" },
+
+{ "group": "Sliding Entrances", "value": "slideInUp", "label": "slideInUp" },
+{ "group": "Sliding Entrances", "value": "slideInDown", "label": "slideInDown" },
+{ "group": "Sliding Entrances", "value": "slideInLeft", "label": "slideInLeft" },
+{ "group": "Sliding Entrances", "value": "slideInRight", "label": "slideInRight" },
+
+{ "group": "Zoom Entrances", "value": "zoomIn", "label": "zoomIn" },
+{ "group": "Zoom Entrances", "value": "zoomInDown", "label": "zoomInDown" },
+{ "group": "Zoom Entrances", "value": "zoomInLeft", "label": "zoomInLeft" },
+{ "group": "Zoom Entrances", "value": "zoomInRight", "label": "zoomInRight" },
+{ "group": "Zoom Entrances", "value": "zoomInUp", "label": "zoomInUp" },
+
+{ "group": "Pop Enter", "value": "popIn", "label": "popIn" },
+{ "group": "Pop Enter", "value": "popInLeft", "label": "popInLeft" },
+{ "group": "Pop Enter", "value": "popInRight", "label": "popInRight" },
+{ "group": "Pop Enter", "value": "popInTop", "label": "popInTop" },
+{ "group": "Pop Enter", "value": "popInBottom", "label": "popInBottom" },
+
+{ "group": "Jump", "value": "jumpInLeft", "label": "jumpInLeft" },
+{ "group": "Jump", "value": "jumpInRight", "label": "jumpInRight" },
+
+{ "group": "Swoop", "value": "swoopInLeft", "label": "swoopInLeft" },
+{ "group": "Swoop", "value": "swoopInRight", "label": "swoopInRight" },
+{ "group": "Swoop", "value": "swoopInTop", "label": "swoopInTop" },
+{ "group": "Swoop", "value": "swoopInBottom", "label": "swoopInBottom" },
+
+{ "group": "Drive", "value": "driveInLeft", "label": "driveInLeft" },
+{ "group": "Drive", "value": "driveInRight", "label": "driveInRight" },
+{ "group": "Drive", "value": "driveInTop", "label": "driveInTop" },
+{ "group": "Drive", "value": "driveInBottom", "label": "driveInBottom" },
+
+{ "group": "Pull", "value": "pullUp", "label": "pullUp" },
+{ "group": "Pull", "value": "pullDown", "label": "pullDown" },
+{ "group": "Pull", "value": "pullLeft", "label": "pullLeft" },
+{ "group": "Pull", "value": "pullRight", "label": "pullRight" },
+
+{ "group": "Specials", "value": "hinge", "label": "hinge" },
+{ "group": "Specials", "value": "rollIn", "label": "rollIn" },
+{ "group": "Specials", "value": "ball", "label": "ball" },
+{ "group": "Specials", "value": "pulsate", "label": "pulsate" },
+{ "group": "Specials", "value": "blink", "label": "blink" },
+{ "group": "Specials", "value": "fold", "label": "fold" },
+{ "group": "Specials", "value": "spinIn", "label": "spinIn" }
+]
+},
+{
+"type": "text",
+"id": "caption_num2_delay",
+"label": "Delay",
+"default": "0",
+"info":"from 0 (in ms)"
+},
+{
+"type":"color",
+"id": "caption_num2_color",
+"label": "Color",
+"default": "#868686"
+},
+{
+"type":"select",
+"id": "caption_num2_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"400"
+},
+{
+"type":"select",
+"id": "caption_num2_fontsize",
+"label": "Font Size",
+"options": [
+{ "value": "xxs", "label": "XX Small" },
+{ "value": "xs", "label": "Extra Small" },
+{ "value": "sm", "label": "Small" },
+{ "value": "md", "label": "Medium" },
+{ "value": "lg", "label": "Large" }
+],
+"default":"xxs"
+},
+{
+"type":"text",
+"id": "caption_num2_lineheight",
+"label": "Font Lineheight",
+"default":"1.64",
+"info":"from 1.00"
+},
+{
+"type":"textarea",
+"id": "caption_num2_othercss",
+"label": "Own css",
+"info":"for ex., display: table;padding: 0.1em 0.5em;"
+}
+]
+},
+{
+"type":"right_banner",
+"name":"Banner for side column",
+"limit": 3,
+"settings":[
+{
+"type":"image_picker",
+"id":"image",
+"label":"Image"
+},
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type":"url",
+"id":"link",
+"label":"Collection link"
+},
+{
+"type":"select",
+"id":"link_target",
+"label":"Link Target",
+"default":"_self",
+"options":[
+{
+"value":"_blank",
+"label":"New page"
+},
+{
+"value":"_self",
+"label":"In current page"
+}
+]
+},
+{
+"type":"radio",
+"id":"link_area",
+"label":"Link area",
+"options": [
+{ "value": "all", "label": "All image" },
+{ "value": "button", "label": "Button only" }
+],
+"default":"all"
+},
+{
+"type":"select",
+"id":"col",
+"label":"Column for Mobile",
+"options":[
+{"value":"2","label":"1/6"},
+{"value":"3","label":"1/4"},
+{"value":"4","label":"1/3"},
+{"value":"6","label":"1/2"},
+{"value":"9","label":"2/3"},
+{"value":"12","label":"1"}
+],
+"default":"6"
+},
+{
+"type":"select",
+"id":"col_md",
+"label":"Column for Desktop",
+"options":[
+{"value":"2","label":"1/6"},
+{"value":"3","label":"1/4"},
+{"value":"4","label":"1/3"},
+{"value":"6","label":"1/2"},
+{"value":"9","label":"2/3"},
+{"value":"12","label":"1"}
+],
+"default":"6"
+},
+{
+"type": "select",
+"id": "bnr_text_pos",
+"options": [
+{ "value": "bnr--top bnr--left", "label": "Top/Left"},
+{ "value": "bnr--top bnr--right", "label": "Top/Right"},
+{ "value": "bnr--top bnr--center", "label": "Top/Center"},
+{ "value": "bnr--bottom bnr--left", "label": "Bottom/Left"},
+{ "value": "bnr--bottom bnr--right", "label": "Bottom/Right"},
+{ "value": "bnr--bottom bnr--center", "label": "Bottom/Center"},
+{ "value": "bnr--middle bnr--left", "label": "Middle/Left"},
+{ "value": "bnr--middle bnr--right", "label": "Middle/Right"},
+{ "value": "bnr--middle bnr--center", "label": "Middle/Center"}
+],
+"label": "Text Position (Vertical/Horizontal)",
+"default":"bnr--middle bnr--center"
+},
+{
+"type":"range",
+"id":"bnr_text_paddingh",
+"min":1,
+"max":30,
+"step":1,
+"label":"Text Offset Horizontal",
+"unit":"%",
+"default":4
+},
+{
+"type":"range",
+"id":"bnr_text_paddingv",
+"min":1,
+"max":30,
+"step":1,
+"label":"Text Offset Vertical",
+"unit":"%",
+"default":4
+},
+{
+"type":"range",
+"id":"bnr_maxw",
+"min":30,
+"max":100,
+"step":1,
+"label":"Caption Max width",
+"unit":"%",
+"default":100
+},
+{
+"type":"select",
+"id":"hover",
+"label":"Hover Effect",
+"options":[
+{"value":"none","label":"None"},
+{"value":"bnr-hover-scale","label":"Scale Out"}
+],
+"default":"none"
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"TEXT 1"
+},
+{
+"type": "checkbox",
+"id": "bnr_text",
+"default": true,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_text_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"1"
+},
+{
+"type":"text",
+"id":"bnr_text_text",
+"label":"Text",
+"default":"Text 1"
+},
+{
+"type": "checkbox",
+"id": "bnr_text_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"color",
+"id":"bnr_text_color",
+"label":"Color"
+},
+{
+"type":"color",
+"id":"bnr_text_bgcolor",
+"label":"Background Color"
+},
+{
+"type":"select",
+"id": "bnr_text_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_text_lineheight",
+"min":1,
+"max":2,
+"step":0.1,
+"label":"Line Height",
+"unit":"em",
+"default":1.2
+},
+{
+"type":"range",
+"id":"bnr_text_space",
+"min":0,
+"max":100,
+"step":1,
+"label":"Letter Space",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 0
+},
+{
+"type": "select",
+"id": "bnr_text_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "*Use padding if background color is set"
+},
+{
+"type":"range",
+"id":"bnr_text1_paddingh",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Horizontal",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text1_paddingv",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Vertical",
+"unit":"%",
+"default":0
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"TEXT 2"
+},
+{
+"type": "checkbox",
+"id": "bnr_text2",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_text2_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"2"
+},
+{
+"type":"text",
+"id":"bnr_text2_text",
+"label":"Text",
+"default":"Text 2"
+},
+{
+"type": "checkbox",
+"id": "bnr_text2_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"color",
+"id":"bnr_text2_color",
+"label":"Color"
+},
+{
+"type":"color",
+"id":"bnr_text2_bgcolor",
+"label":"Background Color"
+},
+{
+"type":"select",
+"id": "bnr_text2_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text2_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_text2_lineheight",
+"min":1,
+"max":2,
+"step":0.1,
+"label":"Line Height",
+"unit":"em",
+"default":1.2
+},
+{
+"type":"range",
+"id":"bnr_text2_space",
+"min":0,
+"max":100,
+"step":1,
+"label":"Letter Space",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text2_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 25
+},
+{
+"type": "select",
+"id": "bnr_text2_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "*Use padding if background color is set"
+},
+{
+"type":"range",
+"id":"bnr_text2_paddingh",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Horizontal",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text2_paddingv",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Vertical",
+"unit":"%",
+"default":0
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"TEXT 3"
+},
+{
+"type": "checkbox",
+"id": "bnr_text3",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_text3_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"3"
+},
+{
+"type":"text",
+"id":"bnr_text3_text",
+"label":"Text",
+"default":"Text 2"
+},
+{
+"type": "checkbox",
+"id": "bnr_text3_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"color",
+"id":"bnr_text3_color",
+"label":"Color"
+},
+{
+"type":"color",
+"id":"bnr_text3_bgcolor",
+"label":"Background Color"
+},
+{
+"type":"select",
+"id": "bnr_text3_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text3_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_text3_lineheight",
+"min":1,
+"max":2,
+"step":0.1,
+"label":"Line Height",
+"unit":"em",
+"default":1.2
+},
+{
+"type":"range",
+"id":"bnr_text3_space",
+"min":0,
+"max":100,
+"step":1,
+"label":"Letter Space",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text3_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 25
+},
+{
+"type": "select",
+"id": "bnr_text3_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "*Use padding if background color is set"
+},
+{
+"type":"range",
+"id":"bnr_text3_paddingh",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Horizontal",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text3_paddingv",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Vertical",
+"unit":"%",
+"default":0
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"DISCOUNT"
+},
+{
+"type": "checkbox",
+"id": "bnr_sale",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_sale_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"4"
+},
+{
+"type":"text",
+"id":"bnr_sale_num",
+"label":"Text",
+"default":"25"
+},
+{
+"type":"text",
+"id":"bnr_sale_sup",
+"label":"Text",
+"default":"%"
+},
+{
+"type":"text",
+"id":"bnr_sale_sub",
+"label":"Text",
+"default":"OFF"
+},
+{
+"type":"color",
+"id":"bnr_sale_color",
+"label":"Color"
+},
+{
+"type": "checkbox",
+"id": "bnr_sale_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"select",
+"id": "bnr_sale_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },
+{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_sale_size",
+"min":10,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_sale_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 25
+},
+{
+"type": "select",
+"id": "bnr_sale_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"BUTTON"
+},
+{
+"type": "checkbox",
+"id": "bnr_button",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_button_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"5"
+},
+{
+"type":"select",
+"id":"bnr_button_size",
+"label":"Button Size",
+"options":[
+{"value":"btn-decor","label":"Normal"},
+{"value":"btn-decor btn-decor--xs","label":"Small"}
+],
+"default": "btn-decor"
+},
+{
+"type":"range",
+"id":"bnr_button_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 10
+},
+{
+"type":"text",
+"id":"bnr_button_text",
+"label":"Text",
+"default":"Shop Now"
+},
+{
+"type":"color",
+"id": "bnr_button_color",
+"label": "Color"
+},
+{
+"type":"color",
+"id": "bnr_button_line_color",
+"label": "Line Color"
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"BORDER"
+},
+{
+"type": "checkbox",
+"id": "bnr_border",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"color",
+"id": "bnr_border_color",
+"label": "Color"
+},
+{
+"type":"range",
+"id":"bnr_border_offset",
+"min":0,
+"max":50,
+"step":1,
+"label":"Offset Margin",
+"unit":"%",
+"default": 10
+}
+]
+}
+],
+"presets": [{
+"name": "Slideshow",
+"category": "Slideshow",
+"settings": {
+"autoplay": true,
+"autoplay_speed": "5000"
+},
+"blocks": [
+{
+"type": "image"
+},
+{
+"type": "image"
+}
+]
+}]
+}
+{% endschema %}

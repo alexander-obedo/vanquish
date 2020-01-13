@@ -1,0 +1,18 @@
+{%- assign logo = section.settings.logo -%}
+{% capture logo_alt %}{{ logo.alt | default: shop.name }}{% endcapture %}
+<a href="{{ routes.root_url }}" class="logo">
+    {%- if logo != blank -%}
+        {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+        {% assign logo = section.settings.logo | img_url:'master' %}
+        {% assign logo_2x = section.settings.logo | img_url:'master', scale: 2 %}
+        <img class="lazyload fade-up"
+             src="{{ logo }}"
+             data-srcset="{{ logo }} 1x, {{ logo_2x }} 2x"
+             data-sizes="auto"
+             data-aspectratio="{{ logo.aspect_ratio }}"
+             alt="{{ logo_alt | escape }}"
+             style="max-width: {{ section.settings.logo_max_width }}px;">
+    {%- else -%}
+            {% include 'image-placeholder' size: 'Logo', width: section.settings.logo_max_width, height: '47', nosvg: true %}
+    {%- endif -%}
+</a>

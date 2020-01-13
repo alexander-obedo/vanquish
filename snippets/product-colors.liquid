@@ -1,0 +1,48 @@
+{% if settings.product_previews_colors %}
+    <!-- Color Swatch -->
+    {% assign has_color = false %}
+    {% assign index_color = 0 %}
+    {% for option in product.options %}
+        {% capture downcased_option %}{{ option | downcase }}{% endcapture %}
+        {% if downcased_option contains 'color' %}
+            {% assign has_color = true %}
+            {% assign index_color = forloop.index0 %}
+        {% endif %}
+    {% endfor %}
+    {% if has_color %}
+        {% assign colors_count = 0 %}
+        <ul class="list-options color-swatch prd-hidemobile">
+            {% assign colors = '' %}
+            {% for variant in product.variants %}
+                {% if variant.available %}
+                    {% capture color %}{{ variant.options[index_color] }}{% endcapture %}
+                    {% capture wrapped_color %},{{ color }},{% endcapture %}
+                    {% unless colors contains wrapped_color %}
+                    {% assign colors_count = colors_count | plus: 1 %}
+                    {% if colors_count < 6 %}
+                        {% if variant.image.src %}<li data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}" data-compare-price="{{ variant.compare_at_price }}" data-image="{{ variant.image.src | img_url: grid_image_width, scale: grid_image_scale }}" ><a href="#" class="js-color-toggle" title="{{ color }}">
+                            {% if settings.colorization_type == 'variant' %}
+                                {% assign _img = variant.image %}
+                                {% assign _img_size = '38x' %}
+                                {% if _img %}
+                                    <img class="lazyload blur-up"
+                                         data-src="{{ _img | img_url: _img_size }}"
+                                         data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                         data-sizes="auto"
+                                         alt="{{ color }}">
+                                {%- else -%}
+                                    {% include 'image-placeholder-aspect-ratio', width: 38, height: 45, text: '_' %}
+                                {%- endif -%}
+                            {% else %}
+                                <img src="{{ color | handle | prepend:'color-' | append: '.png' | file_url | downcase }}" alt="{{ color }}">
+                            {% endif %}
+                            </a></li>{% endif %}
+                    {% endif %}
+                    {% capture colors %}{{ colors }}{{ wrapped_color }}{% endcapture %}
+                    {% endunless %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <!-- /Color Swatch -->
+    {% endif %}
+{% endif %}

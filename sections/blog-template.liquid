@@ -1,0 +1,147 @@
+{% paginate blog.articles by section.settings.posts_per_page %}
+
+<div class="block offset-40">
+    <div class="container">
+        <div class="page-title text-center">
+            <div class="title">
+                <h1>
+                        {{ blog.title }}
+                    </h1>
+                {% if current_tags %}
+                <h4>{{ current_tags | join: " + " }}</h4>
+
+                    {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            {% if section.settings.sidebar %}{% assign left_col="col-md-9" %}{% else %}{% assign left_col="col-md-12" %}{% endif %}
+            <div class="{{ left_col }} aside" id="centerColumn">
+                {% for article in blog.articles %}
+                <div class="post-prw-big">
+                    {% if article.image %}
+                        <a href="{{ article.url }}" class="post-img">
+                            {%- assign img_url = article | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                            {%- assign image_alt = article.title | escape -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[900, 1200, 1800]"
+                                 data-aspectratio="{{ article.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ image_alt }}">
+                        </a>
+                    {%- endif -%}
+                    <div class="post-inside">
+                        {% if article.tags.size > 0 %}
+                        <ul class="tags-list post-tags-list">
+                            {% for tag in article.tags %}
+                                <li><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <h2 class="post-title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+                        {% if article.excerpt contains '<p>' %}
+                            {% if article.excerpt.size > 0 %}
+                                {{ article.excerpt | replace:'<p>','<p class="post-teaser">' }}
+                            {% else %}
+                                {{ article.content | strip_html | truncatewords: 100 | replace:'<p>','<p class="post-teaser">' }}
+                            {% endif %}
+                        {% else %}
+                             <p class="post-teaser">
+                                {% if article.excerpt.size > 0 %}
+                                    {{ article.excerpt }}
+                                {% else %}
+                                    {{ article.content | strip_html | truncatewords: 100 }}
+                                {% endif %}
+                             </p>
+                        {% endif %}
+
+                        <div class="post-bot">
+                            <div class="post-date">{{ article.published_at | date: format: "month_day_year" }}</div>
+                            <a href="{{ article.url }}" class="post-link">{{ "blogs.article.read_more" | t }}</a>
+                            <div class="post-action">
+                                {% if blog.comments_enabled? %}
+                                    <span><a href="{{ article.url | append:"#comments" }}">{{ article.comments.size }} {{ "general.theme.comments" | t }}</a></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <div class="empty-category">
+                        <div class="empty-category-text"><span>{{ 'general.theme.sorry' | t }}</span>, {{ 'general.theme.no_posts' | t }}</div>
+                        <div class="empty-category-button "><a href="/blogs/{{ blog.handle }}" class="btn-decor">{{ 'general.theme.clear_all' | t }}</a></div>
+                        <div class="empty-category-icon"><i class="icon-sad-face"></i></div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if section.settings.sidebar %}
+            <div class="col-md-3 aside aside--right" id="sideColumn">
+                {% include "blog-sidebar" %}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if paginate.pages > 1 %}
+            <div class="text-center">
+                {% include "pagination-custom" %}
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endpaginate %}
+{% schema %}
+{
+"name": "Blog page",
+"settings": [
+{
+"type": "paragraph",
+"content": "[Documentation](http://big-skins.com/goodwin/shopify/manuals/#Blog)"
+},
+{
+"type": "header",
+"content": "Layout"
+},
+{
+        "type": "select",
+        "label": "Posts per page",
+        "id":"posts_per_page",
+        "options":[
+            { "value": "1", "label": "1" },
+            { "value": "2", "label": "2" },
+            { "value": "3", "label": "3" },
+            { "value": "4", "label": "4" },
+            { "value": "5", "label": "5" },
+            { "value": "6", "label": "6" },
+            { "value": "7", "label": "7" },
+            { "value": "8", "label": "8" },
+            { "value": "9", "label": "9" },
+            { "value": "10", "label": "10" },
+            { "value": "11", "label": "11" },
+            { "value": "12", "label": "12" },
+            { "value": "13", "label": "13" },
+            { "value": "14", "label": "14" },
+            { "value": "15", "label": "15" },
+            { "value": "16", "label": "16" },
+            { "value": "17", "label": "17" },
+            { "value": "18", "label": "18" },
+            { "value": "19", "label": "19" },
+            { "value": "20", "label": "20" }
+        ],
+        "default":"5"
+    },
+
+    {
+        "type": "checkbox",
+        "id": "sidebar",
+        "label": "Sidebar",
+        "default": true
+    },
+{
+"type": "header",
+"content": "General"
+}
+]
+}
+{% endschema %}

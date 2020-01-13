@@ -1,0 +1,121 @@
+{% unless settings.slides_mode %}
+{% if section.settings.enable %}
+    <div class="holder fullwidth full-nopad py-3 py-md-6 holder-bg-15">
+        <div class="container">
+            <h2 class="h1-style text-center">{{ section.settings.title }}</h2>
+            <div class="row person-row justify-content-center mt-0">
+            {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                <div class="col-6 col-sm-3 col-md-2">
+                    <div class="person-item">
+                        <div class="person-item-image">
+                            {%- assign _img = block.settings.image -%}
+                            {%- assign _img_size = '620x' -%}
+                            {%- if _img -%}
+                                <img class="lazyload blur-up responsive"
+                                     data-src="{{ _img | img_url: _img_size }}"
+                                     data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                     data-aspectratio="{{ _img.aspect_ratio }}"
+                                     data-sizes="auto"
+                                     alt="{{ block.settings.title }}">
+                            {%- else -%}
+                                    {% include 'image-placeholder-aspect-ratio', width: 400, height: 520 %}
+                            {%- endif -%}
+                        </div>
+                        <div class="person-item-title text-uppercase text-center">
+                            {{ block.settings.title }}
+                        </div>
+                        <div class="person-item-post text-uppercase text-center">
+                            {{ block.settings.prof }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endunless %}
+{% schema %}
+{
+"name": "Our Team",
+"class": "index-section",
+"settings": [
+{
+"type": "checkbox",
+"id": "enable",
+"label": "Enable",
+"default": true
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default":"Our Team"
+}
+],
+"blocks":[
+    {
+        "type": "worker",
+        "name": "Worker",
+        "settings": [
+            {
+                "type":"checkbox",
+                "id":"enable",
+                "label":"Enable",
+                "default":true
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Photo",
+                "info": "recommended 400x520px"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label":"Name",
+                "default":"John Doe"
+            },
+            {
+                "type": "text",
+                "id": "prof",
+                "label":"Profession",
+                "default":"dress designer"
+            }
+         ]
+    }
+],
+"presets": [
+{
+"name": "Our Team",
+"category": "About Us",
+"blocks": [
+{
+"type": "worker"
+},
+{
+"type": "worker"
+},
+{
+"type": "worker"
+},
+{
+"type": "worker"
+},
+{
+"type": "worker"
+},
+{
+"type": "worker"
+}
+]
+}
+]
+}
+{% endschema %}

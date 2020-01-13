@@ -1,0 +1,139 @@
+{% layout none %}
+{% assign product_image_size = section.settings.product_image_size %}
+{% assign product_options = settings.product_options %}
+{% if product.metafields.c_f.product_image_size != blank %}{% assign product_image_size = product.metafields.c_f.product_image_size %}{% endif %}
+{% if product.metafields.c_f.product_options != blank %}{% assign product_options = product.metafields.c_f.product_options %}{% endif %}
+{% assign sold_out = true %}
+{% if product.available %}
+    {% assign sold_out = false %}
+{% endif %}
+{% assign on_sale = false %}
+{% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+    {% assign on_sale = true %}
+{% endif %}
+
+{% assign show_label_sale = settings.qv_show_label_sale %}
+{% assign show_label_new = settings.qv_show_label_new %}
+{% assign product_sku = settings.product_sku %}
+{% assign product_availability = settings.product_availability %}
+{% assign product_inventory_count = settings.product_inventory_count %}
+
+<div class="modal--quickview">
+    <div class="modal-header">
+        <div class="modal-header-title">{{ 'general.theme.quick_view' | t }}</div>
+    </div>
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="prd-block" id="prdGalleryModal">
+                <div class="prd-block_info">
+                    <div class="prd-block_info-row info-row-1 mb-md-1">
+                        <div class="info-row-col-1"><h1 class="prd-block_title"><a title="{{ product.title }}" href="{{ product.url | within: collection }}">{{ product.title }}</a></h1></div>
+                        <div class="info-row-col-2">
+                            <div>
+                                {% if product_sku and product.selected_or_first_available_variant.sku.size > 0 %}
+                                    <div class="product-sku">{{ 'general.theme.sku' | t }}: <span>{{ product.selected_or_first_available_variant.sku }}</span></div>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if on_sale or show_label_sale or new == 1 and show_label_new %}
+                                    <div class="prd-block__labels">
+                                        {% if on_sale and show_label_sale %}<span class="prd-label--sale">{{ 'products.product.sale' | t }}</span>{% endif %}
+                                        {% for tag in product.tags %}{% if tag == 'new' %}{% assign new = 1 %}{% endif %} {% endfor %}
+                                        {% if new == 1  and show_label_new %}<span class="prd-label--new">{{ 'general.theme.new' | t }}</span>{% endif %}
+                                    </div>
+                                {% endif %}
+                                <div class="prd-block_link">
+                                    {% if settings.wishlist %}<a href="/account" class="icon-heart-1"></a>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prd-block_info-row info-row-2">
+                        {% form 'product', product %}
+                        <div class="info-row-col-3">
+                            <div class="prd-block_price">
+                                {% capture price %}{{ product.selected_or_first_available_variant.price | money }}{% endcapture %}
+                                <span class="prd-block_price--actual">{% if product.price_varies %}{{ 'products.general.from_html' | t: price: price }}{% else %}{{ price }}{% endif %}</span>
+                                {% if on_sale %}
+                                    <span class="prd-block_price--old">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="info-row-col-4">
+                                <div class="prd-block_price">
+                                    {% capture price %}{{ product.selected_or_first_available_variant.price | money }}{% endcapture %}
+                                    <span class="prd-block_price--actual">{% if product.price_varies %}{{ 'products.general.from_html' | t: price: price }}{% else %}{{ price }}{% endif %}</span>
+                                    {% if on_sale %}
+                                        <span class="prd-block_price--old">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+                                    {% endif %}
+                                </div>
+                           {% if product.available %}
+                                <div class="prd-block_qty">
+                                    <span class="option-label">{{ 'general.theme.qty' | t }}:</span>
+                                    <div class="qty qty-changer qty-changer--lg">
+                                        <fieldset>
+                                            <input type="button" value="&#8210;" class="decrease">
+                                            <input type="text" class="qty-input" name="quantity" value="1" data-min="1" {% if product.selected_or_first_available_variant.inventory_management == "shopify" and product.selected_or_first_available_variant.inventory_quantity > 0 and product.selected_or_first_available_variant.inventory_policy == 'deny' %}data-max="{{ product.selected_or_first_available_variant.inventory_quantity }}"{% endif %}>
+                                            <input type="button" value="+" class="increase">
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+
+
+                                {% if product.options[0] contains 'Title' and product.metafields.c_f.line_properties == blank %}
+                                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" />
+                                {% endif %}
+
+                                {% if product.options[0] contains 'Title' and product.metafields.c_f.line_properties == blank %}
+
+                                {% else %}
+                                    <div class="prd-block_options">
+                                        <div class="form-group select-wrapper-sm">
+                                            {% include 'product-select-variant' %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            <div class="prd-block_actions">
+                                <div class="btn-wrap">
+                                    {% capture status %}{{ 'general.theme.add_to_cart' | t }}{% endcapture %}
+                                    {% if product.selected_or_first_available_variant.inventory_management == "shopify" and product.selected_or_first_available_variant.inventory_quantity < 1 and product.selected_or_first_available_variant.inventory_policy == "continue" %}
+                                        {% capture status %}{{ 'general.theme.pre_order' | t }}{% endcapture %}
+                                    {% endif %}
+                                    <button class="btn btn--animate btn--add-to-cart-sm  js-add-to-cart-product-page"  data-variant-id="{{ product.selected_or_first_available_variant.id }}" title="{{ status }}"><span class="text-sent">{{ 'general.theme.added_to_cart' | t }}</span><i class="icon icon-handbag"></i><span>{{ status }}</span></button>
+                                </div>
+                            </div>
+                           {% endif %}
+                        </div>
+                        {% endform %}
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="prd-block_info js-prd-m-holder"></div>
+                <!-- Product Gallery -->
+                <div class="product-previews-wrapper {% if section.settings.always_visible_previews %}always-visible{% endif %}">
+                    <div class="product-quickview-carousel slick-arrows-aside-simple js-product-quickview-carousel">
+                        {% for image in product.images %}
+                            {% unless image.alt contains 'video:' %}
+                            <div><a href="{{ image.src | img_url: 'master' }}" data-fancybox="galleryQW" data-caption="{{ image.alt | escape }}" data-image="{{ image.src | img_url: 'master' }}" data-zoom-image="{{ image.src | img_url: 'master' }}"><img src="{{ image.src | img_url: '260x', scale:'2' }}" alt="{{ image.alt }}" /></a></div>
+                            {% endunless %}
+                        {% endfor %}
+                    </div>
+                    <div class="gdw-loader"></div>
+                </div>
+                <!-- /Product Gallery -->
+                {% assign product_description = product.description %}
+                {% if product_description != blank %}
+                <div class="mt-3 mt-md-4">
+                    <h2>{{ 'general.theme.tab_description' | t }}</h2>
+                    {{ product_description }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

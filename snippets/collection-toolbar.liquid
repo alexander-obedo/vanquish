@@ -1,0 +1,84 @@
+{% assign t_item =  'general.theme.item' | t %}
+{% assign t_items = 'general.theme.items_c' | t %}
+<!-- Filter Row -->
+<div class="filter-row invisible">
+  <div class="row row-1 d-lg-none align-items-center">
+    {% unless collection.image and settings.collection_image_enable %}
+    <div class="col">
+      <h1 class="category-title">{{ collection.title }}</h1>
+    </div>
+    {% endunless %}
+    <div class="{% if collection.image and settings.collection_image_enable %}w-100 text-center{% else %}col-auto ml-auto{% endif %}">
+      <div class="view-in-row d-md-none">
+        <span data-view="data-to-show-sm-1"><i class="icon icon-view-1"></i></span>
+        <span data-view="data-to-show-sm-2"><i class="icon icon-view-2"></i></span>
+      </div>
+      <div class="view-in-row d-none d-md-inline">
+        <span data-view="data-to-show-md-2"><i class="icon icon-view-2"></i></span>
+        <span data-view="data-to-show-md-3"><i class="icon icon-view-3"></i></span>
+      </div>
+    </div>
+  </div>
+  <div class="row row-2">
+    <div class="col-left d-flex">
+      <div class="sort-by-holder">
+        <div class="select-label d-none d-lg-inline">{{ 'collections.sorting.title' | t }}:</div>
+        <div class="select-wrapper-sm d-none d-lg-inline-block">
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          <select class="form-control input-sm sort-by-js"  name="sort_by">
+            <option value="manual" {% if sort_by contains "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+            <option value="best-selling"{% if sort_by contains "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+            <option value="title-ascending" {% if sort_by contains "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+            <option value="title-descending" {% if sort_by contains "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+            <option value="price-ascending" {% if sort_by contains "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+            <option value="price-descending" {% if sort_by contains "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+            <option value="created-descending" {% if sort_by contains "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+            <option value="created-ascending" {% if sort_by contains "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+          </select>
+        </div>
+
+        <div class="dropdown d-flex d-lg-none align-items-center justify-content-center">
+          <span class="select-label">{{ 'general.theme.sort_by' | t }}</span>
+          <div class="select-wrapper-sm">
+            <select class="form-control input-sm sort-by-js"  name="sort_by">
+              <option value="manual" {% if sort_by contains "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+              <option value="best-selling"{% if sort_by contains "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+              <option value="title-ascending" {% if sort_by contains "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+              <option value="title-descending" {% if sort_by contains "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+              <option value="price-ascending" {% if sort_by contains "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+              <option value="price-descending" {% if sort_by contains "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+              <option value="created-descending" {% if sort_by contains "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+              <option value="created-ascending" {% if sort_by contains "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="filter-button d-lg-none">
+        <a href="#" class="fixed-col-toggle">{{ 'collections.toolbar.filter' | t }}</a>
+      </div>
+    </div>
+    <div class="col col-center text-center d-none d-lg-flex align-items-center justify-content-center">
+      <div class="view-label">{{ 'general.theme.view' | t }}:</div>
+      <div class="view-in-row">
+        <span data-view="data-to-show-2"><i class="icon icon-view-2"></i></span>
+        <span data-view="data-to-show-3"><i class="icon icon-view-3"></i></span>
+        <span data-view="data-to-show-4"><i class="icon icon-view-4"></i></span>
+      </div>
+    </div>
+    <div class="col-right ml-auto d-none d-lg-flex align-items-center toolbar-selected">
+      <div class="items-count">{{ paginate.items }} {{ paginate.items | pluralize: t_item, t_items }}</div>
+      <div class="show-count-holder">
+        <div class="select-label">{{ 'collections.toolbar.show' | t }}:</div>
+        <div class="select-wrapper-sm">
+          <select class="form-control input-sm" name="view">
+            <option value="12" {% if template contains '12' %}selected="selected"{% endif %}>12</option>
+            <option value="24" {% if template contains '24' %}selected="selected"{% endif %}>24</option>
+            <option value="36" {% if template contains '36' %}selected="selected"{% endif %}>36</option>
+            <option value="50" {% if template contains '50' %}selected="selected"{% endif %}>50</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Filter Row -->

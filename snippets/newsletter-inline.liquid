@@ -1,0 +1,21 @@
+<div class="holder bgcolor bgcolor-2 py-5 mt-0">
+  <div class="container">
+    <div class="subscribe-form subscribe-form--style1">
+      {% form 'customer', id:'footer-subsribe' %}
+        <div class="form-inline">
+        {% if form.posted_successfully? %}
+          <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+        {% else %}
+            <div class="subscribe-form-title">{{ settings.newsletter_title }}:</div>
+          	<div class="form-control-wrap">
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <input type="email" name="contact[email]"  class="form-control" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.theme.enter_email' | t }}"  >
+              {{ form.errors | default_errors }}
+          	</div>
+          	<button type="submit" class="btn-decor">{{ 'general.theme.subscribe' | t }}</button>
+            {% endif %}
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>

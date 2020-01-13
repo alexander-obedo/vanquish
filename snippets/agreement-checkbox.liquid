@@ -1,0 +1,6 @@
+{%- if settings.agreement_checkout_yes -%}
+<div class="agreementCheckbox-wrap">
+    <input id="{{ name }}" class="js-agreement-checkbox" data-button="{{ button }}" name="{{ name }}" type="checkbox">
+    <label for="{{ name }}"><a data-fancybox data-src="#modalPrivacy" data-options='{"touch" : false}'>I agree to the terms of service</a></label>
+</div>
+{%- endif -%}

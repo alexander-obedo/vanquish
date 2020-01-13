@@ -1,0 +1,28 @@
+{% if collection_custom_image %}
+  {%- assign collection_image = collection_custom_image -%}
+{% elsif collection.image %}
+  {%- assign collection_image = collection.image -%}
+{% elsif collection.products.first and collection.products.first.images != empty %}
+  {%- assign collection_image = collection.products.first.featured_image -%}
+{% else %}
+  {% assign collection_image = blank %}
+{% endif %}
+<div class="collection-item zoom-out">
+  <div class="collection-item-img" {% unless section.settings.collection_image_height_d == "" %}style='height:{{ section.settings.collection_image_height_d | floor }}px'{% endunless %}>
+    <a href="{{ collection.url }}" style='background-image: url({{ collection_image | img_url: collection_image_size }})'>
+      <span class="collection-item-hover">
+        <span>
+          {% if section.settings.show_vendor %}
+          {% for product_vendor in collection.all_vendors limit:12 %}
+          <span>{{ product_vendor }}</span>
+          {% endfor %}
+          {% endif %}
+        </span>
+      </span>
+    </a>
+  </div>
+  <h3 class="collection-item-title"><a href="{{ collection.url }}">{{ collection.title }}</a></h3>
+  {% assign t_item =  'general.theme.item' | t %}
+  {% assign t_items = 'general.theme.items_c' | t %}
+  <p>{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: t_item, t_items }}</p>
+</div>

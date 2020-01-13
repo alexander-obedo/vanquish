@@ -1,0 +1,16 @@
+{% if settings.checkout_popup_free_shipping_yes %}
+    <div class="free-shipping hidden">
+        <div class="free-shipping-progress progress">
+            <div class="free-shipping-progress-bar progress-bar progress-bar-striped active"></div>
+        </div>
+        <div class="free-shipping-text js-free-shipping-text" data-count="{{ settings.checkout_popup_free_shipping_count }}">{{ settings.checkout_popup_free_condition_text }} ({{ 'general.theme.free_shipping_from' | t }} {{ settings.checkout_popup_free_shipping_count | times:100 | money }}).</div>
+        <div class="hidden js-free-shipping-alert">{{ 'general.theme.congrats' | t }}</div>
+    </div>
+    <script>
+        $(function(){
+            setTimeout(function(){
+                freeShippingInit();
+            },500)
+        })
+    </script>
+{% endif %}

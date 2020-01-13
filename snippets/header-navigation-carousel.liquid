@@ -1,0 +1,23 @@
+<h4 class="text-center submenu-title">{{  collection.title }}</h4>
+<div class="prd-carousel-menu" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "arrows": true}'>
+    {% for product in collection.products limit: 4 %}
+        <div class="prd-sm">
+            <a href="{{ product.url }}" class="prd-img">
+                {% assign _img = product.featured_image %}
+                {% if _img %}
+                    <img class="lazyload blur-up"
+                         data-src="{{ _img | img_url: '267x' }}"
+                         data-aspectratio="{{ _img.aspect_ratio }}"
+                         data-sizes="auto"
+                         alt="{{ _img.alt | escape }}">
+                {%- else -%}
+                    {% include 'image-placeholder-aspect-ratio', width: 267, height: 315 %}
+                {%- endif -%}
+            </a>
+            <div class="prd-info">
+                <h2  class="prd-title"><a href="{{ product.url | within:collection }}" title="{{ product.title }}">{{ product.title  | truncate: 35 }}</a></h2>
+                {% include 'product-card-price' %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

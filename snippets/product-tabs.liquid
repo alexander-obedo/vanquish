@@ -1,0 +1,50 @@
+<div class="holder mt-5 global_width">
+    <div class="container">
+        <ul class="nav nav-tabs product-tab {{ style }}">
+        {% for block in section.blocks %}
+            {% if block.settings.enable %}
+                {% if  block.type == 'tab_page'%}
+                    <li><a href="#Tab{{ block.id }}" data-toggle="tab">{{ pages[block.settings.page].title }}</a></li>
+                {% elsif  block.type == 'tab_metafield' %}
+                    {% assign tab_metafield = product.metafields.c_f[block.settings.title] %}
+                    {% if tab_metafield != blank %}
+                        <li><a href="#Tab{{ block.id }}" data-toggle="tab">{{ tab_metafield }}</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="#Tab{{ block.id }}" data-toggle="tab">{{ block.settings.title }}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                        {% case block.type  %}
+                            {% when 'tab_description' %}
+                                {% assign product_description = product.description %}
+                                <div role="tabpanel" class="tab-pane fade" id="Tab{{ block.id }}">{{ product_description }}</div>
+                            {% when 'tab_page' %}
+                        <div role="tabpanel" class="tab-pane fade" id="Tab{{ block.id }}">{{ pages[block.settings.page].content }}</div>
+                            {% when 'tab_tags' %}
+                            <div role="tabpanel" class="tab-pane fade" id="Tab{{ block.id }}"><ul class="tags-list">
+                                    {% for tag in product.tags %}
+                                        <li><a href="/collections/all/{{ tag | handle }}">{{ tag }}</a></li>
+                                    {% endfor %}
+                                </ul></div>
+                            {% when 'tab_reviews' %}
+                                <div role="tabpanel" class="tab-pane fade" id="Tab{{ block.id }}">{% include 'reviews-shortcode' %}</div>
+                            {% when 'tab_metafield' %}
+                                {% assign tab_metafield = product.metafields.c_f[block.settings.title] %}
+                                {% if tab_metafield != blank %}
+                                    <div role="tabpanel" class="tab-pane fade" id="Tab{{ block.id }}">
+                                        {% assign x = block.settings.title | replace:'title','content' %}
+                                        {% assign x_content = product.metafields.c_f[x] %}
+                                        {{ x_content }}
+                                    </div>
+                                {% endif %}
+                        {% endcase %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

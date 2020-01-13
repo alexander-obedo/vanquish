@@ -1,0 +1,17 @@
+{% if product_limit == blank %}{% assign product_limit = block.settings.limit %}{% endif %}
+{% if collection == blank %}{% assign collection = block.settings.collection %}{% endif %}
+{% assign collectionDrop = collections[collection] %}
+<div class="single-prd-carousel data-slick"
+     data-slick='{"slidesToShow": 1, "dots": true, "arrows": false, "adaptiveHeight": false}'>
+    {% for product in collectionDrop.products limit: product_limit %}
+        {% include 'product-card' quick_view_in_mobile:1 %}
+    {% else %}
+        <div class="alert alert-warning">
+            To Init <b>Product's carousel</b>:<br />
+            1.<b>Choose Collection</b><br />
+            2.<b>Save</b>
+        </div>
+    {% endfor %}
+</div>
+{% assign product_limit = '' %}
+{% assign collection = '' %}

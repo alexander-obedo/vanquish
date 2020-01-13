@@ -1,0 +1,72 @@
+<div class="product-options topline id_{{ product.id }} {{ product_options }} {% if product.variants.size == 1 %}product-no-options no-border{% endif %}">
+    {% unless product.has_only_default_variant %}
+        {% if section.settings.options_style == 'dropdowns' %}
+            <div class="prd-block_options prd-block_options--select">
+                {% for option in product.options_with_values %}
+                    <div class="prd-block_options-item">
+                        <div class="option-label" for="SingleOptionSelector-{{ forloop.index0 }}">{{ option.name }}:</div>
+                        <div class="form-group select-wrapper select-wrapper--sm">
+                            <select class="form-control form-control--sm single-option-selector-{{ section.id }}" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                                {% for value in option.values %}
+                                    <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="prd-block_options">
+                {% for option in product.options_with_values %}
+                    <div class="prd-size swatches">
+                        <div class="option-label">{{ option.name }}:</div>
+                        <select class="form-control hidden single-option-selector-{{ section.id }}" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                            {% for value in option.values %}
+                                <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                        {%- if section.settings.color_options_name == option.name and section.settings.color_swatches_style != 'default' -%}
+                            {%- case section.settings.color_swatches_style -%}
+                            {%- when 'variants' -%}
+                            <ul class="color-list color-variants js-size-list" data-select-id="SingleOptionSelector-{{ forloop.index0 }}">
+                                {% for value in option.values %}
+                                    <li {% if option.selected_value == value %} class="active"{% endif %}>
+                                        <a href="#" data-value="{{ value | escape }}" data-toggle="tooltip" data-placement="top" title="{{ value | escape }}"><span class="value" style="min-width: {{ section.settings.swatches_width }}px;">{% render 'getFirstVariantImageByColorName' product:product, value:value, option:option %}</span></a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            {%- when 'colorpics' -%}
+                            <ul class="color-list js-size-list" data-select-id="SingleOptionSelector-{{ forloop.index0 }}">
+                                {% for value in option.values %}
+                                    <li {% if option.selected_value == value %} class="active"{% endif %}>
+                                        <a href="#" data-value="{{ value | escape }}" data-toggle="tooltip" data-placement="top" title="{{ value | escape }}"><span class="value" style="width: {{ section.settings.swatches_width }}px;"><img data-src="{{ value | handle | prepend:'color-' | append: '.png' | file_url | downcase }}" class="lazyload" alt=""></span></a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            {%- endcase -%}
+                        {%- else -%}
+                            <ul class="size-list js-size-list" data-select-id="SingleOptionSelector-{{ forloop.index0 }}">
+                                {% for value in option.values %}
+                                    <li {% if option.selected_value == value %} class="active"{% endif %}><a href="#" data-value="{{ value | escape }}"><span class="value">{{ value }}</span></a></li>
+                                {% endfor %}
+                            </ul>
+                        {%- endif -%}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endunless %}
+    <select name="id" id="ProductSelect-{{ section.id }}" class="d-none no-js">
+        {% for variant in product.variants %}
+            {% assign variant_on_sale = false %}
+            {% if variant.compare_at_price > variant.price %}
+                {% assign variant_on_sale = true %}
+            {% endif %}
+            {% if variant.available %}
+                <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}"> {{ variant.title }} </option>
+            {% else %}
+                <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>

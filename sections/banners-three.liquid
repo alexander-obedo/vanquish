@@ -1,0 +1,213 @@
+{% unless settings.slides_mode %}
+<div class="holder {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="row collection-carousel data-slick slick-arrows-squared" data-slick='{"slidesToShow": 3, "responsive": [{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 992,"settings": {"slidesToShow": 3}},{"breakpoint": 768,"settings": {"slidesToShow": 2}},{"breakpoint": 480,"settings": {"slidesToShow": 1}}]}'>
+            <div class="col-sm-4">
+                <div class="bnr collection-carousel-item">
+                    <div class="image-hover img-zoom-out">
+                        {% assign _img = section.settings.image_1 %}
+                        {%- assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[540, 720, 900]"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ section.settings.title_1 }}">
+                        {%- else -%}
+                            <div style="width: 400px; max-width: 100%;">
+                                {% include 'image-placeholder-aspect-ratio', width: 400, height: 665 %}
+                            </div>
+                        {%- endif -%}
+                    </div>
+                    <div class="collection-carousel-title-lg flex-column justify-content-end align-items-center">
+                        <span {% if section.settings.color_1 != blank %}style="color: {{ section.settings.color_1 }}"{% endif %}>{{ section.settings.title_1 }}</span>
+                        <a href="{{ section.settings.link_1 }}" class="btn-decor bnr-btn btn-decor--xs btn-decor--whiteline" {% if section.settings.color_1 != blank %}style="color: {{ section.settings.color_1 }}"{% endif %}>{{ section.settings.link_1_title }}<span class="btn-line" {% if section.settings.color_1 != blank %}style="background: {{ section.settings.color_1 }}"{% endif %}></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="bnr collection-carousel-item collection-carousel-item--darktext">
+                    <div class="image-hover img-zoom-out">
+                        {% assign _img = section.settings.image_2 %}
+                        {%- assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[540, 720, 900]"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ section.settings.title_2 }}">
+                        {%- else -%}
+                            <div  style="width: 400px; max-width: 100%;">
+                            {% include 'image-placeholder-aspect-ratio', width: 400, height: 665 %}
+                        </div>
+                        {%- endif -%}
+                    </div>
+                    <div class="collection-carousel-title-lg flex-column justify-content-end align-items-center">
+                        <span {% if section.settings.color_2 != blank %}style="color: {{ section.settings.color_2 }}"{% endif %}>{{ section.settings.title_2 }}</span>
+                        <a href="{{ section.settings.link_2 }}" class="btn-decor bnr-btn btn-decor--xs btn-decor--darkline" {% if section.settings.color_2 != blank %}style="color: {{ section.settings.color_2 }}"{% endif %}>{{ section.settings.link_2_title }}<span class="btn-line" {% if section.settings.color_2 != blank %}style="background: {{ section.settings.color_2 }}"{% endif %}></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="bnr collection-carousel-item">
+                    <div class="image-hover img-zoom-out">
+                        {% assign _img = section.settings.image_3 %}
+                        {%- assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[540, 720, 900]"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ section.settings.title_3 }}">
+                        {%- else -%}
+                            <div  style="width: 400px; max-width: 100%;">
+                                {% include 'image-placeholder-aspect-ratio', width: 400, height: 665 %}
+                            </div>                        {%- endif -%}
+                    </div>
+                    <div class="collection-carousel-title-lg flex-column justify-content-end align-items-center">
+                        <span {% if section.settings.color_3 != blank %}style="color: {{ section.settings.color_3 }}"{% endif %}>{{ section.settings.title_3 }}</span>
+                        <a href="{{ section.settings.link_3 }}" class="btn-decor bnr-btn btn-decor--xs btn-decor--whiteline" {% if section.settings.color_3 != blank %}style="color: {{ section.settings.color_3 }}"{% endif %}>{{ section.settings.link_3_title }}<span class="btn-line" {% if section.settings.color_3 != blank %}style="background: {{ section.settings.color_3 }}"{% endif %}></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Banners Three",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "Banner 1"
+},
+{
+"type": "image_picker",
+"id": "image_1",
+"label": "Image",
+"info":"recommended width 400x667px"
+},
+{
+"type": "text",
+"id": "title_1",
+"label": "Title",
+"default":"CLOTHES"
+},
+{
+"type": "text",
+"id": "link_1_title",
+"label": "Link title",
+"default":"Shop Now"
+},
+{
+"type": "url",
+"id": "link_1",
+"label": "Link"
+},
+{
+"type":"color",
+"id":"color_1",
+"label":"Text Color"
+},
+{
+"type": "header",
+"content": "Banner 2"
+},
+{
+"type": "image_picker",
+"id": "image_2",
+"label": "Image",
+"info":"recommended width 400x667px"
+},
+{
+"type": "text",
+"id": "title_2",
+"label": "Title",
+"default":"SHOES"
+},
+{
+"type": "text",
+"id": "link_2_title",
+"label": "Link title",
+"default":"Shop Now"
+},
+{
+"type": "url",
+"id": "link_2",
+"label": "Link"
+},
+{
+"type":"color",
+"id":"color_2",
+"label":"Text Color"
+},
+{
+"type": "header",
+"content": "Banner 3"
+},
+{
+"type": "image_picker",
+"id": "image_3",
+"label": "Image",
+"info":"recommended width 400x667px"
+},
+{
+"type": "text",
+"id": "title_3",
+"label": "Title",
+"default":"ACCESSORIES"
+},
+{
+"type": "text",
+"id": "link_3_title",
+"label": "Link title",
+"default":"Shop Now"
+},
+{
+"type": "url",
+"id": "link_3",
+"label": "Link"
+},
+{
+"type":"color",
+"id":"color_3",
+"label":"Text Color"
+}
+],
+"presets": [
+{
+"name": "Banners Three",
+"category": "Banners"
+}
+]
+}
+{% endschema %}

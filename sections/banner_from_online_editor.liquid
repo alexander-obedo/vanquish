@@ -1,0 +1,40 @@
+{% unless settings.slides_mode %}
+{% if section.settings.enable %}{{ section.settings.html }}{% endif %}
+{% endunless %}
+{% schema %}
+{
+"name": "Banners - Online Editor",
+"class": "index-section",
+"settings": [
+{
+"type": "checkbox",
+"id": "enable",
+"label": "Enable",
+"default": true
+},
+
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Banners From Online Editor"
+},
+{
+"type":"textarea",
+"id":"html",
+"label":"Paste generated html here",
+"info":"Generate banners [on our online service](http://frontend.big-skins.com/goodwin-html/banners-generator). (IF YOU USE T-SHIRTs SKIN then add class 'fullboxed'. For example, instead of <div class=\"holder ..\" write <div class=\"holder fullboxed ..\"  Some generated grids of banners have more then one holder, that is why search this class 'holder' with browser search in the textarea)"
+}
+],
+"presets": [
+{
+"name": "Banners From Online Editor",
+"category": "Banners"
+}
+]
+}
+{% endschema %}

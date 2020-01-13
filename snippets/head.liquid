@@ -1,0 +1,137 @@
+<!-- Basic page needs ================================================== -->
+<meta charset="utf-8">
+{% assign favicon = settings.favicon %}
+{% if favicon != blank %}
+    {% capture favicon_url %}{{ favicon | img_url }}{% endcapture %}
+{% else %}
+    {% capture favicon_url %}{{ 'favicon.ico' | asset_url }}{% endcapture %}
+{% endif %}
+<link rel="icon" href="{{ favicon_url }}"  />
+<!-- Goodwin Version 2.0 -->
+{% capture seo_title %} {{ page_title }} {% if current_tags %} {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}} {% endif %} {% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }} {% endif %}
+    {% unless page_title contains shop.name %} &ndash; {{ shop.name }} {% endunless %}
+{% endcapture %}
+<title>{{ seo_title }}</title>
+{% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+{% endif %}
+<!-- Social meta ================================================== -->
+{% include 'social-meta-tags' %}
+<!-- Helpers ================================================== -->
+<link rel="canonical" href="{{ canonical_url }}">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<!-- Vendor CSS -->
+{{ 'styles-vendor.min.css' | asset_url | stylesheet_tag }}
+{{ 'style.css' | asset_url | stylesheet_tag }}
+<!--icon font-->
+{{ 'icomoon.css' | asset_url | stylesheet_tag }}
+<!-- Custom + rtl -->
+{% if settings.rtl or template contains 'rtl'%}{{ 'style-rtl.css' | asset_url | stylesheet_tag }}{% endif %}
+    {% if demo %}
+        {% if skin != blank %}
+            {{ skin | asset_url | stylesheet_tag }}
+        {% else %}
+            {% if color_mode contains 'dark' %}{{ 'style-dark.css' | asset_url | stylesheet_tag }}{% else %}{{ 'style-light.css' | asset_url | stylesheet_tag }}{% endif %}
+        {% endif %}
+    {% else %}
+        {% if color_mode contains 'dark' %}{{ 'style-theme-dark.scss.css' | asset_url | stylesheet_tag }}{% else %}{{ 'style-theme-light.scss.css' | asset_url | stylesheet_tag }}{% endif %}
+    {% endif %}
+<!-- Custom styles for this template -->
+<noscript id="deferred-styles" >
+    {% if home and slides_mode %}
+        {{ 'fullpage.css' | asset_url | stylesheet_tag }}
+        {{ 'perfect-scrollbar.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {{ 'animate.min.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
+    <!--custom font-->
+    {% include 'google-fonts' %}
+</noscript >
+<script>
+	var loadDeferredStyles = function() {
+		var addStylesNode = document.getElementById("deferred-styles");
+		var replacement = document.createElement("div");
+		replacement.innerHTML = addStylesNode.textContent;
+		document.body.appendChild(replacement)
+		addStylesNode.parentElement.removeChild(addStylesNode);
+//		document.getElementById('body').style.opacity = "1";
+	};
+	var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+		window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+	if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+	else window.addEventListener('load', loadDeferredStyles);
+</script>
+<script>
+	window.lazySizesConfig = window.lazySizesConfig || {};
+	window.lazySizesConfig.expand = 300;
+	window.lazySizesConfig.expFactor = 1.4;
+</script>
+{% comment %}
+{{ 'jquery.min.js' | asset_url | script_tag | replace:'type="text/javascript"','' }}
+{{ 'lazysizes.js' | asset_url | script_tag | replace:'type="text/javascript"','' }}
+{{ 'jquery.cookie.min.js' | asset_url | script_tag | replace:'type="text/javascript"','' }}
+{% endcomment %}
+{{ 'vendor-head.min.js' | asset_url | script_tag | replace:'type="text/javascript"','' }}
+<script>
+	var price_format = "{{ shop.money_with_currency_format | strip | remove:'"' }}";
+	var moneyFormat = {{ shop.money_format | json }};
+	locale = [];
+	window.shopCurrency = "{{ shop.currency }}";
+	window.supported_currencies = "{{ settings.supported_currencies }}";
+	checkout_popup_free_shipping_count = {{ settings.checkout_popup_free_shipping_count }};
+	checkout_popup_free_shipping_yes = {{ settings.checkout_popup_free_shipping_yes }};
+	free_shipping_header_cart_yes = {{ settings.free_shipping_header_cart_yes }};
+	locales={
+		recently_added_items:"{{ 'general.theme.recently_added_items' | t }}",
+		no_items_in_cart:"{{ 'general.theme.no_items_in_cart' | t }}",
+		remove:"{{ 'cart.general.remove' | t }}",
+		edit:"{{ 'general.theme.edit' | t }}",
+		price:"{{ 'general.theme.price' | t }}",
+		empty_minicart_text_1:"{{ 'general.theme.empty_minicart_text_1' | t }}",
+		empty_minicart_text_2:"{{ 'general.theme.empty_minicart_text_2' | t }}",
+		empty_minicart_text_3:"{{ 'general.theme.empty_minicart_text_3' | t }}",
+		recently_added_items:"{{ 'general.theme.recently_added_items' | t }}",
+		subtotal:"{{ 'cart.general.subtotal' | t }}",
+		go_to_checkout:"{{ 'general.theme.go_to_checkout' | t }}",
+		view_cart:"{{ 'general.theme.view_cart' | t }}",
+		qty:"{{ 'cart.label.quantity' | t }}",
+		apply:"{{ 'general.theme.apply' | t }}",
+		added:"{{ 'general.theme.added' | t }}",
+		add_to_cart:"{{ 'products.product.add_to_cart' | t }}",
+		adding:"{{ 'general.theme.adding' | t }}",
+		days:"{{ 'general.theme.days' | t }}",
+		hrs:"{{ 'general.theme.hrs' | t }}",
+		min:"{{ 'general.theme.min' | t }}",
+		sec:"{{ 'general.theme.sec' | t }}",
+		inventory_error:"{{ 'general.theme.inventory_error' | t }}",
+		checkout_popup_free_condition_text:'{{ settings.checkout_popup_free_condition_text }}',
+		free_shipping_from:"{{ 'general.theme.free_shipping_from' | t }}",
+		congrats:"{{ 'general.theme.congrats' | t }}",
+		out_of_stock:"{{ 'general.theme.out_of_stock' | t }}",
+		in_stock:"{{ 'general.theme.in_stock' | t }}",
+		pre_order:"{{ 'general.theme.pre_order' | t }}",
+		select_the_variant:"{{ 'general.theme.select_the_variant' | t }}",
+		you_save:"{{ 'general.theme.you_save' | t }}"
+	}
+
+	window.js_helper = {};
+	js_helper = {
+		strings: {
+			addToCart: {{ 'products.product.add_to_cart' | t | json }},
+			soldOut: {{ 'products.product.sold_out' | t | json }},
+			in_stock:{{ 'general.theme.in_stock' | t | json }},
+			unavailable: {{ 'products.product.unavailable' | t | json }},
+			regularPrice: {{ 'products.product.regular_price' | t | json }},
+			salePrice: {{ 'products.product.sale_price' | t | json }},
+			sale: {{ 'products.product.on_sale' | t | json }},
+			adding: {{ 'general.theme.adding' | t | json }},
+			added: {{ 'general.theme.added' | t | json }},
+			error: {{ 'theme.add_to_cart.error' | t | json }},
+			remove: {{ 'cart.general.remove' | t | json }},
+			quantity: {{ 'cart.label.quantity' | t | json }}
+		},
+		moneyFormat: {{ shop.money_format | json }},
+		moneyFormatWithCurrency: {{ shop.money_with_currency_format | json }},
+		cart: {{ cart | json }}
+	}
+</script>

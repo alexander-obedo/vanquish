@@ -1,0 +1,1 @@
+<div class="placeholder-svg" style="{%- if width != blank -%}width:{{ width }}px;{%- endif -%}{%- if height != blank -%}height:{{ height }}px{%- endif -%}"><span {% if nosvg %}class="mt-0"{% endif %}>{{ size }}</span>{%- unless nosvg -%}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{%- endunless -%}</div>

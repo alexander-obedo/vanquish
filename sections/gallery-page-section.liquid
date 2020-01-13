@@ -1,0 +1,131 @@
+<div class="holder mt-0 fullwidth">
+    <div class="container px-0">
+        <div class="page-title text-center">
+            <div class="title">
+                <h1>{{ page.title }}</h1>
+            </div>
+        </div>       
+        {% if section.settings.gallery_filters %}
+            <ul class="filters js-filters-gallery">
+                <li class="filters-label"><a href="#">All<span class="filters-label-count"></span></a></li>
+                {% assign filter_tag = '' %}
+                {% for block in section.blocks %}
+                    {% if block.settings.enable %}
+                        {% assign filter_tag = filter_tag | append:',' | append:block.settings.tags %}
+                    {% endif %}
+                {% endfor %}
+                {% assign filter_tag = filter_tag | replace:' ','' | split: ',' | uniq  | join: ',' %}
+                {% assign tags = filter_tag|split:',' %}
+                {% for tag_item in tags %}
+                    {% if tag_item.size > 1  %}
+                        <li class="filters-label" data-filter=".{{ tag_item }}"><a href="#">{{ tag_item }}<span class="filters-label-count"></span></a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="gallery-wrapper">
+            <div class="gallery gallery--style-1 js-gallery-isotope">
+                {% for block in section.blocks %}
+                    {% if block.settings.enable %}
+                        <div class="gallery-item {{ block.settings.tags | replace:' ','' | split: ',' | uniq  | join: ' ' }}">
+                            <div class="gallery-item-image has-loader">
+                                {%- assign _img = block.settings.image -%}
+                                {%- assign _img_size = '700x700' -%}
+                                {%- if _img -%}
+                                    <img class="lazyload blur-up responsive"
+                                         data-src="{{ _img | img_url: _img_size }}"
+                                         data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                         data-aspectratio="{{ _img.aspect_ratio }}"
+                                         data-sizes="auto"
+                                         alt="{{ block.settings.title }}">
+                                {%- else -%}
+                                    {% include 'image-placeholder-aspect-ratio', width: 700, height: 700 %}
+                                {%- endif -%}
+                              <div class="gdw-loader"></div>
+                            </div>
+                            <div class="gallery-item-caption">
+                                <h4 class="gallery-item-title">{{ block.settings.title }}</h4>
+                                <p>{{ block.settings.description }}</p>
+                            </div>
+                            <div class="gallery-item-links">
+                                <a href="{% if block.settings.image %}{{ block.settings.image | img_url: 'master' }}{% else %}{{ 'gallery-thumb-1.jpg' | asset_url }}{% endif %}" class="gallery-item-link" data-fancybox="gallery" data-caption="{{ block.settings.title }}"><i class="icon-search2"></i></a>
+                                {% if block.settings.link %}<a href="{{ block.settings.link }}" target="{{ block.settings.link_target }}" class="gallery-item-link"><i class="icon-angle-right"></i></a>{% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+{
+"name": "Gallery",
+"settings": [
+    {
+        "type": "header",
+        "content": "Gallery photos"
+    },
+    {
+        "type": "checkbox",
+        "id": "gallery_filters",
+        "label": "Apply tags filter",
+    "default": true
+    }
+],
+"blocks": [
+{
+"type": "item",
+"name": "item",
+"settings": [
+    {
+        "type":"checkbox",
+        "id":"enable",
+        "label":"Enable",
+        "default":true
+    },
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "MAURIS LACINIA LECTUS"
+    },
+    {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna"
+    },
+    {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info":"there is no recommended size(any size), but use the same sizes for all gallery photos"
+    },
+    {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+    },
+    {
+        "type": "select",
+        "id": "link_target",
+        "label": "Link Target",
+        "default":"_self",
+        "options": [
+        { "value": "_blank", "label": "New page" },
+        { "value": "_self",  "label": "In current page" }
+        ]
+    },
+    {
+        "type": "text",
+        "id": "tags",
+        "label": "Tag filter",
+        "info": "write tags, separated by comma",
+        "default": "category-1"
+    }
+]
+}
+]
+}
+{% endschema %}

@@ -1,0 +1,110 @@
+{% unless settings.slides_mode %}
+<!-- BN Slider 2 -->
+<div class="holder fullwidth full-nopad {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="bnslider-wrapper">
+            <div class="bnslider bnslider--lg keep-scale" id="bnslider-002" data-slick='{"arrows": true, "dots": true}'
+                 data-autoplay="false" data-speed="5000"
+                 data-start-width='1600' data-start-height='700' data-start-mwidth='1600' data-start-mheight='1000'>
+                {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                <div class="bnslider-slide">
+                    <div class="bnslider-image lazyload blur-up" {% if block.settings.image %}data-bgset="{% include 'bgset', image: block.settings.image %}" data-sizes="auto"{% endif %}></div>
+                    {%- if block.settings.image == blank -%}<div class="placeholder-bg">{% include 'image-placeholder-bg', text: '1600x700' %}</div>{%- endif -%}
+                    <div class="bnslider-text-wrap bnslider-overlay">
+                        <div class="bnslider-text-content txt-top txt-left">
+                            <div class="bnslider-text-content-flex container">
+                                <div class="bnslider-pricing">
+                                    {{ block.settings.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="bnslider-arrows container">
+                <div></div>
+            </div>
+            <div class="bnslider-dots vert-dots container"></div>
+        </div>
+    </div>
+</div>
+{% endunless %}
+<!-- //BN Slider 2 -->
+{% schema %}
+{
+"name": "Slideshow Simple Lookbook",
+"settings": [
+
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+    {"value":"mt-0","label":"None"},
+    {"value":"mt-1","label":"10px"},
+    {"value":"mt-2","label":"20px"},
+    {"value":"mt-3","label":"30px"},
+    {"value":"mt-4","label":"40px"},
+    {"value":"mt-5","label":"50px"},
+    {"value":"mt-6","label":"60px"},
+    {"value":"mt-65","label":"65px"},
+    {"value":"mt-7","label":"70px"},
+    {"value":"mt-8","label":"80px"},
+    {"value":"mt-9","label":"90px"},
+    {"value":"mt-10","label":"100px"}
+    ],
+    "default": "mt-65"
+}
+],
+"blocks": [
+{
+"type": "slide",
+"name": "slide",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended size 1600x700px"
+},
+
+    {
+        "type": "textarea",
+        "id": "description",
+        "label": "Brand Description",
+        "default": "<table> <tr> <td><a href='#'>BATHROOM TAPS</a></td> <td><b>$ 70.00</b></td> </tr> <tr> <td><a href='#'>BASINS</a></td> <td><b>$ 160.00</b></td> </tr> <tr> <td><a href='#'>SHOWER ENCLOSURES</a></td> <td><b>$ 850.00</b></td> </tr> <tr> <td><a href='#'>SHOWERS</a></td> <td><b>$ 120.00</b></td> </tr> <tr> <td><a href='#'>TOILETS</a></td> <td><b>$ 220.00</b></td> </tr> </table>"
+    }
+
+]
+}
+],
+"presets": [{
+"name": "Slideshow Simple Lookbook",
+"category": "Slideshow",
+"blocks": [
+{
+"type": "slide"
+},
+{
+"type": "slide"
+},
+{
+"type": "slide"
+}
+]
+}]
+}
+{% endschema %}

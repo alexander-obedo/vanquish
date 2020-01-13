@@ -1,0 +1,37 @@
+<h2>{{ 'general.theme.tab_product_details' | t }}</h2>
+<div class="panel-group" id="productAccordion">
+    {% for block in section.blocks %}
+        {% if block.settings.enable %}
+            {% unless  block.type == 'tab_description' or block.type == 'tab_reviews' %}
+                <div class="panel">
+                    {% if  block.type == 'tab_page'%}
+                        <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#productAccordion" href="#collapse{{ block.id }}">{{ pages[block.settings.page].title }}</a></h4></div>
+                    {% elsif  block.type == 'tab_metafield' %}
+                        {% if product.metafields.c_f[block.settings.title] != blank %}
+                            <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#productAccordion" href="#collapse{{ block.id }}">{{ product.metafields.c_f[block.settings.title] }}</a></h4></div>
+                        {% endif %}
+                    {% else %}
+                            <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#productAccordion" href="#collapse{{ block.id }}">{{ block.settings.title }}</a></h4></div>
+                    {% endif %}
+                    <div id="collapse{{ block.id }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            {% case block.type  %}
+                            {% when 'tab_page' %}
+                            {{ pages[block.settings.page].content }}
+                            {% when 'tab_tags' %}
+                            <ul class="tags-list">
+                                {% for tag in product.tags %}
+                                    <li><a href="/collections/all/{{ tag | handle }}">{{ tag }}</a></li>
+                                {% endfor %}
+                            </ul>
+                            {% when 'tab_metafield' %}
+                            {% assign x = block.settings.title | replace:'title','content' %}
+                            {{ product.metafields.c_f[x] }}
+                            {% endcase %}
+                        </div>
+                    </div>
+                </div>
+            {% endunless %}
+        {% endif %}
+    {% endfor %}
+</div>

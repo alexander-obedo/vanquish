@@ -1,0 +1,175 @@
+{% unless settings.slides_mode %}
+{% include 'global_vars' %}
+{%- assign image_size = '254x' -%}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{%- assign collection = collections[section.settings.collection] -%}
+{% assign per_row_desktop = section.settings.per_row_desktop %}
+{% if column %}{% assign per_row_desktop = 3 %}{% endif %}
+
+
+<div class="holder {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="title-wrap text-center">
+            <h2 class="h1-style">{{ section.settings.title }}</h2>
+        </div>
+        <div class="row vert-margin">
+            <div class="col-sm-5 col-md-4 col-lg-3">
+                <div class="prd-carousel-banner bnr bnr--style-1-1 bnr--left bnr--top bg-cover" data-fontratio="2.976">
+                    {% assign _img = section.settings.image %}
+                    {% assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                    {%- if _img -%}
+                        <img class="lazyload blur-up"
+                             data-src="{{ img_url }}"
+                             data-widths="[540, 720, 900]"
+                             data-aspectratio="{{ _img.aspect_ratio }}"
+                             data-sizes="auto"
+                             alt="{{ section.settings.caption_1 }}">
+                    {%- endif -%}
+                    <div class="d-none d-sm-block" style="min-height: {{ section.settings.minh }}px"></div>
+                    <div class="d-sm-none" style="min-height: {{ section.settings.minh_mobile }}px"></div>
+                    <span class="bnr-caption" style="{% if section.settings.bgcolor %}background-color:{{ section.settings.bgcolor }};{% endif %}">
+						<span class="bnr-text-wrap">
+							<span class="bnr-text1" {% if section.settings.textcolor %}style="color:{{ section.settings.textcolor }};"{% endif %}>{{ section.settings.caption_1 }}</span>
+							<span class="bnr-text2"{% if section.settings.textcolor %}style="color:{{ section.settings.textcolor }};"{% endif %}>{{ section.settings.caption_2 }}</span>
+						</span>
+					</span>
+                    <div class="carousel-arrows slick-arrows-squared"></div>
+                </div>
+            </div>
+            <div class="col-sm-7 col-md-8 col-lg-9">
+                <div class="prd-grid prd-text-center hide-price-comment prd-carousel js-prd-carousel data-to-show-4 data-to-show-md-3 data-to-show-sm-2 data-to-show-xs-2 sm-limit-4"
+                     data-slick='{"slidesToShow": {% if column %}3{% else %}4{% endif %}, "responsive": [{"breakpoint": 1200,"settings": {"slidesToShow": 3}},{"breakpoint": 768,"settings": {"slidesToShow": 2}},{"breakpoint": 480,"settings": {"slidesToShow": 2}}]}'>
+                    {% for product in collection.products limit: product_limit %}
+                        {% include 'product-card', per_row: section.settings.per_row_desktop, grid_image_width: image_size %}
+                    {% else %}
+                        <br /><br />
+                        <div class="alert alert-warning">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% if section.settings.show_view_all and section.settings.collection != blank %}<div class="more-link-wrapper text-center mt-3"><a href="{{ collection.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Full row - Style 8+promo",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type":"color",
+"id":"bgcolor",
+"label":"Background Color",
+"default":"#e83a5e"
+},
+{
+"type":"color",
+"id":"textcolor",
+"label":"Text Color"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended width 262x370 (like in demo)"
+},
+{
+"type":"range",
+"id":"minh",
+"min":320,
+"max":600,
+"step":5,
+"label":"Min Height",
+"unit":"px",
+"default":320
+},
+{
+"type":"range",
+"id":"minh_mobile",
+"min":100,
+"max":500,
+"step":5,
+"label":"Min Height for mobile devices",
+"unit":"px",
+"default":250
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Collection"
+},
+{
+"type": "text",
+"id": "caption_1",
+"label": "Promo caption 1",
+"default": "Offers"
+},{
+"type": "text",
+"id": "caption_2",
+"label": "Promo caption 2",
+"default": "FOR BOYS"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"6"
+},
+{
+"type": "checkbox",
+"id": "show_view_all",
+"label": "Show 'Show all' button",
+"default": true
+}
+],
+"presets": [
+{
+"name": "Full row - Style 8+promo",
+"category": "Collection's Carousel"
+}
+]
+}
+{% endschema %}

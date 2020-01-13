@@ -1,0 +1,25 @@
+{% if section.settings.show_methods_of_payment %}
+    <div class="payment-icons">
+        {% unless demo %}
+        {% for i in (1..10) %}
+            {% capture enable %}icon-pay-{{ i }}_yes{% endcapture %}
+            {% capture pic %}icon-pay-{{ i }}.png{% endcapture %}
+            {% capture alt %}icon-pay-{{ i }}_alt{% endcapture %}
+            {% if settings[enable] %}
+                {% assign _img = pic %}
+                {% assign _img_size = '108x' %}
+                {%- if _img -%}
+                    <img class="lazyload blur-up"
+                         data-src="{{ _img | asset_img_url: _img_size }}"
+                         data-srcset="{{ _img | asset_img_url: _img_size }} 1x, {{ _img | asset_img_url: _img_size, scale: 2 }} 2x"
+                         data-aspectratio="{{ _img.aspect_ratio }}"
+                         data-sizes="auto"
+                         alt="{{ _img.alt | escape }}">
+                {%- else -%}
+                    {% include 'image-placeholder-aspect-ratio', width: 215, height: 140 %}
+                {%- endif -%}
+            {% endif %}
+        {% endfor %}
+        {% endunless %}
+    </div>
+{% endif %}

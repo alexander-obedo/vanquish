@@ -1,0 +1,41 @@
+{% capture blog_id %}{{ block.settings.from_blog_id }}{% endcapture %}
+{% if blog_id != blank %}
+    <div class="aside-block">
+        <div class="title-with-arrows">
+            <h2>{{ block.settings.heading }}</h2>
+            <div class="carousel-arrows"></div>
+        </div>
+        <div class="post-prws post-prws-carousel"
+             data-slick='{"slidesToShow": 1, "responsive": [{"breakpoint": 768, "settings": {"slidesToShow": 2}}]}'>
+            {% for article in blogs[blog_id].articles limit:section.settings.from_blog_limit %}
+                <div class="post-prw">
+                    {% if article.image %}
+                        <a href="{{ article.url }}" class="post-img">
+                            {%- assign img_url = article | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                            {%- assign image_alt = article.title | escape -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[180, 360, 540, 720, 900, 1200, 1800]"
+                                 data-aspectratio="{{ article.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ image_alt }}">
+                        </a>
+                    {%- endif -%}
+                    <h4 class="post-title"><a href="{{ article.url }}">{{ article.title }}</a></h4>
+                    <p class="post-teaser">{{ article.excerpt  | strip_html | truncatewords: 14 }}</p>
+                    <div class="post-bot">
+                        <div class="post-date">{{ article.published_at | time_tag: format: 'day' }} {{ article.published_at | time_tag: format: 'month' }}</div>
+                        <a href="{{ article.url }}" class="post-link">{{ 'blogs.article.read_more' | t }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        To Init <b>Blog's carousel</b>:<br />
+        1.<b>Choose Blog</b><br />
+        2.<b>Save</b>
+    </div>
+    <br />
+{% endif %}

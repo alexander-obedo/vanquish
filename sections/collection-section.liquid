@@ -1,0 +1,114 @@
+
+{% assign products_per_page = template | replace:'collection.','' | plus:0 %}
+    {% if products_per_page == 0 %}{% assign products_per_page = settings.products_per_page %}{% endif %}
+    {% paginate collection.products by products_per_page %}
+    {% assign products_per_row = section.settings.collections_products_per_row %}
+    {% assign products_per_row_mobile = section.settings.collections_per_row_mobile %}
+
+    {% if collection.description != blank %}
+        {% if  collection.description contains '|[config]|'%}
+            {% assign desc = collection.description | split:'|[config]|' %}
+            {% if desc.size > 1 %}<div class="category-description">{{ desc | last }}</div> {% endif %}
+        {% else %}
+            <div class="category-description">
+                {{ collection.description }}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if settings.collection_sort_enable %}
+        {% include 'collection-toolbar' products_per_page:products_per_page %}
+    {% endif %}
+
+<div class="prd-grid data-to-show-{{ section.settings.collections_products_per_row }} data-to-show-md-3 data-to-show-sm-{{ section.settings.collections_per_row_mobile }} js-category-grid product-listing">
+    {% if collection.products.size > 0 %}
+        {% for product in collection.products %}
+            {% include 'product-card' image_size:'large' %}
+        {% endfor %}
+    {% else %}
+        <div class="empty-category">
+            <div class="empty-category-text"><span>{{ 'general.theme.sorry' | t }}</span>, {{ 'general.theme.no_products' | t }}</div>
+            <div class="empty-category-button all-products"><a href="/collections/all" class="btn-decor">{{ 'general.theme.all_products' | t }}</a></div>
+            <div class="empty-category-button clear-all hidden"><a href="/collections/{{ collection.handle }}" class="btn-decor">{{ 'general.theme.clear_all' | t }}</a></div>
+            <div class="empty-category-icon"><i class="icon-sad-face"></i></div>
+        </div>
+    {% endif %}
+
+
+</div>
+{% if paginate.pages > 1 %}
+    <div class="show-more d-flex mt-4 mt-md-6 justify-content-center align-items-start">
+        <div class="show_more_wrapper">
+            {% unless paginate.pages == paginate.current_page  %}
+            {% assign show = section.settings.products_per_page | plus:0 %}
+            {% assign page = paginate.current_page | plus:0 %}
+            {% assign show_text = show %}
+            {% assign pages_times_show = paginate.current_page | times:show %}
+            {% assign left = collection.products_count | minus:pages_times_show %}
+            {% if show >= left %}{% assign show_text = left %}{% assign remove_show_more = 1 %}{% endif %}
+            {% assign t_item =  'general.theme.item' | t %}
+            {% assign t_items = 'general.theme.items_c' | t %}
+            <a href="{{ paginate.next.url }}" class="btn btn--alt show_more">{{ 'general.theme.show_more' | t }}<div class="bg-striped"></div></a>
+            {% endunless %}
+        </div>
+        {% include 'pagination-custom' %}
+    </div>
+{% endif %}
+
+
+
+<div class="loader-wrap">
+    <div class="dots">
+        <div class="dot one"></div>
+        <div class="dot two"></div>
+        <div class="dot three"></div>
+    </div>
+</div>
+{% endpaginate %}
+{% schema %}
+{
+"name": "Products content",
+"settings": [
+{
+"type": "paragraph",
+"content": "[Documentation](http://big-skins.com/goodwin/shopify/manuals/#Collection)"
+},
+{
+"type": "paragraph",
+"content": "To see filter tags Enable sidebar in Theme Settings / General settings / Collection page / Enable Sidebar"
+},
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "collections_products_per_row",
+"label": "Products per row in desctop",
+"options": [
+{ "value": "2", "label": "2" },
+{ "value": "3", "label": "3" },
+{ "value": "4", "label": "4" }
+],
+"default": "3"
+},
+{
+"type": "select",
+"id": "collections_per_row_mobile",
+"label": "Products per row in mobile",
+"options": [
+{ "value": "1", "label": "1" },
+{ "value": "2", "label": "2" }
+],
+"default": "2"
+},
+
+{
+"type": "checkbox",
+"id": "collections_description",
+"label": "Enable collection description",
+"default": true
+}
+]
+}
+{% endschema %}

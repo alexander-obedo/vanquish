@@ -1,0 +1,111 @@
+{% unless settings.slides_mode %}
+<div class="holder fullwidth full-nopad {{ section.settings.outer_margin }}">
+	<div class="container">
+		<a href="{{ section.settings.link | default:'#' }}" class="bnr-wrap">
+			<div class="bnr bnr--style-1 bnr-full bnr--middle bnr--center bnr-hover-scale" data-fontratio="15.83">
+                {% assign _img = section.settings.image %}
+                {% assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                {%- if _img -%}
+					<img class="lazyload blur-up img-responsive"
+						 data-src="{{ img_url }}"
+						 data-widths="[720, 900, 1200, 1800, 2400]"
+						 data-aspectratio="{{ _img.aspect_ratio }}"
+						 data-sizes="auto"
+						 alt="{{ section.settings.caption_1 }}">
+                {%- else -%}
+                    {%- include 'image-placeholder-aspect-ratio', width: 2000, height: 500 -%}
+                {%- endif -%}
+				<span class="bnr-caption" style="padding: 6% 7%;">
+					<span class="bnr-text-wrap">
+						<span class="bnr-text5" style="font-size: .8em; {% if section.settings.text_color != blank %}color: {{ section.settings.text_color }}{% endif %}">{{ section.settings.caption_1 }}</span>
+						<span class="bnr-text2" style="margin-top: .6em; {% if section.settings.text_color != blank %}color: {{ section.settings.text_color }}{% endif %}">{{ section.settings.caption_2 }}</span>
+						<span class="btn-decor btn-decor--whiteline d-none d-md-inline-block" style="margin-top: 1.8em; {% if section.settings.text_color != blank %}color: {{ section.settings.text_color }}{% endif %}">{{ section.settings.link_title }}<span class="btn-line" {% if section.settings.text_color != blank %}style="background: {{ section.settings.text_color }}"{% endif %}></span></span>
+					</span>
+				</span>
+			</div>
+		</a>
+	</div>
+</div>
+{% endunless %}
+
+{% schema %}
+{
+"name": "Banner + text Style 3",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended width 2000x500px (like in demo)"
+},
+{
+"type": "text",
+"id": "link_title",
+"label": "Link title",
+"default":"Shop Now"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Link"
+},
+{
+"type":"color",
+"id":"text_color",
+"label":"Text Color"
+},
+{
+"type": "header",
+"content": "CAPTIONS"
+},
+{
+"type": "text",
+"id": "caption_1",
+"label": "Caption 1",
+"default":"apple"
+},
+{
+"type": "text",
+"id": "caption_2",
+"label": "Caption 2",
+"default":"50% or more off"
+}
+
+],
+"presets": [
+{
+"name": "Banner + text Style 3",
+"category": "Banners"
+}
+]
+}
+{% endschema %}

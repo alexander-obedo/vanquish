@@ -1,0 +1,62 @@
+{% include 'global_vars' %}
+{% if slides_mode %}
+{%- assign image_size = '254x' -%}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{%- assign collection = collections[section.settings.collection] -%}
+<div class="holder boxed">
+    <div class="container">
+        <div class="title-wrap">
+            <h2 class="h1-style">{{ section.settings.title }}</h2>
+        </div>
+        <div class="prd-grid three-in-row prd-text-center prd-carousel js-prd-carousel  slick-arrows-aside-simple slick-arrows-mobile-lg data-to-show-4 data-to-show-sm-3 data-to-show-xs-2">
+            {% for product in collection.products limit: product_limit %}
+                {% include 'product-card', per_row: section.settings.per_row_desktop, grid_image_width: image_size %}
+            {% else %}
+                <div class="alert alert-warning">
+                    To Init <b>Product's carousel</b>:<br />
+                    1.<b>Choose Collection</b><br />
+                    2.<b>Save</b>
+                </div>
+            {% endfor %}
+        </div>
+        {% if section.settings.show_view_all and section.settings.collection != blank %}<div class="more-link-wrapper text-center "><a href="{{ collection.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+    </div>
+</div>
+{% endif %}
+{% schema %}
+{
+"name": "ItemsCarousel",
+"settings": [
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default":"Collection"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"8"
+},
+{
+"type": "checkbox",
+"id": "show_view_all",
+"label": "Show 'Show all' button",
+"default": true
+}
+],
+"presets": [{
+"name": "Items Carousel(SLIDES MODE)",
+"category": "for SLIDES MODE"
+}]
+}
+{% endschema %}

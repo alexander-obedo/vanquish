@@ -1,0 +1,2137 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Goodwin",
+    "theme_author": "Bigsteps",
+    "theme_version": "2.0",
+    "theme_documentation_url": "http:\/\/big-skins.com\/goodwin\/shopify\/manuals",
+    "theme_support_url": "http:\/\/help.big-skins.com\/"
+  },
+  {
+    "name": "General - Global Settings",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "[Documentation](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Main Theme Config"
+      },
+      {
+        "type": "radio",
+        "id": "color_scheme",
+        "label": "Color Scheme",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ],
+        "default": "light"
+      },
+      {
+        "type": "radio",
+        "id": "column-left-right",
+        "label": "Column",
+        "options": [
+          {
+            "value": "aside--left",
+            "label": "Left"
+          },
+          {
+            "value": "aside--right",
+            "label": "Right"
+          },
+          {
+            "value": "none-column",
+            "label": "None"
+          }
+        ],
+        "default": "none-column",
+        "info": "only for Home Page"
+      },
+      {
+        "type": "checkbox",
+        "id": "slides_mode",
+        "label": "Slides mode",
+        "default": false,
+        "info": "[example](https:\/\/goodwinstore-default.myshopify.com\/pages\/home-page-toys-1), You have to use only SLIDES sections for home page"
+      },
+      {
+        "type": "paragraph",
+        "content": "For Slides mode buy a [developer license](http:\/\/alvarotrigo.com\/fullPage\/pricing\/), and upload  two files fullpage.js and fullpage.css in the theme files folder  assets\/"
+      },
+      {
+        "type": "checkbox",
+        "id": "catalog_mode",
+        "label": "Catalog Mode",
+        "default": false,
+        "info": "Disables Account Login\/Register, Cart, Add To Cart Buttons, Wishlist"
+      },
+      {
+        "type": "checkbox",
+        "id": "rtl",
+        "label": "Enable RTL",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "back_to_top_desktop",
+        "label": "Back to top (desktop)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "wishlist",
+        "label": "Wishlist",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "zoom_off",
+        "label": "Strict disabling banners zoom effect from online banners service",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "prd_uppercase",
+        "label": "Upper case for all product names",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "headings_uppercase",
+        "label": "Use uppercase for H1-H2 headings",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Products image ratio"
+      },
+      {
+        "type": "checkbox",
+        "id": "equal_height",
+        "label": "Equal height for all product photos (collection, widgets, product page)",
+        "info": "useful if your products have different height\/width of the photos",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "product_ratio_w",
+        "label": "Width ratio",
+        "default": "1",
+        "info": "recommended 1"
+      },
+      {
+        "type": "text",
+        "id": "product_ratio_h",
+        "label": "Height ratio",
+        "default": "1.18",
+        "info": "value = height \/ width"
+      },
+      {
+        "type": "header",
+        "content": "Ajax Cart"
+      },
+      {
+        "type": "checkbox",
+        "id": "ajax_cart",
+        "label": "Ajax Add To Cart",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon icon",
+        "info": "16 or 32px .png required"
+      }
+    ]
+  },
+  {
+    "name": "Pre-defined home pages",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 1](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-1)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 2](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-2)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 3](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-3)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 4](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-4)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 5](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-5)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 6](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-6)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 7](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-7)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 8](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-8)"
+      },
+      {
+        "type": "paragraph",
+        "content": "[How setup Home Page 9](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/index.html#CreationHomePage-9)"
+      }
+    ]
+  },
+  {
+    "name": "Collection page",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "[Documentation](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/#Collection)"
+      },
+      {
+        "type": "header",
+        "content": "Collection page"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_left_sidebar",
+        "label": "Enable Sidebar",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "products_per_page",
+        "label": "Default Count of products per page",
+        "options": [
+          {
+            "value": "12",
+            "label": "12"
+          },
+          {
+            "value": "24",
+            "label": "24"
+          },
+          {
+            "value": "36",
+            "label": "36"
+          },
+          {
+            "value": "50",
+            "label": "50"
+          }
+        ],
+        "default": "12"
+      },
+      {
+        "type": "checkbox",
+        "id": "ajax",
+        "label": "Ajax rendering",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Toolbar"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_sort_enable",
+        "label": "Enable collection toolbar",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Collection image"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_image_enable",
+        "label": "Enable collection image",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "collection_image_width",
+        "label": "Collection image width",
+        "options": [
+          {
+            "value": "global_width",
+            "label": "default"
+          },
+          {
+            "value": "boxed",
+            "label": "boxed"
+          },
+          {
+            "value": "fullwidth full-nopad",
+            "label": "fullwidth"
+          }
+        ],
+        "default": "global_width"
+      },
+      {
+        "type": "text",
+        "id": "collection_image_height_d",
+        "label": "Collection image height",
+        "default": "200",
+        "info": "value in pixels"
+      },
+      {
+        "type": "text",
+        "id": "collection_image_height_m",
+        "label": "Collection image height mobile (for screens < 768px)",
+        "default": "100",
+        "info": "value in pixels"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "select",
+        "id": "collection_title_size",
+        "label": "Collection title size",
+        "options": [
+          {
+            "value": "default",
+            "label": "default"
+          },
+          {
+            "value": "h-lg",
+            "label": "large"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "color",
+        "id": "collection_title_color",
+        "label": "Collection title color",
+        "default": "#000"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "select",
+        "id": "collection_image_bg_repeat",
+        "label": "Collection image background repeats",
+        "options": [
+          {
+            "value": "no-repeat",
+            "label": "no repeat"
+          },
+          {
+            "value": "repeat",
+            "label": "repeat"
+          }
+        ],
+        "default": "no-repeat"
+      },
+      {
+        "type": "select",
+        "id": "collection_image_bg_posX",
+        "label": "Collection image background horizontal position",
+        "options": [
+          {
+            "value": "center",
+            "label": "center"
+          },
+          {
+            "value": "left",
+            "label": "left"
+          },
+          {
+            "value": "right",
+            "label": "right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "collection_image_bg_posY",
+        "label": "Collection image background vertical position",
+        "options": [
+          {
+            "value": "center",
+            "label": "middle"
+          },
+          {
+            "value": "top",
+            "label": "top"
+          },
+          {
+            "value": "bottom",
+            "label": "bottom"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "collection_image_bg_size",
+        "label": "Collection image background size",
+        "options": [
+          {
+            "value": "auto",
+            "label": "auto"
+          },
+          {
+            "value": "contain",
+            "label": "contain"
+          },
+          {
+            "value": "cover",
+            "label": "cover"
+          }
+        ],
+        "default": "cover"
+      },
+      {
+        "type": "select",
+        "id": "collection_image_bg_att",
+        "label": "Collection image background attachment",
+        "options": [
+          {
+            "value": "scroll",
+            "label": "scroll"
+          },
+          {
+            "value": "fixed",
+            "label": "fixed"
+          }
+        ],
+        "default": "scroll"
+      },
+      {
+        "type": "range",
+        "id": "collection_image_bg_dark",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "unit": "%",
+        "label": "Collection image background darkness",
+        "default": 10
+      }
+    ]
+  },
+  {
+    "name": "Product Previews",
+    "settings": [
+      {
+        "type": "radio",
+        "id": "product_card_hover",
+        "label": "Hover style",
+        "options": [
+          {
+            "value": "style1",
+            "label": "Classic"
+          },
+          {
+            "value": "style2",
+            "label": "Modern"
+          }
+        ],
+        "default": "style1"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_hover_image",
+        "label": "Change image on hover",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_previews_colors",
+        "label": "Show colorized previews",
+        "info": "5 max in one product preview",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_out_of_stock",
+        "label": "Show Out Of Stock Products",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_label_new",
+        "label": "Show Label New",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_label_sale",
+        "label": "Show Label Sale",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quick_view",
+        "label": "Show Quick View",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show Vendor",
+        "info": "this option is being inherited by all sections",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "stars_mobile_off",
+        "label": "Hide rating stars on mobile",
+        "info": "reviews app has to be installed",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_you_save",
+        "label": "Show 'You save $%%'",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "advanced_add_to_cart",
+        "label": "Insert variants selection into the 'add to cart' button",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "product_preview_title_count",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "label": "Cut title after:",
+        "default": 27,
+        "info": "letters"
+      }
+    ]
+  },
+  {
+    "name": "Product Quick View",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "product_sku",
+        "label": "Show SKU",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_availability",
+        "label": "Show availability",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_description",
+        "label": "Show short description",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "qv_show_label_new",
+        "label": "Show Label New",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "qv_show_label_sale",
+        "label": "Show Label Sale",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Product Swatches",
+    "settings": [
+      {
+        "type": "select",
+        "id": "product_options",
+        "label": "Show options",
+        "options": [
+          {
+            "value": "swatches",
+            "label": "as swatches"
+          }
+        ],
+        "default": "swatches"
+      },
+      {
+        "type": "radio",
+        "id": "colorization_type",
+        "label": "Show color option as:",
+        "options": [
+          {
+            "value": "variant",
+            "label": "Variant image"
+          },
+          {
+            "value": "pic",
+            "label": "color-pic.png from files"
+          }
+        ],
+        "default": "variant",
+        "info": "If color-pic.png is selected then [read in doc how to make color pics](http:\/\/big-skins.com\/goodwin\/shopify\/manuals\/#ColorizedProduct)"
+      }
+    ]
+  },
+  {
+    "name": "Free Shipping",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "checkout_popup_free_shipping_yes",
+        "label": "Enable free shipping",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_checkout_popup_yes",
+        "label": "Show in checkout popup",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_header_cart_yes",
+        "label": "Show in header dropdown cart",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_cart_yes",
+        "label": "Show on cart page",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "free_shipping_product_yes",
+        "label": "Show on product page",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "checkout_popup_free_shipping_count",
+        "label": "Free shipping when",
+        "default": "400",
+        "info": "default currency value, not 0 and not empty"
+      },
+      {
+        "type": "textarea",
+        "id": "checkout_popup_free_condition_text",
+        "label": "Free shipping condition text",
+        "default": "Spend <span class=\"free-shipping-current\"><\/span> more and get free shipping!"
+      }
+    ]
+  },
+  {
+    "name": "Checkout Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "checkout_popup",
+        "label": "Checkout popup",
+        "default": true,
+        "info": "Only if 'Ajax Add To Cart' is enabled. Popups after clicking on 'add to cart' button"
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_popup_show_cart_yes",
+        "label": "Show cart",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_popup_undo_remove_yes",
+        "label": "Enable Undo remove product",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "checkout_popup_custom_html",
+        "label": "Delivery info",
+        "default": "<div class='shop-feature-icon'><i class='icon-box3'><\/i><\/div> <div class='shop-feature-text'> <div class='text1'>Delivery<\/div> <div class='text2'>Lorem ipsum dolor sit amet conset <\/div> <\/div>",
+        "info": "Only if 'Ajax Add To Cart' is enabled. Popups after clicking on 'add to cart' button"
+      },
+      {
+        "type": "checkbox",
+        "id": "checkout_popup_guaranteed_yes",
+        "label": "Show 'Guaranteed safe Checkout'",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_popup_guaranteed_image",
+        "label": "Choose own 'Guaranteed safe Checkout' image",
+        "info": "default image size is 303x28px"
+      },
+      {
+        "type": "checkbox",
+        "id": "agreement_checkout_yes",
+        "label": "Show checkbox 'I agree with ...' before checkout",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "agreement_checkout_text",
+        "label": "Agreement checkbox text",
+        "default": "I agree to the terms of service"
+      },
+      {
+        "type": "page",
+        "id": "agreement_checkout_page",
+        "label": "Agreement checkbox popup page"
+      },
+      {
+        "type": "checkbox",
+        "id": "agreement_checkout_page_title_yes",
+        "label": "Show page's title",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "get_shipping_estimates",
+        "label": "Show shipping calculation",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Newsletter Footer\/Popup",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Newsletter in footer"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_title",
+        "label": "Heading",
+        "default": "subscribe to newsletter"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_desc",
+        "label": "Description (footer 2)",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_desc_footer_3",
+        "label": "Description (footer 3)",
+        "default": "Lorem ipsum dolor sit amet, cons ectetur adipiscing elit."
+      },
+      {
+        "type": "image_picker",
+        "id": "newsletter_footer_2_bg",
+        "label": "Bg for subscribtion in footer style 2",
+        "info": "recommended size 1600x321 px"
+      },
+      {
+        "type": "header",
+        "content": "Newsletter Popup"
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_popup_yes",
+        "label": "Enable popup newsletter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_popup_home_only_yes",
+        "label": "Show popup newsletter only on Home Page",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "newsletter_popup_logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "newsletter_popup_bg",
+        "label": "Background",
+        "info": "size 512x547px"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_title",
+        "label": "Title For Popup Newsletter",
+        "default": "Sign up our newsletter"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_popup_desc",
+        "label": "Description For Popup",
+        "default": "Enter Your email address to sign up to receive our latest news and offers"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_title_successfully",
+        "label": "Title For Popup Newsletter (after subscribed)",
+        "default": "Sign up our newslette"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_popup_desc_successfully",
+        "label": "Description For Popup (after subscribed)",
+        "default": "Your E-mail is added to subscribe list"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_expires",
+        "label": "Days expired (cookie)",
+        "default": "15",
+        "info": " for popup newsletter"
+      }
+    ]
+  },
+  {
+    "name": "Slides for Header 12",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Slide 1"
+      },
+      {
+        "type": "checkbox",
+        "id": "header12_enable_1",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "header12_image_1",
+        "label": "Image",
+        "info": "recommended size 1370x892px (like in demo)"
+      },
+      {
+        "type": "paragraph",
+        "content": "LINK"
+      },
+      {
+        "type": "url",
+        "id": "header12_link_1",
+        "label": "Slide link"
+      },
+      {
+        "type": "select",
+        "id": "header12_link_target_1",
+        "label": "Link Target",
+        "default": "_self",
+        "options": [
+          {
+            "value": "_blank",
+            "label": "New page"
+          },
+          {
+            "value": "_self",
+            "label": "In current page"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "header12_link_text_1",
+        "label": "Link text",
+        "default": "Shop now"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_1_1",
+        "label": "Caption 1",
+        "default": "FROM ONLY"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_1_2",
+        "label": "Caption 2",
+        "default": "$120.00"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_1_3",
+        "label": "Caption 3",
+        "default": "for kitchen Taps"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_tab_1",
+        "label": "Tab Caption",
+        "default": "$120.00 for bathroom taps"
+      },
+      {
+        "type": "header",
+        "content": "Slide 2"
+      },
+      {
+        "type": "checkbox",
+        "id": "header12_enable_2",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "header12_image_2",
+        "label": "Image",
+        "info": "recommended size 1370x892px (like in demo)"
+      },
+      {
+        "type": "paragraph",
+        "content": "LINK"
+      },
+      {
+        "type": "url",
+        "id": "header12_link_2",
+        "label": "Slide link"
+      },
+      {
+        "type": "select",
+        "id": "header12_link_target_2",
+        "label": "Link Target",
+        "default": "_self",
+        "options": [
+          {
+            "value": "_blank",
+            "label": "New page"
+          },
+          {
+            "value": "_self",
+            "label": "In current page"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "header12_link_text_2",
+        "label": "Link text",
+        "default": "Shop now"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_2_1",
+        "label": "Caption 1"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_2_2",
+        "label": "Caption 2",
+        "default": "SAVE 15%"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_2_3",
+        "label": "Caption 3",
+        "default": "on Basins"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_tab_2",
+        "label": "Tab Caption",
+        "default": "save 15% on Basins"
+      },
+      {
+        "type": "header",
+        "content": "Slide 3"
+      },
+      {
+        "type": "checkbox",
+        "id": "header12_enable_3",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "header12_image_3",
+        "label": "Image",
+        "info": "recommended size 1370x892px (like in demo)"
+      },
+      {
+        "type": "paragraph",
+        "content": "LINK"
+      },
+      {
+        "type": "url",
+        "id": "header12_link_3",
+        "label": "Slide link"
+      },
+      {
+        "type": "select",
+        "id": "header12_link_target_3",
+        "label": "Link Target",
+        "default": "_self",
+        "options": [
+          {
+            "value": "_blank",
+            "label": "New page"
+          },
+          {
+            "value": "_self",
+            "label": "In current page"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "header12_link_text_3",
+        "label": "Link text",
+        "default": "Shop now"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_3_1",
+        "label": "Caption 1",
+        "default": "FROM ONLY"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_3_2",
+        "label": "Caption 2",
+        "default": "$100.00"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_3_3",
+        "label": "Caption 3",
+        "default": "for baths"
+      },
+      {
+        "type": "text",
+        "id": "header12_caption_tab_3",
+        "label": "Tab Caption",
+        "default": "$100.00 for baths"
+      }
+    ]
+  },
+  {
+    "name": "Shipping Rates Calculator",
+    "settings": [
+      {
+        "type": "select",
+        "id": "shipping_calculator",
+        "label": "Show the shipping calculator?",
+        "options": [
+          {
+            "value": "Disabled",
+            "label": "No"
+          },
+          {
+            "value": "Enabled",
+            "label": "Yes"
+          }
+        ],
+        "default": "Enabled"
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_heading",
+        "label": "Heading text",
+        "default": "Get shipping estimates"
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_default_country",
+        "label": "Default country selection",
+        "default": "United States"
+      },
+      {
+        "type": "paragraph",
+        "content": "If your customer is logged-in, the country in his default shipping address will be selected. If you are not sure about the  spelling to use here, refer to the first checkout page."
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_submit_button_label",
+        "label": "Submit button label",
+        "default": "Calculate shipping"
+      },
+      {
+        "type": "text",
+        "id": "shipping_calculator_submit_button_label_disabled",
+        "label": "Submit button label when calculating",
+        "default": "Calculating..."
+      },
+      {
+        "type": "paragraph",
+        "content": "Do not forget to include the snippet shipping-calculator in your cart.liquid template where you want the shipping  calculator to appear. You can get the snippet here: [shipping-calculator.liquid](https:\/\/github.com\/carolineschnapp\/shipping-calculator\/blob\/master\/shipping-calculator.liquid) ."
+      }
+    ]
+  },
+  {
+    "name": "Social media links",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social sharing options"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_products",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "social_sharing_logo",
+        "label": "Social sharing site logo"
+      },
+      {
+        "type": "header",
+        "content": "Social accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https:\/\/twitter.com\/shopify",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https:\/\/facebook.com\/shopify",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https:\/\/pinterest.com\/shopify",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "http:\/\/instagram.com\/shopify",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "info": "http:\/\/shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "info": "https:\/\/www.snapchat.com\/add\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https:\/\/www.youtube.com\/shopify",
+        "default": "#"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "info": "https:\/\/vimeo.com\/shopify"
+      }
+    ]
+  },
+  {
+    "name": "Shop Info (footer)",
+    "settings": [
+      {
+        "type": "color",
+        "id": "shop_info_text_color",
+        "label": "Text Color"
+      },
+      {
+        "type": "color",
+        "id": "shop_info_bg_color",
+        "label": "Background Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "-=====Column 1"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_1_1_text",
+        "label": "Caption 1",
+        "default": "Free worlwide delivery"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_1_2_text",
+        "label": "Caption 2",
+        "default": "Lorem ipsum dolor sit amet"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_1_icon",
+        "label": "icon code",
+        "default": "icon-box3"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_1_link",
+        "label": "Link",
+        "default": "#"
+      },
+      {
+        "type": "paragraph",
+        "content": "-=====Column 2"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_2_1_text",
+        "label": "Caption 1",
+        "default": "100% money back guarantee"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_2_2_text",
+        "label": "Caption 2",
+        "default": "Lorem ipsum dolor sit amet"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_2_icon",
+        "label": "icon code",
+        "default": "icon-arrow-left-circle"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_2_link",
+        "label": "Link",
+        "default": "#"
+      },
+      {
+        "type": "paragraph",
+        "content": "-=====Column 3"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_3_1_text",
+        "label": "Caption",
+        "default": "24\/7 customer support"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_3_2_text",
+        "label": "Caption 3",
+        "default": "Lorem ipsum dolor sit amet"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_3_icon",
+        "label": "icon code",
+        "default": "icon-call"
+      },
+      {
+        "type": "text",
+        "id": "shop_info_caption_3_link",
+        "label": "Link",
+        "default": "#"
+      },
+      {
+        "type": "image_picker",
+        "id": "shop_info_bg",
+        "label": "Scroll Bg",
+        "info": "for footer style 9. Recommended size 1920x600px"
+      }
+    ]
+  },
+  {
+    "name": "Methods of Payment (footer)",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Payment pic 1"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-1_yes",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-1.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "text",
+        "id": "icon-pay-1_alt",
+        "label": "Alt",
+        "default": "PayPal"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 2"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-2_yes",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-2.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "text",
+        "id": "icon-pay-2_alt",
+        "label": "Alt",
+        "default": "Visa"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 3"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-3_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-3.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "text",
+        "id": "icon-pay-3_alt",
+        "label": "Alt",
+        "default": "Skrill"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 4"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-4_yes",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-4.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "text",
+        "id": "icon-pay-4_alt",
+        "label": "Alt",
+        "default": "MasterCard"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 5"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-5_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-5.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "text",
+        "id": "icon-pay-5_alt",
+        "label": "Alt",
+        "default": "Discover"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 6"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-6_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-6.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "text",
+        "id": "icon-pay-6_alt",
+        "label": "Alt",
+        "default": "ebay"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 7"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-7_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-7.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 8"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-8_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-8.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 9"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-9_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-9.png",
+        "label": "108x68 px (png)"
+      },
+      {
+        "type": "header",
+        "content": "Payment pic 10"
+      },
+      {
+        "type": "checkbox",
+        "id": "icon-pay-10_yes",
+        "label": "Enable",
+        "default": false
+      },
+      {
+        "type": "image",
+        "id": "icon-pay-10.png",
+        "label": "108x68 px (png)"
+      }
+    ]
+  },
+  {
+    "name": "Instagram (footer)",
+    "settings": [
+      {
+        "type": "text",
+        "id": "insta_title",
+        "label": "Instagram Title",
+        "info": "this block visible only on blog page",
+        "default": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "insta_token",
+        "label": "accessToken",
+        "info": "[how get accessToken read here](https:\/\/www.instagram.com\/developer\/authentication\/) find 'Client-Side (Implicit) Authentication' or [generate here](http:\/\/instagram.pixelunion.net\/)",
+        "default": "8136043898.1677ed0.5f6f0f08a4614a9f83fd02618b192be9"
+      },
+      {
+        "type": "select",
+        "id": "insta_sort",
+        "label": "Sort By",
+        "options": [
+          {
+            "value": "none",
+            "label": "none default"
+          },
+          {
+            "value": "most-recent",
+            "label": "Newest to oldest"
+          },
+          {
+            "value": "least-recent",
+            "label": "Oldest to newest"
+          },
+          {
+            "value": "most-liked",
+            "label": "Highest # of likes to lowest"
+          },
+          {
+            "value": "least-liked",
+            "label": "Lowest # likes to highest"
+          },
+          {
+            "value": "most-commented",
+            "label": "Highest # of comments to lowest"
+          },
+          {
+            "value": "least-commented",
+            "label": " Lowest # of comments to highest"
+          },
+          {
+            "value": "random",
+            "label": "Random order"
+          }
+        ],
+        "default": "most-recent"
+      }
+    ]
+  },
+  {
+    "name": "Blog - Sidebar",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Meta"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_meta_yes",
+        "label": "Enable Meta links",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "blog_meta_title",
+        "label": "Meta title",
+        "default": "Meta"
+      },
+      {
+        "type": "textarea",
+        "id": "blog_meta_list",
+        "label": "Meta list links",
+        "default": "<li><a href='#'>Log in<\/a><\/li><li><a href='#'>Entries RSS<\/a><\/li><li><a href='#'>Comments RSS<\/a><\/li><li><a href='#'>WordPress.org<\/a><\/li>"
+      },
+      {
+        "type": "header",
+        "content": "Archives"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_archives_yes",
+        "label": "Enable Archives",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "blog_archives_title",
+        "label": "Archives title",
+        "default": "Archives"
+      },
+      {
+        "type": "textarea",
+        "id": "blog_archives_list",
+        "label": "Archives list links",
+        "default": "<li><a href='#'>February 2015<\/a><\/li><li><a href='#'>April 2016<\/a><\/li><li><a href='#'>May 2016<\/a><\/li><li><a href='#'>Juny 2016<\/a><\/li>"
+      },
+      {
+        "type": "header",
+        "content": "Tags"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_tags_yes",
+        "label": "Enable Tag",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Popular Posts"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_popular_posts_yes",
+        "label": "Popular Posts",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "blog_popular_posts_title",
+        "label": "Popular Posts title",
+        "default": "Popular Posts"
+      },
+      {
+        "type": "textarea",
+        "id": "blog_popular_posts_handles",
+        "label": "Popular Posts Handles",
+        "info": "Write separated by coma posts handles. For example: news\/test-post-1,news\/test-post-2"
+      },
+      {
+        "type": "header",
+        "content": "Instagram"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_instagram_yes",
+        "label": "Enable Instagram Images",
+        "default": true,
+        "info": "Instagram account is being inherited from Theme Settings \/ General \/ Instagram (footer)"
+      },
+      {
+        "type": "header",
+        "content": "Follow Us"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_follow_us_yes",
+        "label": "Enable Follow Us social media links",
+        "default": true,
+        "info": "Social media links are being inherited from Theme Settings \/ General \/ Social media links"
+      },
+      {
+        "type": "header",
+        "content": "Subscribe form"
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_newsletter_yes",
+        "label": "Enable Subscribe form",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Password Page",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "password_page_logo",
+        "label": "Logo image",
+        "info": "recommended max width is 415px"
+      },
+      {
+        "type": "checkbox",
+        "id": "password_page_bg_yes",
+        "label": "Bg Enable",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "password_page_bg",
+        "label": "Bg image",
+        "info": "recommended size is 1600x665px"
+      },
+      {
+        "type": "text",
+        "id": "password_page_date",
+        "label": "Coming Soon Date to Open",
+        "info": "for countdown timer, right format ex. 2019\/12\/31",
+        "default": "2019\/12\/31"
+      }
+    ]
+  },
+  {
+    "name": "Currency",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "To offer multiple currencies on your online store, you must first [edit your store's currency formatting](https:\/\/help.shopify.com\/manual\/using-themes\/troubleshooting\/help-script-find-money-formats)."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_multiple_currencies",
+        "label": "Enable currency conversion",
+        "default": true,
+        "info": "Even though prices are displayed in different currencies, orders will still be processed in your store's currency."
+      },
+      {
+        "type": "select",
+        "id": "currency_format",
+        "label": "Format",
+        "options": [
+          {
+            "value": "money_format",
+            "label": "Without currency ($10.00)"
+          },
+          {
+            "value": "money_with_currency_format",
+            "label": "With currency ($10.00 CAD)"
+          }
+        ],
+        "default": "money_with_currency_format"
+      },
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Supported currencies",
+        "default": "$:USD:United states dollars|€:EUR:Euro|£:GBP:United kingdom pounds|$:CAD:Canadian dollars",
+        "info": "Use the country's ISO [currency code](http:\/\/www.xe.com\/iso4217.php). Separate your currency codes with |"
+      },
+      {
+        "type": "text",
+        "id": "default_currency",
+        "label": "Default currency",
+        "default": "USD"
+      }
+    ]
+  },
+  {
+    "name": "Theme Light Color",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_theme",
+        "label": "Theme Color"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text_color",
+        "label": "Text Color"
+      },
+      {
+        "type": "color",
+        "id": "color_body_link_color",
+        "label": "Link Color"
+      },
+      {
+        "type": "color",
+        "id": "color_body_link_color_hover",
+        "label": "Link Hover Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "color",
+        "id": "color_button_color",
+        "label": "Button Color"
+      },
+      {
+        "type": "color",
+        "id": "color_button_bg",
+        "label": "Button Background"
+      },
+      {
+        "type": "color",
+        "id": "color_button-hover_color",
+        "label": "Button Hover Color"
+      },
+      {
+        "type": "color",
+        "id": "color_button_hover_bg",
+        "label": "Button Hover Background"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "color",
+        "id": "color_label_stock_bg",
+        "label": "Product Card Label Stock Background"
+      },
+      {
+        "type": "color",
+        "id": "color_label_stock_color",
+        "label": "Product Card Label Stock Color"
+      },
+      {
+        "type": "color",
+        "id": "color_label_new_bg",
+        "label": "Product Card Label New Background"
+      },
+      {
+        "type": "color",
+        "id": "color_label_new_color",
+        "label": "Product Card Label New Color"
+      },
+      {
+        "type": "color",
+        "id": "color_label_sale_bg",
+        "label": "Product Card Label Sale Background"
+      },
+      {
+        "type": "color",
+        "id": "color_label_sale_color",
+        "label": "Product Card Label Sale Color"
+      },
+      {
+        "type": "color",
+        "id": "color_label_wishlist_bg",
+        "label": "Product Card Label Wishlist Background"
+      },
+      {
+        "type": "color",
+        "id": "color_label_wishlist_color",
+        "label": "Product Card Label Wishlist Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "color",
+        "id": "color_menu-label-1_bg",
+        "label": "Menu Label 1 Background"
+      },
+      {
+        "type": "color",
+        "id": "color_menu-label-2_bg",
+        "label": "Menu Label 2 Background"
+      },
+      {
+        "type": "color",
+        "id": "color_menu-label-3_bg",
+        "label": "Menu Label 3 Background"
+      },
+      {
+        "type": "color",
+        "id": "color_menu-label-4_bg",
+        "label": "Menu Label 4 Background"
+      },
+      {
+        "type": "color",
+        "id": "color_menu-label_color",
+        "label": "Menu Label Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "paragraph",
+        "content": "Product Page"
+      },
+      {
+        "type": "color",
+        "id": "color_shopify-payment-button_color",
+        "label": "Buy Now Button Color"
+      },
+      {
+        "type": "color",
+        "id": "color_shopify-payment-button_bg",
+        "label": "Buy Now Button Background"
+      },
+      {
+        "type": "color",
+        "id": "color_shopify-payment-button-hover_color",
+        "label": "Buy Now Button Hover Color"
+      },
+      {
+        "type": "color",
+        "id": "color_shopify-payment-button-hover_bg",
+        "label": "Buy Now Button Hover Background"
+      }
+    ]
+  },
+  {
+    "name": "Theme Dark Color",
+    "settings": [
+      {
+        "type": "color",
+        "id": "dark_color_theme",
+        "label": "Theme Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_body_text_color",
+        "label": "Text Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_body_link_color",
+        "label": "Link Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_body_link_color_hover",
+        "label": "Link Hover Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_button_color",
+        "label": "Button Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_button_bg",
+        "label": "Button Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_button-hover_color",
+        "label": "Button Hover Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_button_hover_bg",
+        "label": "Button Hover Background"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_stock_bg",
+        "label": "Product Card Label Stock Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_stock_color",
+        "label": "Product Card Label Stock Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_new_bg",
+        "label": "Product Card Label New Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_new_color",
+        "label": "Product Card Label New Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_sale_bg",
+        "label": "Product Card Label Sale Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_sale_color",
+        "label": "Product Card Label Sale Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_wishlist_bg",
+        "label": "Product Card Label Wishlist Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_label_wishlist_color",
+        "label": "Product Card Label Wishlist Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_menu-label-1_bg",
+        "label": "Menu Label 1 Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_menu-label-2_bg",
+        "label": "Menu Label 2 Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_menu-label-3_bg",
+        "label": "Menu Label 3 Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_menu-label-4_bg",
+        "label": "Menu Label 4 Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_menu-label_color",
+        "label": "Menu Label Color"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "paragraph",
+        "content": "Product Page"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_shopify-payment-button_color",
+        "label": "Buy Now Button Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_shopify-payment-button_bg",
+        "label": "Buy Now Button Background"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_shopify-payment-button-hover_color",
+        "label": "Buy Now Button Hover Color"
+      },
+      {
+        "type": "color",
+        "id": "dark_color_shopify-payment-button-hover_bg",
+        "label": "Buy Now Button Hover Background"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "radio",
+        "id": "color_body_font_radio",
+        "label": "Font library collection",
+        "options": [
+          {
+            "value": "google_library",
+            "label": "Google's font library"
+          },
+          {
+            "value": "shopify_library",
+            "label": "Shopify's font library"
+          }
+        ],
+        "default": "google_library"
+      },
+      {
+        "type": "paragraph",
+        "content": "For Google font library select google font's name here https:\/\/fonts.google.com\/"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "paragraph",
+        "content": "Body Font Family"
+      },
+      {
+        "type": "text",
+        "id": "color_body_font_family",
+        "label": "Google's library"
+      },
+      {
+        "type": "font_picker",
+        "label": "Shopify's library",
+        "id": "color_body_font_family_shopify",
+        "default": "open_sans_n4"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "paragraph",
+        "content": "Headings Font Family"
+      },
+      {
+        "type": "text",
+        "id": "color_headings_font_family",
+        "label": "Google's library"
+      },
+      {
+        "type": "font_picker",
+        "label": "Shopify's library",
+        "id": "color_headings_font_family_shopify",
+        "default": "montserrat_n4"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "paragraph",
+        "content": "Product Name (Product Page) Font Family"
+      },
+      {
+        "type": "text",
+        "id": "color_product_page_name_font_family",
+        "label": "Google's library"
+      },
+      {
+        "type": "font_picker",
+        "label": "Shopify's library",
+        "id": "color_product_page_name_font_family_shopify",
+        "default": "montserrat_n4"
+      },
+      {
+        "type": "range",
+        "id": "color_product_page_name_font_size",
+        "min": 14,
+        "max": 60,
+        "step": 1,
+        "unit": "px",
+        "label": "Product Name (Product Page) font size",
+        "default": 24,
+        "info": "default 24px"
+      },
+      {
+        "type": "text",
+        "id": "color_product_page_name_font_lh",
+        "label": "Product Name (Product Page) line height",
+        "default": "1.5em"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "paragraph",
+        "content": "Menu Links 1st Level Font Family"
+      },
+      {
+        "type": "text",
+        "id": "color_topnav_level_1_font_family",
+        "label": "Google's library"
+      },
+      {
+        "type": "font_picker",
+        "label": "Shopify's library",
+        "id": "color_topnav_level_1_font_family_shopify",
+        "default": "montserrat_n4"
+      },
+      {
+        "type": "paragraph",
+        "content": "………………………………………………………………"
+      },
+      {
+        "type": "range",
+        "id": "color_desktop_menu_font_size",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "Menu Links 1st Level - Font Size",
+        "default": 14,
+        "info": "default 14px"
+      }
+    ]
+  }
+]

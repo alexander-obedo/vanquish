@@ -1,0 +1,421 @@
+<div id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+    {% assign product_image_size = section.settings.product_image_size %}
+    {% assign product_options = settings.product_options %}
+    {% if product.metafields.c_f.product_image_size != blank %}{% assign product_image_size = product.metafields.c_f.product_image_size %}{% endif %}
+    {% if product.metafields.c_f.product_options != blank %}{% assign product_options = product.metafields.c_f.product_options %}{% endif %}
+    {% assign sold_out = true %}
+    {% if product.available %}
+        {% assign sold_out = false %}
+    {% endif %}
+    {% assign on_sale = false %}
+    {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+        {% assign on_sale = true %}
+    {% endif %}
+    <a href="#" class="selected-currency hidden">{{ shop.currency }}</a>
+    <div itemscope itemtype="http://schema.org/Product">
+        <meta itemprop="name" content="{{ product.title }}">
+        <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+        <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
+        {% assign style = template | handle %}
+        {% unless section.settings.style == 'product' %}
+        {% if style == 'product' %}
+            {% assign style = section.settings.style %}
+        {% endif %}
+        {% endunless %}
+        {% assign style_file = 'product-page-design-' | append:style %}
+        {% include style_file %}
+    </div>
+</div>
+{% if section.settings.product_related_enable %}
+    {% include 'related-products' %}
+{% endif %}
+
+{% unless product == empty %}
+<script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+</script>
+{% endunless %}
+
+{% schema %}
+{
+"name": "Product page",
+"settings": [
+{
+"type": "header",
+"content": "General"
+},{
+"type": "paragraph",
+"content": "[Documentation](http://big-skins.com/goodwin/shopify/manuals/#Product)"
+},
+{
+"type": "select",
+"id": "style",
+"label": "Global Layout",
+"options": [
+{ "value": "product", "label": "Default" },
+{ "value": "product-style-2", "label": "Advanced" },
+{ "value": "product-style-3", "label": "Trend" },
+{ "value": "product-style-4", "label": "Fixed Image" }
+],
+"default": "product",
+"info": "individual layout you can choose in the product/templates"
+},
+{
+"type": "checkbox",
+"id": "always_visible_previews",
+"label": "Make all product images visible on mobile under the main photo",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "zoom",
+"label": "Zoom main photo",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "product_prev_next",
+"label": "Prev Next products",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "vendor",
+"label": "Show vendor",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "product_sku",
+"label": "Show SKU",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "show_label_new",
+"label": "Show Label New",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "show_label_sale",
+"label": "Show Label Sale",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "product_rating",
+"label": "Show rating stars",
+"default": true,
+"info":"[install reviews app](http://big-skins.com/goodwin/shopify/manuals/#ProductReviewsApp)"
+},
+{
+"type": "checkbox",
+"id": "product_availability",
+"label": "Show availability",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "product_inventory_count",
+"label": "Show Inventory Count",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "show_you_save",
+"label": "Show 'You save $%%'",
+"default": false
+},
+{
+"type":      "header",
+"content":   "Product Variant Options"
+},
+{
+"type":      "select",
+"id":        "options_style",
+"label":     "Options style",
+"options": [
+{ "value": "dropdowns", "label": "Dropdowns" },
+{ "value": "swatches", "label": "Swatches" }
+],
+"default":   "swatches"
+},
+
+{
+"type":      "paragraph",
+"content":   "if 'Swatches' selected:"
+},
+{
+"type":      "select",
+"id":        "color_swatches_style",
+"label": "Color swatches style",
+"options": [
+{"value": "default", "label": "Default"},
+{"value": "colorpics", "label": "Color pics"},
+{"value": "variants", "label": "Variants images"}
+],
+"default":   "default",
+"info":      "how upload color pics is described in the [documentation](http://big-skins.com/goodwin/shopify/manuals/#ColorizedProduct)"
+},
+
+{
+"type":      "paragraph",
+"content":   "if 'Color swatches style' is not Default:"
+},
+{
+"type":      "text",
+"id":        "color_options_name",
+"label":     "Color option name",
+"default":   "Color",
+"info":      "How did you name color option in the product options? Copy from admin panel and paste here, because we have to determine where to load color pics"
+},
+{
+"type":   "range",
+"id":     "swatches_width",
+"min":    30,
+"max":    100,
+"step":   2,
+"unit":   "px",
+"label":  "Swatches width",
+"default": 50
+},
+{
+"type": "header",
+"content": "Right Column"
+},
+{
+"type": "checkbox",
+"id": "right_column_yes",
+"label": "Right Column",
+"default": true
+},
+{
+"type": "html",
+"id": "description",
+"label": "Description",
+"default": "<a href='#' class='shop-feature'> <div class='shop-feature-icon'><i class='icon-box3'></i></div> <div class='shop-feature-text'> <div class='text1'>Free worlwide delivery</div> <div class='text2'>Lorem ipsum dolor sit amet conset </div> </div> </a> <a href='#' class='shop-feature'> <div class='shop-feature-icon'><i class='icon-arrow-left-circle'></i></div> <div class='shop-feature-text'> <div class='text1'>100% money back guarantee</div> <div class='text2'>Lorem ipsum dolor sit amet conset </div> </div> </a> <a href='#' class='shop-feature'> <div class='shop-feature-icon'><i class='icon-call'></i></div> <div class='shop-feature-text'> <div class='text1'>24/7 customer support</div> <div class='text2'>Lorem ipsum dolor sit amet conset </div> </div> </a>"
+},
+{
+"type": "html",
+"id": "description_2",
+"label": "Description 2",
+"info": "For product template - Style 3",
+"default": "<div class='col-sm-4'><a href='#' class='shop-feature text-center'> <div class='shop-feature-icon'><i class='icon-gift2'></i></div> <div class='shop-feature-text'> <div class='text1'>Free worlwide delivery</div> </div> </a> </div> <div class='col-sm-4'> <a href='#' class='shop-feature text-center'> <div class='shop-feature-icon'><i class='icon-circle-dollar'></i></div> <div class='shop-feature-text'> <div class='text1'>100% money back guarantee</div> </div> </a> </div> <div class='col-sm-4'> <a href='#' class='shop-feature text-center'> <div class='shop-feature-icon'><i class='icon-tag'></i></div> <div class='shop-feature-text'> <div class='text1'>24/7 customer support</div> </div> </a> </div>"
+},
+{
+"type":"page",
+"id":"size_guide",
+"label":"Size Guide",
+"info":"How to create size guide page is described in doc"
+},
+{
+"type": "checkbox",
+"id": "dynamic_buy_now",
+"label": "Dynamic buy now button",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "safe_checkout_image_yes",
+"label": "Safe checkout image",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "safe_checkout_image",
+"label": "Safe checkout image"
+},
+{
+"type": "checkbox",
+"id": "social_sharing_products",
+"label": "Enable",
+"default": true
+},{
+"type": "textarea",
+"id": "social_sharing_products_code",
+"label": "Paste sharing code here",
+"info": "Go to [www.addthis.com/dashboard](http://www.addthis.com/dashboard) to generate your code",
+"default": "<script src='//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b10f4bd90cdf8c3'></script><div class='addthis_inline_share_toolbox'></div>"
+},
+{
+"type": "header",
+"content": "Related Products"
+},
+{
+"type": "checkbox",
+"id": "product_related_enable",
+"label": "Show related products",
+"default": true
+},
+{
+"type": "paragraph",
+"content": "Layout"
+},
+{
+"type": "paragraph",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "More from this collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if there is no limit keep the space empty else try to reduce limit for better perfomance and enable 'View all' button",
+"default":"7"
+},
+{
+"type": "paragraph",
+"content": "Products per row:"
+},
+{
+"type": "select",
+"id": "per_row_desktop",
+"label": "Desktop",
+"default": "4",
+"options": [
+{ "value": "3", "label": "3" },
+{ "value": "4", "label": "4" },
+{ "value": "5", "label": "5" }
+]
+},
+{
+"type": "header",
+"content": "Tabs"
+}
+],
+"blocks":
+[
+{
+"type": "tab_description",
+"name": "Tab Product Description",
+"settings":
+[
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type":"text",
+"id":"title",
+"label":"Title",
+"default":"Description"
+}
+]
+},
+{
+"type": "tab_page",
+"name": "Tab Article Content",
+"settings":
+[
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type":"page",
+"id":"page",
+"label":"Article",
+"info":"For example Size Guide"
+}
+]
+},
+{
+"type": "tab_tags",
+"name": "Tab Product Tags",
+"settings":
+[
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},{
+"type":"text",
+"id":"title",
+"label":"Title",
+"default":"Assigned tags"
+}
+]
+},
+{
+"type": "tab_reviews",
+"name": "Tab Reviews",
+"settings":
+[
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},{
+"type":"text",
+"id":"title",
+"label":"Title",
+"default":"Reviews"
+},
+{
+"type":"checkbox",
+"id":"reviews",
+"label":"Reviews",
+"info":"[Install app](https://apps.shopify.com/product-reviews) or any other. Change default reviews shortcode in the file snippets/reviews-shortcode.liquid"
+}
+]
+},
+{
+"type": "tab_metafield",
+"name": "Tab Metafield",
+"settings":
+[
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type":"select",
+"id":"title",
+"label":"Choose tab metafield",
+"options":[
+{"value":"custom_tab_title_1","label":"custom_tab_title_1"},
+{"value":"custom_tab_title_2","label":"custom_tab_title_2"},
+{"value":"custom_tab_title_3","label":"custom_tab_title_3"},
+{"value":"custom_tab_title_4","label":"custom_tab_title_4"},
+{"value":"custom_tab_title_5","label":"custom_tab_title_5"},
+{"value":"custom_tab_title_6","label":"custom_tab_title_6"},
+{"value":"custom_tab_title_7","label":"custom_tab_title_7"},
+{"value":"custom_tab_title_8","label":"custom_tab_title_8"},
+{"value":"custom_tab_title_9","label":"custom_tab_title_9"},
+{"value":"custom_tab_title_10","label":"custom_tab_title_10"}
+],
+"default":"custom_tab_title_1"
+}
+]
+}
+],
+"presets": [{
+"name": "Product page",
+"blocks": [
+{
+"type": "tab_description"
+},
+{
+"type": "tab_tags"
+},
+{
+"type": "tab_reviews"
+}
+]
+}]
+}
+{% endschema %}

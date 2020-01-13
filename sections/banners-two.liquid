@@ -1,0 +1,167 @@
+{% unless settings.slides_mode %}
+<div class="holder boxed {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="row vert-margin flex-sm-nowrap">
+            <div class="col-sm-6">
+                <a href="{{ section.settings.link_1 | default:'#' }}" class="category-with-bg flex-column-reverse" {% if section.settings.bg_1 != blank %}style="background-color: {{ section.settings.bg_1 }}"{% endif %}>
+                    <div class="category-with-bg-text">
+                        <h3 class="category-with-bg-title" {% if section.settings.text_color_1 != blank %}style="color: {{ section.settings.text_color_1 }}"{% endif %}>{{ section.settings.title_1_1 }}</h3>
+                        <h4 class="category-with-bg-subtitle" {% if section.settings.text_color_1 != blank %}style="color: {{ section.settings.text_color_1 }}"{% endif %}>{{ section.settings.title_1_2 }}</h4>
+                    </div>
+                    <div class="category-with-bg-image">
+                        {% assign _img = section.settings.image_1 %}
+                        {% assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[540, 720, 900, 1200, 1800]"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ section.settings.title_1_1 }}">
+                        {%- else -%}
+                            {%- include 'image-placeholder-aspect-ratio', width: 460, height: 360 -%}
+                        {%- endif -%}
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <a href="{{ section.settings.link_2 | default:'#' }}" class="category-with-bg flex-column" {% if section.settings.bg_2 != blank %}style="background-color: {{ section.settings.bg_2 }}"{% endif %}>
+                    <div class="category-with-bg-text">
+                        <h3 class="category-with-bg-title" {% if section.settings.text_color_2 != blank %}style="color: {{ section.settings.text_color_2 }}"{% endif %}>{{ section.settings.title_2_1 }}</h3>
+                        <h4 class="category-with-bg-subtitle" {% if section.settings.text_color_2 != blank %}style="color: {{ section.settings.text_color_2 }}"{% endif %}>{{ section.settings.title_2_2 }}</h4>
+                    </div>
+                    <div class="category-with-bg-image">
+                        {% assign _img = section.settings.image_2 %}
+                        {% assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ img_url }}"
+                                 data-widths="[540, 720, 900, 1200, 1800]"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ section.settings.title_2_1 }}">
+                        {%- else -%}
+                            {%- include 'image-placeholder-aspect-ratio', width: 460, height: 360 -%}
+                        {%- endif -%}
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Banners Two",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "Banner 1"
+},
+{
+"type": "image_picker",
+"id": "image_1",
+"label": "Image",
+"info":"recommended width 459x360px"
+},
+{
+"type": "text",
+"id": "title_1_1",
+"label": "Title 1",
+"default":"Autumn Collection"
+},{
+"type": "text",
+"id": "title_1_2",
+"label": "Title 2",
+"default":"FOR WOMEN"
+},
+{
+"type":"color",
+"id":"text_color1",
+"label":"Text Color"
+},
+{
+"type": "url",
+"id": "link_1",
+"label": "Link"
+},
+{
+"type":"color",
+"id":"bg_1",
+"label":"Background Color"
+},
+{
+"type":"color",
+"id":"text_color_1",
+"label":"Text Color"
+},
+{
+"type": "header",
+"content": "Banner 2"
+},
+{
+"type": "image_picker",
+"id": "image_2",
+"label": "Image",
+"info":"recommended width 459x360px"
+},
+{
+"type": "text",
+"id": "title_2_1",
+"label": "Title",
+"default":"Bikini Collection"
+},{
+"type": "text",
+"id": "title_2_2",
+"label": "Title",
+"default":"FOR WOMEN"
+},
+{
+"type": "url",
+"id": "link_2",
+"label": "Link"
+},
+{
+"type":"color",
+"id":"bg_2",
+"label":"Background Color"
+},
+{
+"type":"color",
+"id":"text_color_2",
+"label":"Text Color"
+}
+],
+"presets": [
+{
+"name": "Banners Two",
+"category": "Banners"
+}
+]
+}
+{% endschema %}

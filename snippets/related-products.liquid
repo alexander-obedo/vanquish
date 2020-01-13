@@ -1,0 +1,47 @@
+{% if collection == null or collection.handle == 'all' %}
+  {% assign found_a_collection = false %}
+  {% for c in product.collections %}
+    {% if found_a_collection == false and c.handle != 'all' and c.all_products_count > 1 %}
+      {% assign found_a_collection = true %}
+      {% assign collection = c %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if collection and collection.products_count > 1 %}
+  {% if section.settings.product_related_enable %}
+    {% case section.settings.per_row_desktop %}
+    {% when '3' %}
+    {%- assign image_size = '508x' -%}
+    {% when '4' %}
+    {%- assign image_size = '254x' -%}
+    {% when '5' %}
+    {%- assign image_size = '254x' -%}
+    {% endcase %}
+    {% if section.settings.limit != blank %}
+      {%- assign product_limit = section.settings.limit -%}
+    {% endif %}
+    {% assign current_product = product %}
+    {% assign current_product_found = false %}
+
+    <div class="holder ">
+      <div class="container">
+        <div class="title-wrap text-center">
+          <h2 class="h1-style">{{ section.settings.title | escape }}</h2>
+        </div>
+        <div class="prd-grid prd-carousel js-prd-carousel slick-arrows-aside-simple slick-arrows-mobile-lg data-to-show-4 data-to-show-md-3 data-to-show-sm-3 data-to-show-xs-2"
+             data-slick='{"slidesToShow": {{ section.settings.per_row_desktop }}, "slidesToScroll": {{ section.settings.per_row_desktop }}, "responsive": [{"breakpoint": 992,"settings": {"slidesToShow": 3, "slidesToScroll": 1}},{"breakpoint": 768,"settings": {"slidesToShow": 2, "slidesToScroll": 1}},{"breakpoint": 480,"settings": {"slidesToShow": 2, "slidesToScroll": 1}}]}'>
+          {% for product in collection.products limit: product_limit %}
+            {% include 'product-card', per_row: section.settings.per_row_desktop, grid_image_width: image_size %}
+          {% else %}
+            <div class="alert alert-warning">
+              To Init <b>Product's carousel</b>:<br />
+              1.<b>Choose Collection</b><br />
+              2.<b>Save</b>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}

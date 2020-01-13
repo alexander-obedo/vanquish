@@ -1,0 +1,21 @@
+<div class="holder mt-0">
+    <div class="container">
+        <div class="row prd-block prd-block--mobile-image-first js-prd-gallery" id="prdGallery100">
+            <div class="col-md-6 col-xl-5">
+                <div class="prd-block_info js-prd-m-holder mb-2 mb-md-0"></div>
+                {% include 'product-media' product:product %}
+            </div>
+            <div class="col-md">
+                {% include 'product-page-info' quick_view:'no' %}
+            </div>
+            {% if section.settings.right_column_yes %}
+            <div class="col-xl-3 mt-3 mt-xl-0 sidebar-product">
+                {% if section.settings.description != blank  %} <div class="shop-features-style4">{{ section.settings.description }}</div>{% endif %}
+                {% include 'product-countdown' %}
+            </div>
+            {% endif %}
+            {% include 'product_prev_next' %}
+        </div>
+    </div>
+    {% unless product.metafields.c_f.notabs != blank %}{% include 'product-tabs' %}{% endunless %}
+</div>

@@ -1,0 +1,149 @@
+{% unless settings.slides_mode %}
+{%- assign collection = collections[section.settings.collection] -%}
+{%- assign collection_2 = collections[section.settings.collection_2] -%}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{% if section.settings.limit_2 != blank %}
+    {%- assign product_limit_2 = section.settings.limit_2 -%}
+{% endif %}
+<div class="holder {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="row vert-margin-double">
+            <div class="col-md-6">
+                <div class="title-with-arrows title-wrap">
+                    <h2 class="h1-style">{{ section.settings.title }}</h2>
+                    <div class="carousel-arrows"></div>
+                </div>
+                <div class="prd-grid prd-text-center prd-carousel js-prd-carousel data-to-show-2 data-to-show-sm-3 data-to-show-xs-2"
+                     data-slick='{"slidesToShow": 2, "responsive": [{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 768,"settings": {"slidesToShow": 2}},{"breakpoint": 480,"settings": {"slidesToShow": 2}}]}'>
+                    {% for product in collection.products limit: product_limit %}
+                        {% include 'product-card' %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if section.settings.show_view_all and section.settings.collection != blank %}<div class="more-link-wrapper text-center  mt-3"><a href="{{ collection.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="title-with-arrows title-wrap">
+                    <h2 class="h1-style">{{ section.settings.title_2 }}</h2>
+                    <div class="carousel-arrows"></div>
+                </div>
+                <div class="prd-grid prd-text-center prd-carousel js-prd-carousel data-to-show-2 data-to-show-sm-3 data-to-show-xs-2"
+                     data-slick='{"slidesToShow": 2, "responsive": [{"breakpoint": 992,"settings": {"slidesToShow": 2}},{"breakpoint": 768,"settings": {"slidesToShow": 2}},{"breakpoint": 480,"settings": {"slidesToShow": 2}}]}'>
+                    {% for product in collection_2.products limit: product_limit_2 %}
+                        {% include 'product-card' %}
+                    {% else %}
+                    <div class="alert alert-danger">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if section.settings.show_view_all_2 and section.settings.collection_2 != blank %}<div class="more-link-wrapper text-center  mt-3"><a href="{{ collection_2.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Two carousels - 50%/50%",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "Carousel left"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Collection"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"4"
+},
+{
+"type": "checkbox",
+"id": "show_view_all",
+"label": "Show 'Show all' button",
+"default": true
+},
+{
+"type": "header",
+"content": "Carousel right"
+},
+{
+"type": "text",
+"id": "title_2",
+"label": "Heading",
+"default": "Collection"
+},
+{
+"id": "collection_2",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit_2",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"4"
+},
+{
+"type": "checkbox",
+"id": "show_view_all_2",
+"label": "Show 'Show all' button",
+"default": true
+}
+
+],
+"presets": [
+{
+"name": "Two carousels - 50%/50%",
+"category": "Collection's Carousel"
+}
+]
+}
+{% endschema %}

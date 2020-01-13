@@ -1,0 +1,198 @@
+<!-- Mobile Menu -->
+<div class="mobilemenu js-push-mbmenu">
+    <div class="mobilemenu-content">
+        <div class="mobilemenu-close mobilemenu-toggle">{{ 'general.theme.close' | t }}</div>
+        <div class="mobilemenu-scroll">
+            <div class="mobilemenu-search"></div>
+            <div class="nav-wrapper show-menu">
+                <div class="nav-toggle">
+                    <span class="nav-back"><i class="icon-arrow-left"></i></span>
+                    <span class="nav-title"></span>
+                </div>
+                <ul class="nav nav-level-1">
+                    {% if section.settings.default_navigation != blank %}
+                        {% if linklists[section.settings.default_navigation].links.size > 0 %}
+                            {% for link in  linklists[section.settings.default_navigation].links %}
+                                <li>
+                                    {{ link.title | append:label | link_to: link.url }}
+                                    <span class="arrow"></span>
+                                    {% if linklists[link.handle].links.size > 0 %}
+                                        <ul class="nav-level-2">
+                                            <li><a href="{{ link.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                            {% for link_1 in  linklists[link.handle].links %}
+                                                <li {% if link_1.active %}class="active"{% endif %}>
+                                                    {{ link_1.title | append:label | link_to: link_1.url }}
+                                                    {% if linklists[link_1.handle].links.size > 0 %}
+                                                        <span class="arrow"></span>
+                                                        <ul class="nav-level-3">
+                                                            <li><a href="{{ link_1.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                                            {% for link_2 in linklists[link_1.handle].links %}
+                                                                <li>
+                                                                    {{ link_2.title | append:label | link_to: link_2.url }}
+                                                                    {% if linklists[link_2.handle].links.size > 0 %}
+                                                                        <span class="arrow"></span>
+                                                                        <ul class="nav-level-4">
+                                                                            <li><a href="{{ link_2.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                                                            {% for link_3 in linklists[link_2.handle].links %}
+                                                                                <li>
+                                                                                    {{ link_3.title | append:label | link_to: link_3.url }}
+                                                                                </li>
+                                                                            {% endfor %}
+                                                                        </ul>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    {% else if section.blocks.size > 0 %}
+                        {% for block in section.blocks %}
+                            {% if block.settings.enable %}
+                                    <li> <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %}>{{ block.settings.title }}{% if block.settings.label != blank %}<span class="menu-label menu-label--color{{ block.settings.label_color }}">{{ block.settings.label }}</span>{% endif %}</a><span class="arrow"></span>
+                                        {% case block.type %}
+                                        {% when 'tree' %}
+                                        {% assign list = block.settings.dropdown_list %}
+                                        {% if list != blank %}
+                                            <ul>
+                                                {% for link in  linklists[list].links %}
+                                                    <li {% if link.active %}class="active"{% endif %}>
+                                                        {% if link.title contains 'Grid Editor' or link.title contains 'Documentation' or link.title contains 'Online support'%}
+                                                            {{ link.title | append:label | link_to: link.url | replace:'<a','<a target="_blank" ' }}
+                                                        {% else %}
+                                                            {{ link.title | append:label | link_to: link.url }}
+                                                        {% endif %}  <span class="arrow"></span>
+                                                        {% if linklists[link.handle].links.size > 0 %}
+                                                            <ul>
+                                                                <li class="{{ link.title | handle }}"><a href="{{ link.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                                                {% for link_1 in linklists[link.handle].links %}
+                                                                    <li>
+                                                                        {{ link_1.title | append:label | link_to: link_1.url }}<span class="arrow"></span>
+                                                                        {% if linklists[link_1.handle].links.size > 0 %}
+                                                                            <ul>
+                                                                                <li><a href="{{ link_1.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                                                                {% for link_2 in linklists[link_1.handle].links %}
+                                                                                    <li>
+                                                                                        {{ link_2.title | append:label | link_to: link_2.url }}
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        {% endif %}
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                        {% when 'columns' %}
+                                        <ul>
+                                            {% if block.settings.link != blank %}<li><a href="{{ block.settings.link }}">{{ 'general.theme.view_all' | t }}</a></li>{% endif %}
+                                            {% for i in (1..15) %}
+                                                {% capture enable %}nav_col_{{ i }}_yes{% endcapture %}
+                                                {% capture title %}nav_col_{{ i }}_title{% endcapture %}
+                                                {% capture link %}nav_col_{{ i }}_link{% endcapture %}
+                                                {% capture list %}nav_col_{{ i }}_list{% endcapture %}{% assign list = block.settings[list] %}
+                                                {% if block.settings[enable] %}
+                                                    {% if block.settings[title] != blank %}
+                                                        <li><a {% if block.settings[link] != blank %} href="{{ block.settings[link] }}"{% endif %}>{{  block.settings[title] }}</a><span class="arrow"></span>
+                                                            {% if list != blank %}
+                                                                <ul>
+                                                                    {% if block.settings[link] != blank %}<li><a href="{{ block.settings[link] }}">{{ 'general.theme.view_all' | t }}</a></li>{% endif %}
+                                                                    {% for link in  linklists[list].links %}
+                                                                        <li>
+                                                                            {{ link.title | append:label | link_to: link.url }}
+                                                                            {% if linklists[link.handle].links.size > 0 %}<span class="arrow"></span>
+                                                                                <ul>
+                                                                                    <li><a href="{{ link.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                                                                    {% for link_1 in linklists[link.handle].links %}
+                                                                                        <li>
+                                                                                            {{ link_1.title | append:label | link_to: link_1.url }}
+                                                                                            {% if linklists[link_1.handle].links.size > 0 %}<span class="arrow"></span>
+                                                                                                <ul>
+                                                                                                    <li><a href="{{ link_1.url }}">{{ 'general.theme.view_all' | t }}</a></li>
+                                                                                                    {% for link_2 in linklists[link_1.handle].links %}
+                                                                                                        <li>
+                                                                                                            {{ link_2.title | append:label | link_to: link_2.url }}
+                                                                                                        </li>
+                                                                                                    {% endfor %}
+                                                                                                </ul>
+                                                                                            {% endif %}
+                                                                                        </li>
+                                                                                    {% endfor %}
+                                                                                </ul>
+                                                                            {% endif %}
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                        {% when 'shop_by' %}
+                                        <ul>
+                                            {% for i in (1..4) %}
+                                                {% capture enable %}nav_col_{{ i }}_yes{% endcapture %}
+                                                {% capture title %}nav_col_{{ i }}_title{% endcapture %}
+                                                {% capture link %}nav_col_{{ i }}_link{% endcapture %}
+                                                {% capture list %}nav_col_{{ i }}_list{% endcapture %}{% assign list = block.settings[list] %}
+                                                {% if block.settings[enable] %}
+                                                    {% if i == 1 %}
+                                                        {% if list != blank %}
+                                                            {% for link in  linklists[list].links %}
+                                                                <li>
+                                                                    {{ link.title | append:label | link_to: link.url }}
+                                                                </li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% if block.settings[title] != blank %}
+                                                            {% if linklists[list].links.size > 0 %}
+                                                                <li><a {% if block.settings[link] != blank %} href="{{ block.settings[link] }}"{% endif %}>{{  block.settings[title] }}</a><span class="arrow"></span>
+                                                                    {% if list != blank %}
+                                                                        <ul>
+                                                                            {% for link in  linklists[list].links %}
+                                                                                <li>
+                                                                                    {{ link.title  | split: '~' | last | append:label | link_to: link.url  }}
+                                                                                </li>
+                                                                            {% endfor %}
+                                                                        </ul>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                        {% endcase %}
+                                    </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="mobilemenu-bottom">
+            {% if section.settings.currencies %}
+            	<div class="mobilemenu-currency"></div>
+            {% endif %}
+            {% if section.settings.languages %}  
+            	<div class="mobilemenu-language"></div>
+            {% endif %}
+            {% if section.settings.languages or section.settings.languages %}
+            	<div class="mobilemenu-settings"></div>
+            {% endif %} 
+        </div>
+        </div>
+    </div>
+</div>
+<!-- /Mobile Menu -->

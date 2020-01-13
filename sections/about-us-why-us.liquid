@@ -1,0 +1,231 @@
+{% unless settings.slides_mode %}
+{% if section.settings.enable %}
+  <div class="holder {{ section.settings.outer_margin }}">
+    <div class="container">
+      <h2 class="h1-style text-center">{{ section.settings.title }}</h2>
+      <div class="row vert-margin">
+          {% case section.settings.columns %}
+            {% when "4" %}{% assign columns = "3" %}
+            {% when "3" %}{% assign columns = "4" %}
+            {% when "2" %}{% assign columns = "6" %}
+          {% endcase %}
+          {% if section.settings.caption_1_text != blank %}
+              <div class="col-sm-{{ columns }}">
+          <div class="block-it text-center">
+            <div class="block-it-icon">
+              <i class="{{ section.settings.caption_1_icon }}"></i>
+            </div>
+            <h3 class="text-uppercase">
+              {{ section.settings.caption_1_text }}
+            </h3>
+            <p>{{ section.settings.caption_1_text_2 }}</p>
+          </div>
+        </div>
+          {% endif %}
+    {% if section.settings.caption_2_text != blank %}
+        <div class="col-sm-{{ columns }}">
+          <div class="block-it text-center">
+            <div class="block-it-icon">
+              <i class="{{ section.settings.caption_2_icon }}"></i>
+            </div>
+            <h3 class="text-uppercase">
+              {{ section.settings.caption_2_text }}
+            </h3>
+            <p>{{ section.settings.caption_2_text_2 }}</p>
+          </div>
+        </div>
+    {% endif %}
+        {% if section.settings.caption_3_text != blank %}
+        <div class="col-sm-{{ columns }}">
+          <div class="block-it text-center">
+            <div class="block-it-icon">
+              <i class="{{ section.settings.caption_3_icon }}"></i>
+            </div>
+            <h3 class="text-uppercase">
+              {{ section.settings.caption_3_text }}
+            </h3>
+            <p>{{ section.settings.caption_3_text_2 }}</p>
+          </div>
+        </div>
+        {% endif %}
+            {% if section.settings.caption_4_text != blank %}
+        <div class="col-sm-{{ columns }}">
+          <div class="block-it text-center">
+            <div class="block-it-icon">
+              <i class="{{ section.settings.caption_4_icon }}"></i>
+            </div>
+            <h3 class="text-uppercase">
+              {{ section.settings.caption_4_text }}
+            </h3>
+            <p>{{ section.settings.caption_4_text_2 }}</p>
+          </div>
+        </div>
+            {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endunless %}
+{% schema %}
+  {
+    "name": "About Us - Why Us",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+
+        {
+            "type": "select",
+            "id": "outer_margin",
+            "label": "Outer top margin",
+            "options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+        },
+      {
+      "type": "header",
+      "content": "General"
+      },
+{
+"type": "text",
+"id": "title",
+"label": "Title",
+"default":"Why Us"
+},
+{
+"type": "radio",
+"id": "columns",
+"label": "How many columns do you use?",
+"info": "it is required for right responsive view",
+"options": [
+{
+"value": "2",
+"label": "2"
+},
+{
+"value": "3",
+"label": "3"
+},
+{
+"value": "4",
+"label": "4"
+}
+],
+"default": "4"
+},
+           {
+        "type":"header",
+        "content":"Caption 1"
+      },
+      {
+        "type": "text",
+        "id": "caption_1_text",
+        "label": "Caption",
+        "default":"FREE WORLWIDE DELIVERY"
+      },{
+        "type": "textarea",
+        "id": "caption_1_text_2",
+        "label": "Caption",
+        "default":"Lorem ipsum dolor sit amet conset ctetur adipisicing elit, sed do eiusmod tempor incidid."
+      },
+      {
+        "type": "text",
+        "id": "caption_1_icon",
+        "label": "icon code",
+        "default": "icon-box3"
+      },
+      {
+        "type":"header",
+        "content":"Caption 2"
+      },
+      {
+        "type": "text",
+        "id": "caption_2_text",
+        "label": "Caption",
+        "default":"PROMOTIONS, BONUSES AND DISCOUNTS"
+      },
+{
+"type": "textarea",
+"id": "caption_2_text_2",
+"label": "Caption",
+"default":"Lorem ipsum dolor sit amet conset ctetur adipisicing elit, sed do eiusmod tempor incidid."
+},
+      {
+        "type": "text",
+        "id": "caption_2_icon",
+        "label": "icon code",
+        "default": "icon-tag"
+      },
+      {
+        "type":"header",
+        "content":"Caption 3"
+      },
+      {
+        "type": "text",
+        "id": "caption_3_text",
+        "label": "Caption",
+        "default":"FREE SECRET REWARD CARD"
+      },
+{
+"type": "textarea",
+"id": "caption_3_text_2",
+"label": "Caption",
+"default":"Lorem ipsum dolor sit amet conset ctetur adipisicing elit, sed do eiusmod tempor incidid."
+},
+      {
+        "type": "text",
+        "id": "caption_3_icon",
+        "label": "icon code",
+        "default": "icon-circle-dollar"
+      },
+      {
+        "type":"header",
+        "content":"Caption 4"
+      },
+      {
+        "type": "text",
+        "id": "caption_4_text",
+        "label": "Caption",
+        "default":"PRESENTS TO OUR CUSTOMERS"
+      },
+{
+"type": "textarea",
+"id": "caption_4_text_2",
+"label": "Caption",
+"default":"Lorem ipsum dolor sit amet conset ctetur adipisicing elit, sed do eiusmod tempor incidid."
+},
+      {
+        "type": "text",
+        "id": "caption_4_icon",
+        "label": "icon code",
+        "default": "icon-gift2"
+      }
+    ],
+    "presets": [
+      {
+        "name": "About Us - Why Us",
+        "category": "About Us"
+      }
+    ]
+  }
+{% endschema %}

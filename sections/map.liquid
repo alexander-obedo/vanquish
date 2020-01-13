@@ -1,0 +1,61 @@
+{% unless settings.slides_mode %}
+<div class="holder fullwidth {{ section.settings.outer_margin }} {% if section.settings.show_above_footer %}show_above_footer{% endif %}">
+    <div class="container px-0">
+        <div class="contact-map">
+            {{ section.settings.iframe  | replace:'frameborder="0"','' }}
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Map",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "checkbox",
+"id": "show_above_footer",
+"label": "Show block above the footer",
+"default": false
+},
+{
+"type": "header",
+"content": "Map"
+},
+{
+"type": "textarea",
+"id": "iframe",
+"label": "Google map iframe",
+"info": "1. Paste address in [www.google.com/maps/](https://www.google.com/maps) 2. Click ['Share or embed map'](http://joxi.net/nAyYn9VTYGx8WA) 3. Click ['Embed a map' and 'COPY HTML'](http://joxi.net/MAjz3pKt4Z66LA)",
+"default": "<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1798.3693703617603!2d-74.01304569028459!3d40.70734488791827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a17292434ef%3A0x13cceefedbab92d0!2z0KPQvtC70Lsg0YHRgtGA0LjRgg!5e0!3m2!1sru!2sua!4v1531821064393' width='600' height='450' frameborder='0' style='border:0' allowfullscreen=''></iframe>"
+}
+],
+"presets": [{
+"name": "Map",
+"category": "Other"
+}]
+}
+{% endschema %}

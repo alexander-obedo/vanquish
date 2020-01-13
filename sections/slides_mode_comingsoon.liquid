@@ -1,0 +1,60 @@
+{% include 'global_vars' %}
+{% if slides_mode %}
+    <div class="lazyload blur-up" {% if section.settings.image %}data-bgset="{% include 'bgset', image: section.settings.image %}" data-sizes="auto"{% endif %}>
+        {%- if section.settings.image == blank -%}<div class="placeholder-bg">{% include 'image-placeholder-bg', text: '1600x1200' %}</div>{%- endif -%}
+        <div class="holder boxed">
+        <div class="container">
+            <a href="{{ section.settings.link }}" class="count-banner2">
+                <div class="count-banner2-caption text-center">
+                    <div class="count-banner2-txt1">{{ section.settings.title }}</div>
+                    <div class="count-banner2-txt2 load-animate" data-animation="popIn" data-animation-delay="0s" style="color: #fc4b29;">{{ section.settings.title_2 }}</div>
+                    <div class="countdown-box">
+                        <div class="countdown js-countdown" data-countdown="{{ section.settings.date }}"></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% schema %}
+{
+"name": "Coming Soon (SLIDES MODE)",
+"settings": [
+{
+"type": "url",
+"id": "link",
+"label": "Link"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Caption 1",
+"default":"FIRE STATION LEGO"
+},
+{
+"type": "text",
+"id": "title_2",
+"label": "Caption 2",
+"default":"50% OFF"
+},
+{
+"type": "text",
+"id": "date",
+"label": "Coming Soon Date",
+"info": "for countdown timer, right format ex. 2018\/12\/31",
+"default": "2018\/12\/31"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Background image",
+"info":"recommended size 1600x1200px"
+}
+],
+"presets": [{
+"name": "Coming Soon (SLIDES MODE)",
+"category": "for SLIDES MODE"
+}]
+}
+{% endschema %}

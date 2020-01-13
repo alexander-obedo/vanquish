@@ -1,0 +1,115 @@
+{% unless settings.slides_mode %}
+<div class="holder {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="product-slider data-slick vert-dots-md vert-dots--left"  data-slick='{"slidesToShow": 1, "dots": true, "arrows": false}'>
+            {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                    {% assign product = all_products[block.settings.product] %}
+                    {% assign on_sale = false %}
+                    <div class="product-slider-item">
+                        {% assign _img = block.settings.image %}
+                        {% assign _img_size = '569x394' %}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up"
+                                 data-src="{{ _img | img_url: _img_size }}"
+                                 data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ product.title }}">
+                        {%- else -%}
+                                {% include 'image-placeholder-aspect-ratio', width: 569, height: 394 %}
+                        {%- endif -%}
+                        <div class="product-slider-inside">
+                            <div class="product-slider-info text-center justify-content-center">
+                                {% if block.settings.product != blank %}
+                                    {% if settings.show_vendor %}<div class="prd-tag prd-hidemobile"><span>{{ product.vendor }}</span></div>{% endif %}
+                                    <h2 class="prd-title"><a title="{{ product.title }}" href="{{ product.url | within: collection }}">{{ product.title | truncate:30 }}</a></h2>
+                                    <div class="prd-rating prd-hidemobile"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></div>
+                                    {% include 'product-card-price' %}
+                                    {% include 'prd-action' %}
+                                {% else %}
+                                    <div class="alert alert-warning">
+                                        To Init <b>Product</b>:<br />
+                                        1.<b>Choose Product in admin panel</b><br />
+                                        2.<b>Save</b>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Products slider",
+"class": "index-section",
+"settings": [
+
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+}
+],
+"blocks": [
+{
+"type": "product",
+"name": "product",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "product",
+"id": "product",
+"label": "Product"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended size 569x394px"
+}
+]
+}
+],
+"presets": [{
+"name": "Products slider",
+"category": "Other",
+"blocks": [
+{
+"type": "product"
+},
+{
+"type": "product"
+}
+]
+}]
+}
+{% endschema %}

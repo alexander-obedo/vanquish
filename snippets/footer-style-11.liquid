@@ -1,0 +1,157 @@
+<footer class="page-footer footer-style-11 fullboxed bg-bottom mt-0" style="background-image: url({{ 'footer-tshirts-bg.jpg' | asset_url }}); background-color: #252525;">
+  <div class="holder footer-top-negative bg-top mt-0" style="background-image: url({{ 'bg-tshirts-subscribe.png' | asset_url }})">
+    <div class="container">
+      <div class="subscribe-form subscribe-form--style1 subscribe-form--whitecolor ">
+        {% form 'customer' %}
+        <div class="form-inline">
+          {% if form.posted_successfully? %}
+            <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+          {% else %}
+            <div class="subscribe-form-title">{{ settings.newsletter_title }}:</div>
+            <div class="form-control-wrap">
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <input type="email" name="contact[email]"  class="form-control" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.theme.enter_email' | t }}"  >
+              {{ form.errors | default_errors }}
+            </div>
+            <button type="submit" class="btn-decor">{{ 'general.theme.subscribe' | t }}</button>
+          {% endif %}
+        </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+  <div class="footer-top container py-3 py-md-5 py-lg-9">
+    <div class="row">
+      <div class="footer-left col-lg col-xl-6">
+        <div class="row">
+          <div class="col-md mb-2 mb-md-0">
+            <div class="footer-logo">{% include 'footer-logo' %}</div>
+            {{ section.settings.copyright }}
+          </div>
+          <div class="col-md">
+            <div class="footer-block collapsed-mobile">
+              {% if section.settings.navigation_1 != blank %}
+                <div class="title">
+                  <h4>{{ linklists[section.settings.navigation_1].title }}</h4>
+                  <div class="toggle-arrow"></div>
+                </div>
+                <div class="collapsed-content">
+                  <ul>
+                    {% for link in linklists[section.settings.navigation_1].links %}
+                      <li>
+                        {{ link.title | append:label | link_to: link.url }}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% else %}
+                <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 1</p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="footer-block collapsed-mobile">
+              {% if section.settings.navigation_2 != blank %}
+                <div class="title">
+                  <h4>{{ linklists[section.settings.navigation_2].title }}</h4>
+                  <div class="toggle-arrow"></div>
+                </div>
+                <div class="collapsed-content">
+                  <ul>
+                    {% for link in linklists[section.settings.navigation_2].links %}
+                      <li>
+                        {{ link.title | append:label | link_to: link.url }}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% else %}
+                <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 2</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-right col-lg col-xl-5 ml-auto">
+        <div class="footer-block">
+          <div class="row align-items-end align-items-lg-start">
+            <div class="col-sm col-lg">
+              <div class="title">
+                <h4>{{ section.settings.support_time_title }}</h4>
+              </div>
+              {{ section.settings.support_time }}
+            </div>
+            <div class="col-sm col-lg-3 mt-2 mt-sm-0">
+              {% include 'social-media-links' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+{% unless demo %}
+<style>
+  body.home-page .page-content .shopify-section:last-of-type  > .holder:last-of-type {
+    width: 100%;
+    padding-top: 160px;
+    padding-bottom: 160px;
+    background-position: center top;
+    background-size: cover;
+    background-image: url({{ 'bg-tshirts-carousel.jpg' | asset_url }}) !important;
+  }
+  body.home-page .page-content .shopify-section:last-of-type > .holder + .holder:last-of-type {
+    margin-top: -80px !important; }
+   
+  .page-content .shopify-section:last-of-type:not(#shopify-section-product-section) > .holder:last-of-type,
+  .page-content .shopify-section:last-of-type:not(#shopify-section-product-section) > .block:last-of-type,
+  .page-content > .holder:last-of-type,
+  .page-content > #shopify-section-product-section:last-child {
+    padding-bottom: 200px !important; }
+
+  @media screen and (max-width: 1199px) {
+    .page-content .shopify-section:last-of-type:not(#shopify-section-product-section) > .holder:last-of-type,
+    .page-content .shopify-section:last-of-type:not(#shopify-section-product-section) > .block:last-of-type,
+    .page-content > .holder:last-of-type,
+    .page-content > #shopify-section-product-section:last-child{
+      padding-bottom: 160px !important; }
+    body.home-page .page-content .shopify-section:last-of-type > .holder:last-of-type {
+      padding-bottom: 140px !important; } }
+
+  @media screen and (max-width: 991px) {
+    .page-content .shopify-section:last-of-type:not(#shopify-section-product-section) > .holder:last-of-type,
+    .page-content .shopify-section:last-of-type:not(#shopify-section-product-section) > .block:last-of-type,
+    .page-content > .holder:last-of-type,
+    .page-content > #shopify-section-product-section:last-child {
+      padding-bottom: 140px !important; }
+    body.home-page .page-content .shopify-section:last-of-type > .holder:last-of-type {
+      padding-bottom: 120px !important; } }
+
+  .page-content > .container {
+    padding-bottom: 200px !important;
+  }
+  @media screen and (min-width: 992px) {
+    .page-content > .container {
+      padding-bottom: 140px !important;
+    }
+    .holder-bg-carousel {
+      min-height: 500px;
+    }
+  }
+  body.home-page.theme-dark .page-content .shopify-section:last-of-type  > .holder:last-of-type {
+    padding-top: 65px;
+    background-color: transparent;
+    background-image: none !important;
+  }
+  @media screen and (min-width: 992px) {
+    body.home-page.theme-dark .page-content .shopify-section:last-of-type  > .holder:last-of-type {
+      padding-top: 50px;
+    }
+  }
+  @media screen and (min-width: 767px) {
+    body.home-page.theme-dark .page-content .shopify-section:last-of-type  > .holder:last-of-type {
+      padding-top: 40px;
+    }
+  }
+</style>
+{% endunless %}

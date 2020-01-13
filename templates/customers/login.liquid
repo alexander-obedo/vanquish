@@ -1,0 +1,102 @@
+<div class="holder mt-0">
+    <div class="container">
+        <div class="note form-success" id="ResetSuccess" style="display:none;">
+            {{ 'customer.recover_password.success' | t }}<br /><br />
+        </div>
+        <div class="row row--relative vert-margin-double">
+            <div class="col-sm col-lg-4 offset-lg-1">
+                <h2>{{ 'customer.login.title' | t }}</h2>
+                <div class="form-wrapper">
+                    <p>{{ 'general.theme.customer_desc' | t }}</p>
+                    {% form 'customer_login', class:"account-create", id:"customer_login_main" %}
+                    {{ form.errors | default_errors }}
+                        <div class="form-group">
+                            <input class="form-control {% if form.errors contains "email" %} error{% endif %}" type="email" name="customer[email]" id="CustomerEmail" placeholder="{{ 'customer.login.email' | t }}"   autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control {% if form.errors contains "password" %}error{% endif %}" type="password" value="" name="customer[password]" id="CustomerPassword" placeholder="{{ 'customer.login.password' | t }}">
+                        </div>
+                        <p class="text-uppercase"><a href="#" onclick="showRecoverPasswordForm();return false;">{{ 'customer.login.forgot_password' | t }}</a></p>
+
+                        <button class="btn" type="submit">{{  'customer.login.sign_in' | t }}</button>
+                    {% endform %}
+
+                    <div id="RecoverPasswordForm" style="display: none;">
+
+                        <h4 class="section-header__title">{{ 'customer.recover_password.title' | t }}</h4>
+                        <p class="mb-15">{{ 'customer.recover_password.subtext' | t }}</p>
+
+                        {% comment %}
+                        This form must use 'recover_customer_password'
+                        {% endcomment %}
+                        {% form 'recover_customer_password' %}
+
+                        {{ form.errors | default_errors }}
+
+                        {% comment %}
+                        form.posted_successfully? is true only inside this form, but we want
+                        to show a success message outside of it. To do so, set the variable
+                        reset_success to true, then use JS to show our success message above.
+                        {% endcomment %}
+                        {% if form.posted_successfully? %}
+                            {% assign reset_success = true %}
+                        {% endif %}
+
+
+                        <input class="form-control" type="email" value="" name="email" id="RecoverEmail" placeholder="{{ 'customer.recover_password.email' | t }}"  >
+
+                        <div class="form-group">
+                          	<div class="btn-inline">
+                              <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
+                              <a href="#" onclick="hideRecoverPasswordForm();return false;" class="btn btn--alt forgot-cancel">{{ 'customer.recover_password.cancel' | t }}</a>
+                            </div>
+                        </div>
+                        
+                        {% endform %}
+
+                    </div>
+
+
+                    {% if shop.checkout.guest_login %}
+                        <h2>{{ 'customer.login.guest_title' | t }}</h2>
+                        {% form 'guest_login' %}
+                        <input type="submit" class="btn" value="{{ 'customer.login.guest_continue' | t }}">
+                        {% endform %}
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="col-divider"></div>
+            <div class="col-sm offset-md-1 col-lg-4 offset-lg-2">
+                <h2>{{ 'general.theme.new_customer' | t }}</h2>
+                <div class="form-wrapper">
+                    <p>{{ 'general.theme.new_customer_desc' | t }}</p>
+                    <a class="btn btn--alt" href="/account/register">{{ 'layout.customer.create_account' | t }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  /*
+    Show/hide the recover password form when requested.
+  */
+  function showRecoverPasswordForm() {
+    $('#RecoverPasswordForm').show();
+    $('#customer_login_main').hide();
+  }
+
+  function hideRecoverPasswordForm() {
+    $('#RecoverPasswordForm').hide();
+    $('#customer_login_main').show();
+  }
+
+  // Allow deep linking to the recover password form
+  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
+
+  // reset_success is only true when the reset form is
+  {% if reset_success %}
+    document.getElementById('ResetSuccess').style.display = 'block';
+  {% endif %}
+</script>

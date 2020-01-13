@@ -1,0 +1,87 @@
+<footer class="page-footer footer-style-2  {{ section.settings.outer_margin }}">
+    {% if section.settings.newsletter %}{% include 'newsletter-inline-footer-2' %}{% endif %}
+    <div class="footer-top container">
+        <div class="text-center py-1 py-md-3">
+            {% include 'footer-logo' %}
+        </div>
+        <div class="row py-0 py-md-4">
+            <div class="col-md-3">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_1 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_1].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_1].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 1</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_2 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_2].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_2].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 2</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="footer-block collapsed-mobile">
+                    <div class="title">
+                        <h4>{{ 'general.theme.location' | t }}</h4>
+                        <div class="toggle-arrow"></div>
+                    </div>
+                    <div class="collapsed-content">
+                      <div class="footer-map">
+                        {{ section.settings.google_map  | replace:'frameborder="0"','' }}
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                {% if section.settings.show_instagram %}
+                <div class="footer-block">
+                    <div class="title">
+                        <h4>{{ settings.insta_title }}</h4>
+                        <div class="toggle-arrow"></div>
+                    </div>
+                    <div class="collapsed-content">
+                        {% include 'instagram-widget' limit:6 %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container footer-bottom">
+        <div class="row lined py-md-3 my-2 my-md-0">
+            <div class="col-md-3"></div>
+            <div class="footer-copyright col-md-6 text-center">
+                {{ section.settings.copyright }}
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</footer>

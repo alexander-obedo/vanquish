@@ -1,0 +1,95 @@
+<footer class="page-footer fullboxed footer-style-12 {{ section.settings.outer_margin }}">
+    {% if section.settings.shop_info_yes %}
+        <div class="holder bgcolor bgcolor-1 mt-0" {% if settings.shop_info_bg_color != blank %}style="background-color: {{ settings.shop_info_bg_color }}"{% endif %}>
+            <div class="container">
+                <div class="row shop-features-style3">
+                    {% include 'footer_shop_info' %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container">
+        <div class="row pt-2 py-md-5">
+            <div class="col-md-6 col-lg-4 mb-15 mb-lg-0">
+                <div class="footer-block">
+                    <div class="footer-logo">{% include 'footer-logo' %}</div>
+                    <p>{{ section.settings.short_description }}</p>
+                    {% include 'footer_payments' %}
+                </div>
+            </div>
+            <div class="d-none d-lg-flex col-lg-1">	</div>
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_1 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_1].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_1].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 1</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_2 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_2].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_2].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 2</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_3 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_3].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_3].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 3</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container footer-bottom">
+        <div class="row lined py-2 py-md-4 justify-content-center">
+            <div class="col-md-6">
+                <div class="footer-copyright text-center">
+                    {{ section.settings.copyright }}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,95 @@
+{% unless settings.slides_mode %}
+{% if section.settings.enable %}
+<div class="holder fullboxed {{ section.settings.outer_margin }} py-5 py-md-10 bg-cover lazyload blur-up" {% if section.settings.image %}data-bgset="{% include 'bgset', image: section.settings.image %}" data-sizes="auto"{% endif %}>
+    {%- if section.settings.image == blank -%}<div class="placeholder-bg">{% include 'image-placeholder-bg', text: '2000x480' %}</div>{%- endif -%}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                <div class="text-center">
+                    <p>
+                        {%- assign _img = section.settings.logo -%}
+                        {%- assign _img_size = '408x' -%}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up responsive"
+                                 data-src="{{ _img | img_url: _img_size }}"
+                                 data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="">
+                        {%- else -%}
+                            {% include 'image-placeholder-aspect-ratio', width: 400, height: 115 %}
+                        {%- endif -%}
+                    </p>
+                    <p>{{ section.settings.content }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endunless %}
+{% schema %}
+{
+"name": "About Us - Promo",
+"class": "index-section",
+"settings": [
+{
+"type": "checkbox",
+"id": "enable",
+"label": "Enable",
+"default": true
+},
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-0"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Background image",
+"info":"recommended width 2000px x 480px"
+},
+{
+"type": "image_picker",
+"id": "logo",
+"label": "Logo image"
+},
+{
+"type": "text",
+"id": "content",
+"label": "Content",
+"default":"Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Consetr ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Consetr ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod."
+}
+],
+"presets": [
+{
+"name": "About Us - Promo",
+"category": "About Us"
+}
+]
+}
+{% endschema %}

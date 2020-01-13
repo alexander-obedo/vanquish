@@ -1,0 +1,133 @@
+{% if quick_view == 'yes' %}
+    {% assign show_label_sale = settings.qv_show_label_sale %}
+    {% assign show_label_new = settings.qv_show_label_new %}
+    {% assign product_sku = settings.product_sku %}
+    {% assign product_availability = settings.product_availability %}
+    {% assign product_inventory_count = settings.product_inventory_count %}
+{% else %}
+    {% assign show_label_sale = section.settings.show_label_sale %}
+    {% assign show_label_new = section.settings.show_label_new %}
+    {% assign product_sku = section.settings.product_sku %}
+    {% assign product_availability = section.settings.product_availability %}
+    {% assign product_inventory_count = section.settings.product_inventory_count %}
+{% endif %}
+<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    {% assign variant = product.selected_or_first_available_variant %}
+    {% capture price %}{{ product.selected_or_first_available_variant.price | money }}{% endcapture %}
+    <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+    <meta itemprop="price" content="{{ product.selected_or_first_available_variant.price | divided_by: 100.00 }}">
+    <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+    <div class="prd-block_info product-info-block-id-{{ product.id }}">
+        <div class="js-prd-d-holder prd-holder">
+            <div class="prd-block_title-wrap">
+                <h1 class="prd-block_title">{{ product.title }}</h1>
+                {% assign sale_condition = false %}
+                {% assign new_condition = false %}
+                {% if on_sale and show_label_sale %}{% assign sale_condition = true %}{% endif %}
+                {% for tag in product.tags %}{% if tag == 'new' or tag == 'NEW'%}{% assign new = 1 %}{% endif %} {% endfor %}
+                {% if new == 1  and show_label_new %}{% assign new_condition = true %}{% endif %}
+                {% if sale_condition or new_condition %}
+                    <div class="prd-block__labels">
+                        {% if on_sale and show_label_sale %}<span class="prd-label--sale">{{ 'products.product.sale' | t }}</span>{% endif %}
+                        {% if new == 1  and show_label_new %}<span class="prd-label--new">{{ 'general.theme.new' | t }}</span>{% endif %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="prd-block_info-top">
+                {% if product_sku and product.selected_or_first_available_variant.sku.size > 0 %}
+                    <div class="product-sku">{{ 'general.theme.sku' | t }}: <span data-sku>{{ product.selected_or_first_available_variant.sku }}</span></div>
+                {% endif %}
+                {% if section.settings.product_rating %}
+                    <div class="prd-rating">
+                        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                    </div>
+                    <div class="clearflex"></div>
+                {% endif %}
+                {% if product_availability %}
+                    <div class="prd-availability">
+                        {{ 'general.theme.availability' | t }}: <span data-stock-status>
+                            {% if sold_out %}
+                                {{ 'products.product.sold_out' | t }}
+                            {% else %}
+                                {{ 'general.theme.in_stock' | t }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="clearflex"></div>
+                {% endif %}
+                {% if section.settings.vendor %}
+                    {% if product.vendor != blank %} <div class="prd-availability">{{ 'general.theme.vendor' | t }}: <span>{{ product.vendor }}</span></div><div class="clearflex"></div> {% endif %}
+                {% endif %}
+                {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
+                    <div class="product__policies rte">
+                        {%- if shop.taxes_included -%}
+                            {{ 'products.product.include_taxes' | t }}
+                        {%- endif -%}
+                        {%- if shop.shipping_policy.body != blank -%}
+                            {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                        {%- endif -%}
+                    </div>
+                {%- endif -%}
+            </div>
+            {% assign introtext = product.metafields.c_f.introtext %}
+            {% if introtext != blank %}
+                {% if introtext != '-' %}
+                    <div class="prd-block_description  {% if template == 'product.style-2' %}bordered{% else %}topline{% endif %} ">{{ introtext }}</div>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% unless settings.catalog_mode %}
+            {% form 'product', product %}
+                {% include 'product-options-form' %}
+                {% if style == 'style-4' %}
+                    <br />
+                    {% include 'product-countdown' %}
+                {% endif %}
+                <div class="prd-block_actions topline">
+                    <div class="prd-block_price {% if section.settings.show_you_save %}show_you_save{% endif %}" data-price>
+                        <span class="prd-block_price--actual" data-regular-price>{{ price }}</span>
+                        <span class="prd-block_price--old" data-sale-price>{% if on_sale %}{{ product.selected_or_first_available_variant.compare_at_price | money }}{% endif %}</span>
+                        <div class="price-comment {% unless on_sale and section.settings.show_you_save %}d-none{% endunless %}" data-you-save><span data-you-save-text>{{ 'general.theme.you_save' | t }}</span> <span>{{ product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | money }}</span></div>
+                    </div>
+                    {% if product.available %}
+                    <div class="btn-wrap">
+                        <button class="btn btn--animate btn--add-to-cart  js-add-to-cart-product-page" data-variant-id="{{ product.selected_or_first_available_variant.id }}" title="{{ 'general.theme.add_to_cart' | t }}"  data-add-to-cart><span class="text-sent">{{ 'general.theme.added_to_cart' | t }}</span><i class="icon-handbag"></i><span  data-add-to-cart-text>{{ 'general.theme.add_to_cart' | t }}</span></button>
+                    </div>
+                    {% endif %}
+                    <div class="clearflex"></div>
+                    <div class="text-right">
+                        {% render 'agreement-checkbox', button: '.payment_button_wrap', name: 'agreementCheckboxProductPage' %}
+                    </div>
+                    <div class="prd-block_link">
+                        {% if settings.wishlist %}<a href="/account" class="icon-heart-1"></a>{% endif %}
+                        {% if section.settings.social_sharing_products %}
+                            {{ section.settings.social_sharing_products_code }}
+                        {% endif %}
+                    </div>
+                    {% if section.settings.dynamic_buy_now %}{%- if settings.agreement_checkout_yes -%}<div class="payment_button_wrap">{%- endif -%}{{ form | payment_button }}{%- if settings.agreement_checkout_yes -%}</div>{%- endif -%}{% endif %}
+                    {% if settings.free_shipping_product_yes %}
+                        {% include 'free-shipping-bar' %}
+                    {% endif %}
+                    {% assign safe_checkout_image_yes = section.settings.safe_checkout_image_yes %}
+                    {% if safe_checkout_image_yes %}
+                        <div class="prd-safecheckout">
+                            <h3 class="h2-style">{{ 'general.theme.safe_checkout' | t }}</h3>
+                            {% assign _img = section.settings.safe_checkout_image %}
+                            {% assign _img_size = '600x' %}
+                            {% if _img %}
+                                <img class="lazyload blur-up img-responsive"
+                                     data-src="{{ _img | img_url: _img_size }}"
+                                     data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                     data-aspectratio="{{ _img.aspect_ratio }}"
+                                     data-sizes="auto"
+                                     alt="">
+                            {%- else -%}
+                                {% include 'image-placeholder-aspect-ratio-off-svg', width: 600, height: 80, toppos: 30, text: 'Payments 600x50px' %}
+                            {%- endif -%}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endform %}
+        {% endunless %}
+    </div>
+</div>

@@ -1,0 +1,55 @@
+{% include 'global_vars' %}
+<header class="hdr {{ header_width }} hdr-style-11 {% if section.settings.sticky %}hdr_sticky{% endif %} {% unless column %}{% if template == 'index' or template == 'page.home-page-nutrition-1' %}hdr--transparent hdr--dark{% endif %}{% endunless %}  minicart-icon-style-2 hdr-mobile-style{{ section.settings.style_mobile }}">
+    {% include 'topline' %}
+    {% include 'mobile-navigation' %}
+    {% include 'header-mobile' %}
+    <div class="hdr-desktop hide-mobile">
+        <div class="hdr-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto logo-holder">
+                        {% include 'header-logo' %}
+                    </div>
+                    <!--navigation-->
+                    <div class="prev-menu-scroll icon-angle-left prev-menu-js"></div>
+                    <div class="nav-holder">
+                        <div class="hdr-nav">
+                            {% include 'header-navigation' %}
+                        </div>
+                    </div>
+                    <div class="next-menu-scroll icon-angle-right next-menu-js"></div>
+                    <!--//navigation-->
+                    <div class="col-auto hdr-content-right">
+                        <div class="search-holder">
+                            {% include 'header-search' classes:'only-icon' %}
+                        </div>
+                        <div class="links-holder">
+                            {% include 'header-login-form' classes:'only-icon'  %}
+                        </div>
+                        <div class="minicart-holder">
+                            {% include 'header-cart' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hdr-topline {{ style_topbar }}" {% if section.settings.style_topbar_bg %}style="background-color: {{ section.settings.style_topbar_bg }}"{% endif %}>
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto hdr-topline-left">
+                        <div class="custom-text">{{ section.settings.phone_1 }}</div>
+                    </div>
+                    <div class="col hdr-topline-center">
+                        <div class="custom-text">{{ section.settings.delivery }}</div>
+                    </div>
+                    <div class="col-auto hdr-topline-right links-holder">
+                        {% include 'wishlist-header' %}
+                        {% include 'header-languages' %}
+                        {% include 'currency-picker' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'header-sticky' %}
+</header>

@@ -1,0 +1,67 @@
+{% assign on_sale = false %}
+{% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+    {% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+    {% assign sold_out = false %}
+{% endif %}
+
+{% assign show = true %}
+{% if sold_out %}
+    {% unless settings.show_out_of_stock %}
+    {% assign show = false %}
+    {% endunless %}
+{% endif %}
+{%- assign grid_image_width = '166x195' -%}
+{%- assign grid_image_scale = '2' -%}
+{%- assign countdown = product.metafields.c_f.countdown -%}
+{% if show %}
+<div class="prd prd-has-loader prd-horizontal-simple {% if sold_out %}product-item--not-available{% endif %} {% if countdown != blank %}prd-has-countdown{% endif %} {% if sold_out %}prd-outstock{% endif %} product-id-{{ product.selected_or_first_available_variant.id }} tag-all-{{ collection.handle }} {% if section.settings.tabs and section.settings.tags != blank %}{% for tag in product.tags %} tag-{{ tag | handle }} {% endfor %}{% endif %}">
+    <div class="prd-inside">
+        <div class="prd-img-area">
+            <a href="{{ product.url }}" class="prd-img">
+                {% assign _img = product.featured_image %}
+                {% assign _img_size = '167x' %}
+                {% if _img %}
+                    <img class="lazyload blur-up js-prd-img"
+                         data-src="{{ _img | img_url: _img_size }}"
+                         data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                         data-aspectratio="{{ _img.aspect_ratio }}"
+                         data-sizes="auto"
+                         alt="{{ _img.alt | escape }}">
+                {%- else -%}
+                    {% include 'image-placeholder-aspect-ratio', width: 167, height: 197, text: 'product' %}
+                {%- endif -%}
+            </a>
+            {% if sold_out %}<div class="label-outstock">{{ 'general.theme.out_of_stock' | t }}</div>{% endif %}
+            {% if on_sale and settings.show_label_sale %}
+                <div class="label-sale"> -{{ product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100.0 | divided_by:product.selected_or_first_available_variant.compare_at_price | times: 100 | divided_by: 100 | floor }}%</div>
+            {% endif %}
+            {% assign new = 0 %}
+            {% for tag in product.tags %}{% if tag == 'new' %}{% assign new = 1 %}{% endif %} {% endfor %}
+            {% if new == 1 and settings.show_label_new %}<div class="label-new">{{ 'general.theme.new' | t }}</div>{% endif %}
+            <a href="#" class="label-wishlist icon-heart"></a>
+            {% include 'product-colors' %}
+            {% if product.metafields.c_f.countdown != blank %}
+                <div class="countdown-box">
+                    <div class="countdown js-countdown" data-countdown="{{ countdown }}"></div>
+                </div>
+            {% endif %}
+            <div class="gdw-loader"></div>
+        </div>
+        <div class="prd-info">
+            {% if settings.show_vendor %}<div class="prd-tag"><span>{{ product.vendor }}</span></div>{% endif %}
+            <h2 class="prd-title"><a title="{{ product.title  }}" href="{{ product.url | within: collection }}">{{ product.title | truncate: 21 }}</a></h2>
+            <div class="prd-rating prd-hidemobile"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></div>
+            {% include 'product-card-price' %}
+          	<div class="prd-action">
+            <div class="prd-links">
+              {% if settings.show_quick_view %}<a title="{{ 'general.theme.quick_view' | t }}" class="icon-eye prd-qview-link js-qview-link " data-fancybox data-type="ajax" data-src="{{ product.url }}?view=quick-view&output=embed"></a>{% endif %}
+    		</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

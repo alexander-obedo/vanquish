@@ -1,0 +1,26 @@
+{%- assign first_image = false -%}
+{%- assign index_color = 0 -%}
+{%- for option in product.options -%}
+    {%- capture downcased_option -%}{{ option | downcase }}{%- endcapture -%}
+    {%- capture color_options_name -%}{{ section.settings.color_options_name | downcase }}{% endcapture -%}
+    {%- if downcased_option == color_options_name -%}
+        {%- assign index_color = forloop.index0 -%}
+    {%- endif -%}
+{%- endfor -%}
+{%- for variant in product.variants -%}
+    {%- unless first_image -%}
+        {%- capture color -%}{{ variant.options[index_color] }}{%- endcapture -%}
+        {%- if color == value -%}
+            {%- if variant.image.src -%}
+                {%- assign first_image = true -%}
+                {%- capture width -%}{{ section.settings.swatches_width }}x{%- endcapture -%}
+                {%- assign first_image_path = variant.image.src | img_url:width -%}
+            {%- endif -%}
+        {%- endif -%}
+    {%- endunless -%}
+{%- endfor -%}
+{%- if first_image -%}
+    <img data-src="{{ first_image_path }}" class="lazyload" alt="">
+{%- else -%}
+    {{ value }}
+{%- endif -%}

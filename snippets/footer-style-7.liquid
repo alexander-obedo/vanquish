@@ -1,0 +1,127 @@
+<footer class="page-footer footer-style-7 fullboxed">
+    <div class="container">
+        <div class="text-center py-1">
+            <div class="footer-logo">{% include 'footer-logo' %}</div>
+        </div>
+    </div>
+    {% if section.settings.newsletter %}
+    <div class="footer-row-bg">
+        <div class="container">
+            <div class="row align-items-center py-3">
+                <div class="col-lg text-center text-lg-left">{% include 'social-media-links' %}</div>
+                <div class="col-lg-auto ml-lg-auto mt-2 mt-lg-0">
+                    <div class="subscribe-inline">
+                        <div class="row align-items-center flex-column flex-lg-row">
+                            <div class="col-auto"><h4 class="subscribe-form-title">{{ settings.newsletter_title }}:</h4></div>
+                            <div class="col-auto mt-1 mt-lg-0">
+                                <div class="subscribe-form">
+                                     {% include 'newsletter-footer-form' %}
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="row py-0 py-md-3">
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_1 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_1].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_1].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 1</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_2 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_2].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_2].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 2</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    {% if section.settings.navigation_3 != blank %}
+                        <div class="title">
+                            <h4>{{ linklists[section.settings.navigation_3].title }}</h4>
+                            <div class="toggle-arrow"></div>
+                        </div>
+                        <div class="collapsed-content">
+                            <ul>
+                                {% for link in linklists[section.settings.navigation_3].links %}
+                                    <li>
+                                        {{ link.title | append:label | link_to: link.url }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 3</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg">
+                <div class="footer-block collapsed-mobile">
+                    <div class="footer-block collapsed-mobile">
+                        {% if section.settings.navigation_4 != blank %}
+                            <div class="title">
+                                <h4>{{ linklists[section.settings.navigation_4].title }}</h4>
+                                <div class="toggle-arrow"></div>
+                            </div>
+                            <div class="collapsed-content">
+                                <ul>
+                                    {% for link in linklists[section.settings.navigation_4].links %}
+                                        <li>
+                                            {{ link.title | append:label | link_to: link.url }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% else %}
+                            <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 4</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom container">
+        <div class="row lined py-2 py-md-3 justify-content-center">
+            <div class="col-md-6">
+                <div class="footer-copyright text-center">
+                    {{ section.settings.copyright }}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

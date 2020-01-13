@@ -1,0 +1,103 @@
+<div class="aside-block">
+  <div class="two-cols">
+    {% if settings.blog_meta_yes %}
+      <div>
+        <h2 class="text-uppercase">{{ settings.blog_meta_title }}</h2>
+        <ul class="list list--nomarker">
+          {{ settings.blog_meta_list }}
+        </ul>
+      </div>
+    {% endif %}
+    {% if settings.blog_archives_yes %}
+      <div>
+        <h2 class="text-uppercase">{{ settings.blog_archives_title }}</h2>
+        <ul class="list list--nomarker">
+          {{ settings.blog_archives_list }}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% if settings.blog_tags_yes %}
+  {% if blog.all_tags.size > 0 %}
+    <div class="aside-block-delimiter"></div>
+    <div class="aside-block">
+      <h2 class="text-uppercase">{{ 'general.theme.tags' | t }}</h2>
+      <ul class="tags-list">
+        {% for tag in blog.all_tags %}
+          {% if current_tags contains tag %}
+            <li class="active">{{ tag  | link_to_remove_tag: tag  }}</li>
+          {% else %}
+            <li>{{ tag  | link_to_add_tag: tag }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{% endif %}
+{% if settings.blog_popular_posts_yes %}
+    <div class="aside-block-delimiter"></div>
+  <div class="aside-block">
+    <h2 class="text-uppercase">{{ settings.blog_popular_posts_title }}</h2>
+    {% assign popular_posts = settings.blog_popular_posts_handles | replace:' ','' | split:',' %}
+    {% for handle in popular_posts %}
+      {% assign article = articles[handle] %}
+      <div class="post-prw">
+        {% if article.image != blank %}
+            <a href="{{ article.url }}" class="post-img">
+                {%- assign img_url = article | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                {%- assign image_alt = article.title | escape -%}
+                <img class="lazyload blur-up"
+                     data-src="{{ img_url }}"
+                     data-widths="[360, 540, 720, 900, 1200, 1800]"
+                     data-aspectratio="{{ article.aspect_ratio }}"
+                     data-sizes="auto"
+                     alt="{{ image_alt }}">
+            </a>
+        {% endif %}
+
+        <h4 class="post-title"><a href="{{ article.url }}">{{ article.title }}</a></h4>
+        {% if article.excerpt.size > 0 %}
+          <p class="post-teaser">{{ article.excerpt | strip_html | truncatewords: 14}}</p>
+        {% else %}
+          <p class="post-teaser">{{ article.content | strip_html | truncatewords: 14 }}</p>
+        {% endif %}
+        <div class="post-bot">
+          <div class="post-date">{{ article.published_at | date: format: "month_day_year" }}</div>
+          <a href="{{ article.url }}" class="post-link">{{ "blogs.article.read_more" | t }}</a>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% if settings.blog_instagram_yes %}
+    <div class="aside-block-delimiter"></div>
+<div class="aside-block">
+  <h2 class="text-uppercase">{{ 'general.theme.instagram' | t }}</h2>
+  {% include 'instagram-widget' limit:9 %}
+</div>
+{% endif %}
+{% if settings.blog_follow_us_yes %}
+    <div class="aside-block-delimiter"></div>
+<div class="aside-block">
+  <h2 class="text-uppercase">{{ 'general.theme.follow_us' | t }}</h2>
+  {% include 'social-media-links' %}
+</div>
+{% endif %}
+{% if settings.blog_newsletter_yes %}
+    <div class="aside-block-delimiter"></div>
+<div class="aside-block">
+  <h2 class="text-uppercase">{{ 'general.theme.newsletter' | t }}</h2>
+  {% form 'customer', id:"sidebar-subscribe" %}
+  {% if form.posted_successfully? %}
+    <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+  {% else %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="email" name="contact[email]"  class="form-control form-control--full" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.theme.enter_email' | t }}"  >
+      {{ form.errors | default_errors }}
+      <button class="btn-decor" type="submit">{{ 'general.newsletter_form.submit' | t }}</button>
+  {% endif %}
+  {% endform %}
+</div>
+{% endif %}

@@ -1,0 +1,23 @@
+{% assign countdown = product.metafields.c_f.countdown %}
+{% if countdown != blank %}
+    <div class="js-countdown-wrap {% if template == 'product.style-4' %}row flex-sm-wrap{% endif %}">
+        {% if template == 'product.style-4' %}
+        <div class="col-sm">
+            <div class="countdown-box">
+                <div class="countdown js-countdown" data-countdown="{{  countdown }}"></div>
+            </div>
+        </div>
+        {% else %}
+        <div class="countdown-box">
+            <div class="countdown js-countdown" data-countdown="{{  countdown }}"></div>
+        </div>
+        {% endif %}
+        {% if product.selected_or_first_available_variant.compare_at_price != blank %}
+            {% assign percent = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100.0 | divided_by:product.selected_or_first_available_variant.compare_at_price | times: 100 | divided_by: 100 | floor  %}
+            <div class="promo-text {% if template == 'product.style-4' %}col-sm-auto mt-sm-0{% endif %}">
+                <div><span class="text2">{{ 'general.theme.discount' | t }}</span> <span class="text1">{{ percent }}% {{ 'general.theme.discount_en' | t }}</span></div>
+                <div class="text3">{{ 'general.theme.have_time_to_buy' | t }}</div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

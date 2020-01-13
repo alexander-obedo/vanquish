@@ -1,0 +1,183 @@
+{% unless settings.slides_mode %}
+{%- assign collection = collections[section.settings.collection] -%}
+{%- assign collection_2 = collections[section.settings.collection_2] -%}
+{%- assign collection_3 = collections[section.settings.collection_3] -%}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{% if section.settings.limit_2 != blank %}
+    {%- assign product_limit_2 = section.settings.limit_2 -%}
+{% endif %}
+{% if section.settings.limit_3 != blank %}
+    {%- assign product_limit_3 = section.settings.limit_3 -%}
+{% endif %}
+
+<div class="holder {{ section.settings.outer_margin }} {% if section.settings.show_above_footer %}show_above_footer{% endif %}">
+    <div class="container">
+        <div class="row vert-margin">
+            <div class="col-md-4 overflow-hidden">
+                <div class="title-with-arrows">
+                    <h2 class="h1-style">{{ section.settings.title }}</h2>
+                    <div class="carousel-arrows"></div>
+                </div>
+                <div class="prd-carousel-vert js-prd-carousel-vert">
+                    {% for product in collection.products limit: product_limit %}
+                        {% include 'product-card-vertical' %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-md-4 overflow-hidden">
+                <div class="title-with-arrows">
+                    <h2 class="h1-style">{{ section.settings.title_2 }}</h2>
+                    <div class="carousel-arrows"></div>
+                </div>
+                <div class="prd-carousel-vert js-prd-carousel-vert">
+                    {% for product in collection_2.products limit: product_limit_2 %}
+                        {% include 'product-card-vertical' %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            <div class="col-md-4 overflow-hidden">
+                <div class="title-with-arrows">
+                    <h2 class="h1-style">{{ section.settings.title_3 }}</h2>
+                    <div class="carousel-arrows"></div>
+                </div>
+                <div class="prd-carousel-vert js-prd-carousel-vert">
+                    {% for product in collection_3.products limit: product_limit_3 %}
+                        {% include 'product-card-vertical' %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Three columns",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "checkbox",
+"id": "show_above_footer",
+"label": "Show block above the footer",
+"default": false
+},
+{
+"type": "header",
+"content": "Carousel left"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Collection 1"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"4"
+},
+{
+"type": "header",
+"content": "Carousel center"
+},
+{
+"type": "text",
+"id": "title_2",
+"label": "Heading",
+"default": "Collection 2"
+},
+{
+"id": "collection_2",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit_2",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"4"
+},
+{
+"type": "header",
+"content": "Carousel Right"
+},
+{
+"type": "text",
+"id": "title_3",
+"label": "Heading",
+"default": "Collection 3"
+},
+{
+"id": "collection_3",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit_3",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"4"
+}
+],
+"presets": [
+{
+"name": "Three columns",
+"category": "Collection's Carousel"
+}
+]
+}
+{% endschema %}

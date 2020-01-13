@@ -1,0 +1,34 @@
+<header class="hdr hdr-style-15 {{ custom }} {{ header_width }} {% if section.settings.sticky %}hdr_sticky{% endif %} minicart-icon-style-3 hdr-mobile-style{{ section.settings.style_mobile }} {{ section.settings.style_nav }}">
+    {% include 'topline' %}
+    {% include 'mobile-navigation' %}
+    {% include 'header-mobile' %}
+    <div class="hdr-desktop hide-mobile">
+        <div class="hdr-content">
+            <div class="container">
+                <div class="hdr-content-left links-holder">
+                    {% include 'header-languages-currencies' classes:'only-icon' %}
+                    {% include 'header-search' %}
+                </div>
+                <div class="logo-holder">
+                    {% include 'header-logo' %}
+                </div>
+                <div class="hdr-content-right">
+                    <div class="links-holder">
+                        {% include 'header-login-form' %}
+                    </div>
+                    <div class="minicart-holder">
+                        {% include 'header-cart' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-holder">
+            <div class="hdr-nav">
+                <div class="container">
+                    {% include 'header-navigation' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'header-sticky' %}
+</header>

@@ -1,0 +1,14 @@
+{%- assign grid_image_width = '254x300' -%}
+{%- assign grid_image_scale = '2' -%}
+<select name="id" class="form-control product-card-selectbox" data-product-select="{{ product.id }}" data-size="15"  data-header="{{ 'general.theme.select_options_all' | t }}"  tabindex="0">
+        {% for variant in product.variants %}
+                {% assign option_price = variant.price | money %}
+                {% comment %}{% assign option_price = option_price | replace:"<span class='money'>",'' | replace:"</span>" %}{% endcomment %}
+
+                {% assign on_sale = false %}
+                {% if variant.compare_at_price > variant.price %}
+                        {% assign on_sale = true %}
+                {% endif %}
+                <option {% if product.variants.size == 1 or settings.ajax_cart == false %}selected="selected"{% endif %} data-price="{{ variant.price }}" data-compare-price="{{ variant.compare_at_price }}" {% if variant.image.src %}data-image="{{ variant.image.src | img_url: grid_image_width, scale: grid_image_scale }}"{% endif %} {% unless variant.available %}disabled{% endunless %} value="{{ variant.id }}" data-content="{{ variant.title }} <strong>{{ option_price }}</strong> {% unless variant.available %}<span class='label-outstock'>{{ 'products.product.sold_out' | t }}</span>{% endunless %}{% if variant.available and on_sale %}<span class='strike_price'>{{ variant.compare_at_price | money }}</span> <span class='label-sale'>sale</span>{% endif %}"></option>
+        {% endfor %}
+</select>

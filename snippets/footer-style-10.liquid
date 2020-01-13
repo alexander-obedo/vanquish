@@ -1,0 +1,53 @@
+{% if section.settings.shop_info_yes %}
+    <div class="holder bgcolor bgcolor-1">
+        <div class="container">
+            <div class="row shop-features-style3" {% if settings.shop_info_bg_color != blank %}style="background-color: {{ settings.shop_info_bg_color }}"{% endif %}>
+                {% include 'footer_shop_info' %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+<footer class="page-footer footer-style-10  {{ section.settings.outer_margin }}">
+    <div class="footer-top container">
+        <div class="row py-3 py-md-5 py-md-7">
+            <div class="col footer-left">
+                {% if section.settings.navigation_1 != blank %}
+                <div class="footer-menu">
+                    <ul>
+                        {% for link in linklists[section.settings.navigation_1].links %}
+                            <li>
+                                {{ link.title | append:label | link_to: link.url }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                    <p>Choose Navigation in Theme Settings / Footer / NAVIGATION 1</p>
+                {% endif %}
+                <div class="subscribe-wrap">
+                  <div class="subscribe-form">
+                  	{% include 'newsletter-footer-form' %}
+                  </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-sm-auto">{% include 'social-media-links' %}</div>
+                    <div class="col-sm mt-2 mt-sm-0">
+                        <div class="footer-copyright">
+                            {{ section.settings.copyright }}
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-logo">
+                    {% include 'footer-logo' %}
+                </div>
+            </div>
+            <div class="col-sm-5 col-md-4 col-lg-3 mt-2 mt-sm-0">
+                <div class="footer-block">
+                    {% if section.settings.support_time != blank  %}
+                        {{ section.settings.support_time }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

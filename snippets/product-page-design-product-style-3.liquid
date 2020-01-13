@@ -1,0 +1,31 @@
+<div class="holder mt-0">
+  <div class="container">
+    <div class="row row-flex prd-block prd-block--creative prd-block--mobile-image-first" id="prdGallery100">
+      <div class="col-md-6 col-lg-7 col-xl-8 aside">
+        {% include 'product-media-style-3' %}
+        <div class="prd-block_info-holder"></div>
+        {% if section.settings.description_2 != blank  %}  <div class="shop-features-style2"> <div class="row"> {{ section.settings.description_2 }} </div> </div>{% endif %}
+        {% include 'product-tabs' style:"nav-tabs--style2" %}
+        <div class="prd-block_gallery">
+          <div class="prd-block_gallery-single">
+            <a href="{{ featured_image.src | img_url: 'master' }}" class="prd-has-loader" data-fancybox="gallery" data-caption="{{ featured_image.alt | escape }}">
+              <img src="{{ featured_image.src | img_url: '710x', scale:1.5  }}" alt="{{ featured_image.alt | escape }}" />
+              <div class="gdw-loader"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-5 col-xl-4 aside aside-fixed fixed-col">
+        {% include 'product_prev_next' %}
+        <div class="js-prd-gallery mt-0 mt-md-3" id="prdGallery300">
+          <div class="prd-block_info js-prd-m-holder mb-2 mb-md-0"></div>
+          <div class="prd-block_gallery-mobile">
+            {% include 'product-media' %}
+          </div>
+        </div>
+        {% include 'product-page-info' quick_view:'no' %}
+      </div>
+    </div>
+    <div class="ymax"></div>
+  </div>
+</div>

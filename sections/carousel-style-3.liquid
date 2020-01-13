@@ -1,0 +1,119 @@
+{% unless settings.slides_mode %}
+{% include 'global_vars' %}
+{% case section.settings.per_row_desktop %}
+{% when '3' %}
+{%- assign image_size = '508x' -%}
+{% when '4' %}
+{%- assign image_size = '254x' -%}
+{% when '5' %}
+{%- assign image_size = '254x' -%}
+{% endcase %}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{%- assign collection = collections[section.settings.collection] -%}
+{% assign per_row_desktop = section.settings.per_row_desktop %}
+{% if column %}{% assign per_row_desktop = 3 %}{% endif %}
+<div class="holder global_width {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="title-wrap text-center">
+            <h2 class="h1-style">{{ section.settings.title }}</h2>
+        </div>
+        <div class="prd-grid prd-carousel js-prd-carousel js-product-isotope-sm slick-arrows-aside-simple slick-arrows-mobile-lg data-to-show-{{ per_row_desktop }} data-to-show-md-3 data-to-show-sm-3 data-to-show-xs-2"  data-slick='{"slidesToShow": {{ per_row_desktop }}, "slidesToScroll": {{ per_row_desktop }}, "responsive": [{"breakpoint": 992,"settings": {"slidesToShow": 3, "slidesToScroll": 1}},{"breakpoint": 768,"settings": {"slidesToShow": 3, "slidesToScroll": 1}},{"breakpoint": 480,"settings": {"slidesToShow": 2, "slidesToScroll": 1}}]}'>
+            {% for product in collection.products limit: product_limit %}
+                {% include 'product-card', per_row: section.settings.per_row_desktop, grid_image_width: image_size %}
+            {% else %}
+            <div class="alert alert-warning">
+                    To Init <b>Product's carousel</b>:<br />
+                    1.<b>Choose Collection</b><br />
+                    2.<b>Save</b>
+                </div>
+            {% endfor %}
+        </div>
+        {% if section.settings.show_view_all and section.settings.collection != blank %}<div class="more-link-wrapper text-center"><a href="{{ collection.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+    "name": "Full row - Style 3",
+    "class": "index-section",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Layout"
+        },
+
+        {
+            "type": "select",
+            "id": "outer_margin",
+            "label": "Outer top margin",
+            "options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+            ],
+            "default": "mt-65"
+        },
+        {
+            "type": "header",
+            "content": "General"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Collection"
+        },
+        {
+            "id": "collection",
+            "type": "collection",
+            "label": "Collection"
+        },
+        {
+            "id": "limit",
+            "type": "text",
+            "label": "Products limit",
+            "info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+            "default":"8"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_view_all",
+            "label": "Show 'Show all' button",
+            "default": true
+        },
+
+        {
+            "type": "header",
+            "content": "Products per row:"
+        },
+        {
+            "type": "select",
+            "id": "per_row_desktop",
+            "label": "Desktop",
+            "default": "4",
+            "options": [
+            { "value": "3", "label": "3" },
+            { "value": "4", "label": "4" },
+            { "value": "5", "label": "5" }
+            ]
+        }
+    ],
+    "presets": [
+        {
+        "name": "Full row - Style 3",
+        "category": "Collection's Carousel"
+        }
+    ]
+}
+{% endschema %}

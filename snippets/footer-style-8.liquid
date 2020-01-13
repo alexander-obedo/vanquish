@@ -1,0 +1,54 @@
+<div class="holder py-3">
+    <div class="container">
+        <div class="subscribe-form subscribe-form--style3">
+            <h2 class="h1-style text-center">{{ 'general.theme.sign_up_text_1' | t }}</h2>
+            {% include 'newsletter-footer-form' %}
+        </div>
+    </div>
+</div>
+<footer class="page-footer footer-style-8  {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="row py-md-3 py-lg-6">
+            <div class="col-md-12 col-lg-8 px-lg-5 py-md-2 order-lg-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if section.settings.support_time != blank %}
+                        <div class="footer-block">
+                            {{ section.settings.support_time }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if section.settings.google_map != blank %}
+                    <div class="col-md-6 my-2 my-md-0">
+                        <div class="footer-map">
+                            {{ section.settings.google_map | replace:'frameborder="0"','' }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-2 lined-right d-flex flex-column py-md-2 order-lg-1">
+                {% if section.settings.navigation_1 != blank %}
+                <div class="footer-block">
+                    <ul>
+                        {% for link in linklists[section.settings.navigation_1].links %}
+                            <li>
+                                {{ link.title | append:label | link_to: link.url }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                <div class="mt-auto">
+                    {% include 'social-media-links' %}
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-2 lined-left text-md-right d-flex flex-column py-md-2 order-3">
+                <div class="footer-logo">{% include 'footer-logo' %}</div>
+                <div class="footer-copyright mt-auto">
+                    {{ section.settings.copyright }}
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

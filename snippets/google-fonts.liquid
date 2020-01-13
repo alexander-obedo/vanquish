@@ -1,0 +1,69 @@
+{% if settings.color_body_font_radio == 'google_library' %}
+    {% assign temp_font = '' %}
+    {% if settings.color_body_font_family != blank %}
+        {% assign temp_font = settings.color_body_font_family %}
+        {{ '//fonts.googleapis.com/css?family=' | append: settings.color_body_font_family | stylesheet_tag }}
+    {% endif %}
+    {% if settings.color_headings_font_family != blank and temp_font != settings.color_headings_font_family %}
+        {% assign temp_font = settings.color_headings_font_family %}
+        {{ '//fonts.googleapis.com/css?family=' | append: settings.color_headings_font_family | stylesheet_tag }}
+    {% endif %}
+    {% if settings.color_product_page_name_font_family != blank and temp_font != settings.color_product_page_name_font_family %}
+        {% assign temp_font = settings.color_product_page_name_font_family %}
+        {{ '//fonts.googleapis.com/css?family=' | append: settings.color_product_page_name_font_family | stylesheet_tag }}
+    {% endif %}
+    {% if settings.color_topnav_level_1_font_family != blank  and temp_font != settings.color_topnav_level_1_font_family %}
+        {% assign temp_font = settings.color_topnav_level_1_font_family %}
+        {{ '//fonts.googleapis.com/css?family=' | append: settings.color_topnav_level_1_font_family | stylesheet_tag }}
+    {% endif %}
+{% else %}
+
+    {% assign font = settings.color_body_font_family_shopify %}
+    {% assign font_f = font.family | replace: '"','' %}
+    {% assign font1 = settings.color_headings_font_family_shopify %}
+    {% assign font_f1 = font1.family | replace: '"','' %}
+    {% assign font2 = settings.color_product_page_name_font_family_shopify %}
+    {% assign font_f2 = font2.family | replace: '"','' %}
+    {% assign font3 = settings.color_topnav_level_1_font_family_shopify %}
+    {% assign font_f3 = font3.family | replace: '"','' %}
+
+    {%- capture weight_list -%}
+    {%- for variant in font.variants -%}{{ variant.weight | prepend: ',' }}{%- if variant.style == 'italic' -%}i{%- endif -%}{%- endfor -%}
+    {%- endcapture -%}
+    {%- capture font_link -%}
+    {{ weight_list | replace_first: ',', ':' | append: '&display=swap' }}
+    {%- endcapture -%}
+    {{ '//fonts.googleapis.com/css?family=' | append: font_f | append: font_link | stylesheet_tag }}
+
+    {% if font_f1 != font_f %}
+        {%- capture weight_list_1 -%}
+        {%- for variant in font1.variants -%}{{ variant.weight | prepend: ',' }}{%- if variant.style == 'italic' -%}i{%- endif -%}{%- endfor -%}
+        {%- endcapture -%}
+        {%- capture font_link -%}
+        {{ weight_list_1 | replace_first: ',', ':' | append: '&display=swap' }}
+        {%- endcapture -%}
+        {{ '//fonts.googleapis.com/css?family=' | append: font_f1 | append: font_link | stylesheet_tag }}
+    {% endif %}
+
+    {% if font_f2 != font_f and font_f2 != font_f1 %}
+        {%- capture weight_list_2 -%}
+        {%- for variant in font2.variants -%}{{ variant.weight | prepend: ',' }}{%- if variant.style == 'italic' -%}i{%- endif -%}{%- endfor -%}
+        {%- endcapture -%}
+        {%- capture font_link -%}
+        {{ weight_list_2 | replace_first: ',', ':' | append: '&display=swap' }}
+        {%- endcapture -%}
+        {{ '//fonts.googleapis.com/css?family=' | append: font_f2 | append: font_link | stylesheet_tag }}
+    {% endif %}
+
+    {% if font_f3 != font_f2 and font_f3 != font_f1 and font_f3 != font_f %}
+        {%- capture weight_list_3 -%}
+        {%- for variant in font3.variants -%}{{ variant.weight | prepend: ',' }}{%- if variant.style == 'italic' -%}i{%- endif -%}{%- endfor -%}
+        {%- endcapture -%}
+        {%- capture font_link -%}
+        {{ weight_list_3 | replace_first: ',', ':' | append: '&display=swap' }}
+        {%- endcapture -%}
+        {{ '//fonts.googleapis.com/css?family=' | append: font_f3 | append: font_link | stylesheet_tag }}
+    {% endif %}
+
+{% endif %}
+

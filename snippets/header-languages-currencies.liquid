@@ -1,0 +1,19 @@
+{% if section.settings.languages or  section.settings.currencies %}
+<!-- Header Language + Currency -->
+<div class="dropdn dropdn_settings {% if onlyicon == 1 %}only-icon{% endif %} {{ classes }} ">
+    <div class="dropdn">
+        <a href="#" class="dropdn-link"><i class="icon icon-globe"></i><span>{{ 'general.theme.settings' | t }}</span></a>
+        <div class="dropdn-content">
+            <div class="container">
+                {% if section.settings.languages %}
+					{% include 'header-languages' %}
+                {% endif %}
+                <div class="vert-divider"></div>
+                <a href="#" class="selected-currency hide">{{ shop.currency }}</a>
+                {% include 'currency-picker' %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Header Language + Currency -->
+{% endif %}

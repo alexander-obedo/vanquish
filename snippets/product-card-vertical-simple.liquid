@@ -1,0 +1,26 @@
+<div class="prd prd-vertical-simple">
+    <div class="prd-inside">
+        <div class="prd-img-area">
+            <a href="{{ product.url }}" class="prd-img">
+                {% assign _img = product.featured_image %}
+                {% assign _img_size = '175x' %}
+                {% if _img %}
+                    <img class="lazyload blur-up js-prd-img"
+                         data-src="{{ _img | img_url: _img_size }}"
+                         data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                         data-aspectratio="{{ _img.aspect_ratio }}"
+                         data-sizes="auto"
+                         alt="{{ _img.alt | escape }}">
+                {%- else -%}
+                    {% include 'image-placeholder-aspect-ratio', width: 175, height: 210, text: '&nbsp;' %}
+                {%- endif -%}
+            </a>
+        </div>
+        <div class="prd-info">
+            {% if settings.show_vendor %}<div class="prd-tag prd-hidemobile"><span>{{ product.vendor }}</span></div>{% endif %}
+            <h2 class="prd-title"><a title="{{ product.title  }}" href="{{ product.url | within: collection }}">{{ product.title | truncate: 17 }}</a></h2>
+            <div class="prd-rating prd-hidemobile"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></div>
+            {% include 'product-card-price' %}
+        </div>
+    </div>
+</div>

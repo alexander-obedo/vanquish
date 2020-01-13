@@ -1,0 +1,161 @@
+{% unless settings.slides_mode %}
+<div class="holder fullwidth  {{ section.settings.outer_margin }}">
+	<div class="container">
+		<div class="card-imgtext-wrap">
+			<div class="row vert-margin flex-row-reverse">
+				<div class="col order-1">
+					<div class="card-imgtext">
+						<div class="card-imgtext-image">
+                            {% assign _img = section.settings.image %}
+                            {% assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                            {%- if _img -%}
+								<img class="lazyload blur-up w-100"
+									 data-src="{{ img_url }}"
+									 data-widths="[720, 900, 1200, 1800, 2400]"
+									 data-aspectratio="{{ _img.aspect_ratio }}"
+									 data-sizes="auto"
+									 alt="{{ section.settings.caption_1 }}">
+                            {%- else -%}
+                                {%- include 'image-placeholder-aspect-ratio', width: 416, height: 332 -%}
+                            {%- endif -%}
+						</div>
+						<div class="card-imgtext-text">
+							<h2 class="card-imgtext-title">{{ section.settings.caption_1 }}</h2>
+							<p>{{ section.settings.desc_1 }}</p>
+							<a href="{{ section.settings.link | default:'#' }}" class="btn-decor">{{ section.settings.link_title }}</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-double order-2">
+					<div class="card-imgtext">
+						<div class="card-imgtext-image">
+                            {% assign _img = section.settings.image_2 %}
+                            {% assign img_url = _img | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                            {%- if _img -%}
+								<img class="lazyload blur-up w-100"
+									 data-src="{{ img_url }}"
+									 data-widths="[720, 900, 1200, 1800, 2400]"
+									 data-aspectratio="{{ _img.aspect_ratio }}"
+									 data-sizes="auto"
+									 alt="{{ section.settings.caption_2 }}">
+                            {%- else -%}
+                                {%- include 'image-placeholder-aspect-ratio', width: 690, height: 319 -%}
+                            {%- endif -%}
+						</div>
+						<div class="card-imgtext-text">
+							<h2 class="card-imgtext-title">{{ section.settings.caption_2 }}</h2>
+							<p>{{ section.settings.desc_2 }}</p>
+							<a href="{{ section.settings.link_2 | default:'#' }}" class="btn-decor">{{ section.settings.link_title_2 }}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Banners 2 + text Style 5",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "Product 1"
+},
+{
+"type": "image_picker",
+"id": "image_2",
+"label": "Image",
+"info":"recommended width 690x319px (like in demo)"
+},
+{
+"type": "text",
+"id": "link_title_2",
+"label": "Link title",
+"default":"Shop Now"
+},
+{
+"type": "url",
+"id": "link_2",
+"label": "Link"
+},
+{
+"type": "text",
+"id": "caption_2",
+"label": "Caption",
+"default":"SOFAS"
+},
+{
+"type": "textarea",
+"id": "desc_2",
+"label": "Description",
+"default":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud"
+},
+{
+"type": "header",
+"content": "Product 2"
+},
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image",
+"info":"recommended width 416x332px (like in demo)"
+},
+{
+"type": "text",
+"id": "link_title",
+"label": "Link title",
+"default":"Shop Now"
+},
+{
+"type": "url",
+"id": "link",
+"label": "Link"
+},
+{
+"type": "text",
+"id": "caption_1",
+"label": "Caption",
+"default":"TABLES"
+},
+{
+"type": "textarea",
+"id": "desc_1",
+"label": "Description",
+"default":"Lorem ipsum dolor sit amet onses adicpis elitr anno dolor sit amet ipsum dolor it amet"
+}
+
+],
+"presets": [
+{
+"name": "Banners 2 + text Style 5",
+"category": "Banners"
+}
+]
+}
+{% endschema %}

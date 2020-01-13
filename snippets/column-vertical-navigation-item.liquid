@@ -1,0 +1,106 @@
+<li class="mmenu-item--mega"><a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %}>{{ block.settings.title }}{% if block.settings.label != blank %}{% if block.settings.label != blank %}<span class="menu-label menu-label--color{{ block.settings.label_color }}">{{ block.settings.label }}</span>{% endif %}{% endif %}</a>
+    <div class="mmenu-submenu mmenu-submenu-with-sublevel {% if block.type == 'style-2' %} mmenu-submenu--bg submenu-style-01{% endif %} {% if block.type == 'style-6' %} mmenu-submenu--bg submenu-style-02{% endif %}" {% if block.type == 'style-2' %}style="background-image: url({% if block.settings.bg_image %}{{ block.settings.bg_image | img_url:'master' }}{% else %}{{ 'vmenu-bg-01.png' | asset_url }}{% endif %}); background-color: {{ block.settings.bg_color }}"{% endif %} {% if block.type == 'style-6' %}style="background-image: url({% if block.settings.bg_image %}{{ block.settings.bg_image | img_url:'master' }}{% else %}{{ 'vmenu-bg-02.png' | asset_url }}{% endif %});"{% endif %}>
+        <div class="mmenu-submenu-inside">
+            <div class="container">
+                {% if block.settings.right_products_yes %}
+                    <div class="mmenu-right mmenu-right-nopad width-33">
+                        <div class="prd-carousel-vert prd-carousel-vert-striped">
+                            {%- assign collection = collections[block.settings.collection] -%}
+                            {% for product in collection.products limit: 4 %}
+                                {% include 'product-card-vertical' %}
+                            {% else %}
+                                <div class="alert alert-warning" style="color: black;">
+                                    To Init <b>Product's carousel</b>:<br />
+                                    1.<b>Choose Collection</b><br />
+                                    2.<b>Save</b>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if block.settings.html_right != blank %}
+                <div class="mmenu-right mmenu-right-nopad width-40">
+                    {{ block.settings.html_right }}
+                </div>
+                {% endif %}
+                <div class="mmenu-cols column-{{ block.settings.columns_in_row | default:4 }}">
+                    {% for i in (1..15) %}
+                        {% capture enable %}nav_col_{{ i }}_yes{% endcapture %}
+                        {% capture preview %}nav_col_{{ i }}_preview{% endcapture %}
+                        {% capture title %}nav_col_{{ i }}_title{% endcapture %}
+                        {% capture link %}nav_col_{{ i }}_link{% endcapture %}
+                        {% capture list %}nav_col_{{ i }}_list{% endcapture %}{% assign list = block.settings[list] %}
+                        {% if block.settings[enable] %}
+                            <div class="mmenu-col">
+                                {% if block.type == 'style-3' %}
+                                <a {% if block.settings[link] != blank %}href="{{ block.settings[link] }}"{% endif %}>
+                                    <div class="submenu-img">
+                                        {% if block.settings[preview] %}<img src="{{ block.settings[preview] | img_url:'master' }}" alt="{{  block.settings[title] }}" />{% endif %}
+                                        <h3 class="submenu-title submenu-title-right"><span>{{  block.settings[title] }}</span></h3>
+                                    </div>
+                                </a>
+                                {% else %}
+                                    {% if block.settings[preview] %}
+                                        <div class="submenu-img">
+                                            <a {% if block.settings[link] != blank %}href="{{ block.settings[link] }}"{% endif %}>
+                                               <img src="{{ block.settings[preview] | img_url:'master' }}" alt="{{  block.settings[title] }}" />
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                    <h3 class="submenu-title"><a {% if block.settings[link] != blank %}href="{{ block.settings[link] }}"{% endif %}>{{  block.settings[title] }}</a></h3>
+                                {% endif %}
+
+                                {% if list != blank %}
+                                    <ul class="submenu-list">
+                                        {% for link in  linklists[list].links %}
+                                            <li  {% if link.active %}class="active"{% endif %}>
+                                                {{ link.title | append:label | link_to: link.url }}
+                                                {% if linklists[link.handle].links.size > 0 %}
+                                                    <ul class="sub-level">
+                                                        {% for link_1 in linklists[link.handle].links %}
+                                                            <li  {% if link.active %}class="active"{% endif %}> {{ link_1.title | link_to: link_1.url }}
+                                                                {% if linklists[link_1.handle].links.size > 0 %}
+                                                                    <ul class="sub-level">
+                                                                        {% for link_2 in linklists[link_1.handle].links %}
+                                                                            <li> {{ link_2.title | link_to: link_2.url }} </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                {% endif %}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                {% if block.settings[link] != blank %}<a href="{{ block.settings[link] }}" class="submenu-view-more">{{ 'general.theme.view_all' | t }}</a>{% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% if block.settings.btm_row_yes %}
+                    {% if block.settings.btm_row_html != blank %}
+                    <div class="mmenu-bottom-brands"> {{ block.settings.btm_row_html }} </div>
+                    {% endif %}
+                {% endif %}
+                {% if block.settings.btm_products_yes %}
+                <div class="mmenu-bottom">
+                    <div class="prd-grid">
+                        {%- assign collection = collections[block.settings.collection] -%}
+                        {% for product in collection.products limit: 3 %}
+                            {% include 'product-card-vertical' %}
+                        {% else %}
+                            <div class="alert alert-warning" style="color: black;">
+                                To Init <b>Product's carousel</b>:<br />
+                                1.<b>Choose Collection</b><br />
+                                2.<b>Save</b>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</li>

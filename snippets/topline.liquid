@@ -1,0 +1,78 @@
+{% if section.settings.topline_enable %}
+    {% assign show_topline = false  %}
+    {% if section.settings.where_to_show == 'home' and template == 'index'  %}{% assign show_topline = true  %}{% endif %}
+    {% if section.settings.where_to_show == 'all' %}{% assign show_topline = true  %}{% endif %}
+    {% if show_topline  %}
+         <!-- Promo TopLine -->
+        <div class="bgcolor" style="{% if section.settings.bgcolor_topline %}background-color: {{ section.settings.bgcolor_topline }};{% endif %} {% if section.settings.bgcustom_topline %}background-image: url({% if section.settings.bg_topline %}{{ section.settings.bg_topline | img_url:'master' }}{% else %}{{ 'prono-topline-bg.png' | asset_url }}{% endif %});{% endif %}">
+            <div class="promo-topline" data-expires="{{ section.settings.topline_expires }}" style="display: none;">
+                <div class="container">
+                {% if section.settings.topline_enable_animation %}                 
+                <div class="typewrite promo-topline-item" data-period="2000" data-type='[ "{{ section.settings.topline_caption_1 }}"{% if section.settings.topline_caption_2 != blank %}, "{{ section.settings.topline_caption_2 }}"{% endif %} ]'>
+					<span class="wrap"></span>
+				</div>
+                {% else %}
+                <div class="promo-topline-item"><b>{{ section.settings.topline_caption }}</b></div>
+                {% endif %}  
+                </div>
+                <a href="#" class="promo-topline-close js-promo-topline-close"><i class="icon-cross"></i></a>
+            </div>
+        </div>
+        {% if section.settings.topline_enable_animation %}   
+        <script>
+            var TxtType = function(el, toRotate, period) {
+                this.toRotate = toRotate;
+                this.el = el;
+                this.loopNum = 0;
+                this.period = parseInt(period, 10) || 2000;
+                this.txt = '';
+                this.tick();
+                this.isDeleting = false;
+            };
+
+            TxtType.prototype.tick = function() {
+                var i = this.loopNum % this.toRotate.length;
+                var fullTxt = this.toRotate[i];
+
+                if (this.isDeleting) {
+                    this.txt = fullTxt.substring(0, this.txt.length - 1);
+                } else {
+                    this.txt = fullTxt.substring(0, this.txt.length + 1);
+                }
+
+                this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+                var that = this;
+                var delta = 100;
+
+                if (this.isDeleting) { delta /= 7; }
+
+                if (!this.isDeleting && this.txt === fullTxt) {
+                    delta = this.period;
+                    this.isDeleting = true;
+                } else if (this.isDeleting && this.txt === '') {
+                    this.isDeleting = false;
+                    this.loopNum++;
+                    delta = 500;
+                }
+
+                setTimeout(function() {
+                    that.tick();
+                }, delta);
+            };
+
+            window.onload = function() {
+                var elements = document.getElementsByClassName('typewrite');
+                for (var i=0; i<elements.length; i++) {
+                    var toRotate = elements[i].getAttribute('data-type');
+                    var period = elements[i].getAttribute('data-period');
+                    if (toRotate) {
+                        new TxtType(elements[i], JSON.parse(toRotate), period);
+                    }
+                }
+            };
+        </script>
+        {% endif %} 
+        <!-- /Promo TopLine -->
+    {% endif %}
+{% endif %}

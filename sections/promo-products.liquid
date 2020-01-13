@@ -1,0 +1,129 @@
+{% if section.settings.enable %}
+    <section class="payment-notification-wrap js-pn" style="display: none;" data-period="30000" data-delay="15000">
+        <div class="payment-notification">
+            <div class="payment-notification-container">
+                <a href="#" class="payment-notification-image js-pn-link">
+                    <img src="#" class="js-pn-image">
+                </a>
+                <div class="payment-notification-content-wrapper">
+                    <div class="payment-notification-content">
+                        <div class="payment-notification-text">{{ 'general.theme.someone_purchased' | t }} </div>
+                        <a href="#" class="payment-notification-name js-pn-name js-pn-link"></a>
+                        <div class="payment-notification-when"><span class="js-pn-time"></span> {{ 'general.theme.minutes_ago' | t }} </div>
+                        <div class="payment-notification-from">{{ 'general.theme.from' | t }} <span class="js-pn-from"></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="payment-notification-close"><i class="icon-cross"></i></div>
+        </div>
+    </section>
+    {% assign cities = section.settings.promotion_cities | split:',' | json | join:',' %}
+
+
+    <script>
+        jQuery(document).ready(function () {
+            function random(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+
+            var GOODWINCustom = GOODWINCustom || {};
+
+            GOODWINCustom.productfeatures = {
+                init: function () {
+                    this.paymentNotification();
+                },
+                paymentNotification: function () {
+                    var fromArray = {{ cities }};
+                    {% assign products = '[' %}
+                    {% for block in section.blocks %}
+                    {% if block.settings.enable %}
+                    {% assign product = all_products[block.settings.product] %}
+                    {% assign image = product.featured_image.src | img_url: '90x106' %}
+                    {% assign name = product.title | truncate:27 %}
+                    {% assign product_info = '{"productname":"' | append:name | append:'", "productlink":"' | append:product.url | append:'","productimage":"' | append:image | append:'"},' %}
+                    {% assign products = products | append:product_info %}
+                    {% endif %}
+                    {% endfor %}
+                    {% assign products = products | append:']' %}
+                    {% assign products_json = products | replace:'},]','}]' %}
+                    var productJson = '{{ products_json }}';
+                    var productArray = $.parseJSON(productJson),
+                            maxAgoMin = 60,
+                            minAgoMin = 10,
+                            $paymentNotification = $('.payment-notification-wrap'),
+                            paymentNotificationPeriod = $paymentNotification.data('period') ? $paymentNotification.data('period') : 10000,
+                            paymentNotificationDelay = $paymentNotification.data('delay') ? $paymentNotification.data('delay') : 5000,
+                            k = 0,
+                            fadeIn = { opacity: 1, transition: 'opacity 0.5s' },
+                            fadeOut = { opacity: 0, transition: 'opacity 0.5s' };
+                    function showPaymentNotification(i) {
+                      	$('.js-pn-name').html(productArray[i].productname);
+                        $('.js-pn-link').attr('href', productArray[i].productlink);
+						$('.js-pn-image').attr('src', productArray[i].productimage);                        
+                        $('.js-pn-from').html(fromArray[random(0, fromArray.length)]);
+                        $('.js-pn-time').html(random(minAgoMin, maxAgoMin));
+                        $paymentNotification.css(fadeIn).slideDown(500);
+                    }
+                  
+                  	$paymentNotification.css(fadeOut);
+                                  
+                    setTimeout(function() {
+                        showPaymentNotification(Math.floor(Math.random() * productArray.length));
+                    }, paymentNotificationDelay)
+
+                    setInterval(function () {
+                        k = Math.floor(Math.random() * productArray.length)
+                        $paymentNotification.stop().css(fadeOut).slideUp(500).delay(paymentNotificationDelay).queue(function () {
+                            showPaymentNotification(k);
+                            $(this).dequeue();
+                        });
+                    }, paymentNotificationPeriod);
+
+                    $(".payment-notification-close").click(function () {
+                        $paymentNotification.stop().css(fadeOut).slideUp(500);
+                    });
+                }
+            }
+            GOODWINCustom.productfeatures.init();
+        })
+    </script>
+{% endif %}
+{% schema %}
+{
+"name": "Promotion of the products",
+"settings": [
+{
+"type": "checkbox",
+"id": "enable",
+"label": "Enable",
+"default":false
+},
+{
+"type":      "textarea",
+"id":        "promotion_cities",
+"label":     "Cities",
+"default":   "Aberdeen, Abilene, Akron, Albany, Albuquerque, Alexandria, Allentown, Amarillo, Anaheim, Anchorage, Ann Arbor, Antioch, Apple Valley, Appleton, Arlington, Arvada, Asheville, Athens, Atlanta, Atlantic City, Augusta, Aurora, Austin, Bakersfield, Baltimore, Barnstable, Baton Rouge, Beaumont, Bel Air, Bellevue, Berkeley, Bethlehem, Billings, Birmingham, Bloomington, Boise, Boise City, Bonita Springs, Boston, Boulder, Bradenton, Bremerton, Bridgeport, Brighton, Brownsville, Bryan, Buffalo, Burbank, Burlington, Cambridge, Canton, Cape Coral, Carrollton, Cary, Cathedral City, Cedar Rapids, Champaign, Chandler, Charleston, Charlotte, Chattanooga, Chesapeake, Chicago, Chula Vista, Cincinnati, Clarke County, Clarksville, Clearwater, Cleveland, College Station, Colorado Springs, Columbia, Columbus, Concord, Coral Springs, Corona, Corpus Christi, Costa Mesa, Dallas, Daly City, Danbury, Davenport, Davidson County, Dayton, Daytona Beach, Deltona, Denton, Denver, Des Moines, Detroit, Downey, Duluth, Durham, El Monte, El Paso, Elizabeth, Elk Grove, Elkhart, Erie, Escondido, Eugene, Evansville, Fairfield, Fargo, Fayetteville, Fitchburg, Flint, Fontana, Fort Collins, Fort Lauderdale, Fort Smith, Fort Walton Beach, Fort Wayne, Fort Worth, Frederick, Fremont, Fresno, Fullerton, Gainesville, Garden Grove, Garland, Gastonia, Gilbert, Glendale, Grand Prairie, Grand Rapids, Grayslake, Green Bay, GreenBay, Greensboro, Greenville, Gulfport-Biloxi, Hagerstown, Hampton, Harlingen, Harrisburg, Hartford, Havre de Grace, Hayward, Hemet, Henderson, Hesperia, Hialeah, Hickory, High Point, Hollywood, Honolulu, Houma, Houston, Howell, Huntington, Huntington Beach, Huntsville, Independence, Indianapolis, Inglewood, Irvine, Irving, Jackson, Jacksonville, Jefferson, Jersey City, Johnson City, Joliet, Kailua, Kalamazoo, Kaneohe, Kansas City, Kennewick, Kenosha, Killeen, Kissimmee, Knoxville, Lacey, Lafayette, Lake Charles, Lakeland, Lakewood, Lancaster, Lansing, Laredo, Las Cruces, Las Vegas, Layton, Leominster, Lewisville, Lexington, Lincoln, Little Rock, Long Beach, Lorain, Los Angeles, Louisville, Lowell, Lubbock, Macon, Madison, Manchester, Marina, Marysville, McAllen, McHenry, Medford, Melbourne, Memphis, Merced, Mesa, Mesquite, Miami, Milwaukee, Minneapolis, Miramar, Mission Viejo, Mobile, Modesto, Monroe, Monterey, Montgomery, Moreno Valley, Murfreesboro, Murrieta, Muskegon, Myrtle Beach, Naperville, Naples, Nashua, Nashville, New Bedford, New Haven, New London, New Orleans, New York, New York City, Newark, Newburgh, Newport News, Norfolk, Normal, Norman, North Charleston, North Las Vegas, North Port, Norwalk, Norwich, Oakland, Ocala, Oceanside, Odessa, Ogden, Oklahoma City, Olathe, Olympia, Omaha, Ontario, Orange, Orem, Orlando, Overland Park, Oxnard, Palm Bay, Palm Springs, Palmdale, Panama City, Pasadena, Paterson, Pembroke Pines, Pensacola, Peoria, Philadelphia, Phoenix, Pittsburgh, Plano, Pomona, Pompano Beach, Port Arthur, Port Orange, Port Saint Lucie, Port St. Lucie, Portland, Portsmouth, Poughkeepsie, Providence, Provo, Pueblo, Punta Gorda, Racine, Raleigh, Rancho Cucamonga, Reading, Redding, Reno, Richland, Richmond, Richmond County, Riverside, Roanoke, Rochester, Rockford, Roseville, Round Lake Beach, Sacramento, Saginaw, Saint Louis, Saint Paul, Saint Petersburg, Salem, Salinas, Salt Lake City, San Antonio, San Bernardino, San Buenaventura, San Diego, San Francisco, San Jose, Santa Ana, Santa Barbara, Santa Clara, Santa Clarita, Santa Cruz, Santa Maria, Santa Rosa, Sarasota, Savannah, Scottsdale, Scranton, Seaside, Seattle, Sebastian, Shreveport, Simi Valley, Sioux City, Sioux Falls, South Bend, South Lyon, Spartanburg, Spokane, Springdale, Springfield, St. Louis, St. Paul, St. Petersburg, Stamford, Sterling Heights, Stockton, Sunnyvale, Syracuse, Tacoma, Tallahassee, Tampa, Temecula, Tempe, Thornton, Thousand Oaks, Toledo, Topeka, Torrance, Trenton, Tucson, Tulsa, Tuscaloosa, Tyler, Utica, Vallejo, Vancouver, Vero Beach, Victorville, Virginia Beach, Visalia, Waco, Warren, Washington, Waterbury, Waterloo, West Covina, West Valley City, Westminster, Wichita, Wilmington, Winston, Winter Haven, Worcester, Yakima, Yonkers, York, Youngstown",
+"info":      "Available cities for title 'Someone purchased in the city':"
+}
+],
+"blocks": [
+{
+"type": "product",
+"name": "product",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "product",
+"id": "product",
+"label": "Product"
+}
+]
+}
+]
+}
+{% endschema %}

@@ -1,0 +1,114 @@
+<div class="hdr-wrap bg-bottom bg-cover" style="background-image: url({{ 'header-tshirts-bg.jpg' | asset_url }}); background-color: #232323;">
+    <header class="hdr global_width hdr-style-2 hdr--dark hdr--dark-drop {% if section.settings.sticky %}hdr_sticky{% endif %} minicart-icon-style-2 hdr-mobile-style{{ section.settings.style_mobile }}">
+        {% include 'topline' %}
+        {% include 'mobile-navigation' %}
+        {% include 'header-mobile' %}
+        <div class="hdr-desktop hide-mobile">
+            <div class="hdr-content">
+                <div class="container">
+                    <div class="hdr-content-left">
+                        {% include 'header-languages-currencies' classes:'only-icon' %}
+                    </div>
+                    <div class="logo-holder">
+                        {% include 'header-logo' %}
+                    </div>
+                    <div class="hdr-content-right">
+                        <div class="links-holder">
+                            {% include 'header-search'  classes:"only-icon" %}
+                            {% include 'header-login-form'  classes: "only-icon" %}
+                        </div>
+                        <div class="minicart-holder">
+                            {% include 'header-cart' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-holder">
+                <div class="hdr-nav">
+                    <div class="container">
+                        {% include 'header-navigation' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'header-sticky' %}
+    </header>
+    <div class="header-banners">
+        <div class="container">
+            {% if home or template == 'page.home-page-t-shirts-1' %}
+                {% if section.settings.bnr_source == 'online' %}
+                    {{ section.settings.html_header_5 }}
+                {% else %}
+                    {% if section.settings.bnr_enable %}
+                        <a href="{{ section.settings.bnr_link }}" target="{{ section.settings.bnr_link_target }}" class="bnr-wrap">
+                            <div class="bnr bnr32 bnr--style-1-6 {{ section.settings.bnr_text_pos }} bnr-hover-scale" data-fontratio="11.4">
+                                {% if section.settings.bnr_image %}
+                                    {%- assign img_url = section.settings.bnr_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                    <img class="lazyload blur-up"
+                                         src="{{ section.settings.bnr_image | img_url: '300x300' }}"
+                                         data-src="{{ img_url }}"
+                                         data-widths="[180, 360, 540, 720, 900, 1200, 1800]"
+                                         data-aspectratio="{{ section.settings.bnr_image.aspect_ratio }}"
+                                         data-sizes="auto"
+                                         alt="">
+                                {%- endif -%}
+                                <span class="bnr-caption">
+                                <span class="bnr-text-wrap">
+                                    {% if section.settings.bnr_text %}
+                                        <span class="bnr-text1" style="color:{{ section.settings.bnr_text_color }}; font-size:{{ section.settings.bnr_text_size | times: 0.01 }}em; font-weight:{{ section.settings.bnr_text_fontweight }}; line-height: 1em;">{{ section.settings.bnr_text_text }}</span>
+                                    {% endif %}
+                                    {% if section.settings.bnr_text2 %}
+                                        <span class="bnr-text1" style="color:{{ section.settings.bnr_text2_color }}; font-size:{{ section.settings.bnr_text2_size | times: 0.01 }}em; font-weight:{{ section.settings.bnr_text2_fontweight }}; line-height: 1em;">{{ section.settings.bnr_text2_text }}</span>
+                                    {% endif %}
+                                    {% if section.settings.bnr_button_enable %}
+                                        <span class="btn-decor bnr-btn" style="color:{{ section.settings.bnr_button_color }}">{{ section.settings.bnr_button_text }}<span class="btn-line" style="background: {{ section.settings.bnr_button_line_color }}"></span></span>
+                                    {% endif %}
+                                </span>
+                            </span>
+                            </div>
+                        </a>
+                    {% endif %}
+                    {% if section.settings.bnr2_enable %}
+                    <a href="{{ section.settings.bnr2_link }}" target="{{ section.settings.bnr2_link_target }}" class="bnr-wrap">
+                        <div class="bnr bnr32 bnr--style-1-6 {{ section.settings.bnr2_text_pos }} bnr-hover-scale" data-fontratio="11.4">
+                            {% if section.settings.bnr2_image %}
+                                {%- assign img_url = section.settings.bnr2_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                <img class="lazyload blur-up"
+                                     src="{{ section.settings.bnr2_image | img_url: '300x300' }}"
+                                     data-src="{{ img_url }}"
+                                     data-widths="[180, 360, 540, 720, 900, 1200, 1800]"
+                                     data-aspectratio="{{ section.settings.bnr2_image.aspect_ratio }}"
+                                     data-sizes="auto"
+                                     alt="">
+                            {%- endif -%}
+                            <span class="bnr-caption">
+                                <span class="bnr-text-wrap">
+                                    {% if section.settings.bnr2_text %}
+                                        <span class="bnr-text1" style="color:{{ section.settings.bnr2_text_color }}; font-size:{{ section.settings.bnr2_text_size | times: 0.01 }}em; font-weight:{{ section.settings.bnr2_text_fontweight }}; line-height: 1em;">{{ section.settings.bnr2_text_text }}</span>
+                                    {% endif %}
+                                    {% if section.settings.bnr2_text2 %}
+                                        <span class="bnr-text1" style="color:{{ section.settings.bnr2_text2_color }}; font-size:{{ section.settings.bnr2_text2_size | times: 0.01 }}em; font-weight:{{ section.settings.bnr2_text2_fontweight }}; line-height: 1em;">{{ section.settings.bnr2_text2_text }}</span>
+                                    {% endif %}
+                                    {% if section.settings.bnr2_button_enable %}
+                                    <span class="btn-decor bnr-btn" style="color:{{ section.settings.bnr2_button_color }}">{{ section.settings.bnr2_button_text }}<span class="btn-line" style="background: {{ section.settings.bnr2_button_line_color }}"></span></span>
+                                    {% endif %}
+                                </span>
+                            </span>
+                        </div>
+                    </a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="side-fixed">
+    <div class="left-fixed">
+        <div><img class="lazyload blur-up" data-src="{{ 'left-img-1.png' | asset_url }}" alt=""></div>
+        <div><img class="lazyload blur-up" data-src="{{ 'left-img-2.png' | asset_url }}" alt=""></div>
+    </div>
+    <div class="right-fixed">
+        <div><img class="lazyload blur-up" data-src="{{ 'right-img-1.png' | asset_url }}" alt=""></div>
+        <div><img class="lazyload blur-up" data-src="{{ 'right-img-2.png' | asset_url }}" alt=""></div>
+    </div>
+</div>

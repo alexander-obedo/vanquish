@@ -1,0 +1,88 @@
+{% unless template == 'cart' or settings.catalog_mode %}
+<div class="minicart minicart-js">
+    <a href="#" class="minicart-link">
+        <i class="icon icon-handbag"></i>
+        {% unless section.settings.minicart_off_qty %}<span class="minicart-qty">{{ cart.item_count }}</span>{% endunless %}
+        <span class="minicart-title">{{ 'general.theme.shopping_cart' | t }}</span>
+        <span class="minicart-total">{{ cart.total_price | money }}</span>
+    </a>
+    <div class="minicart-drop">
+        <div class="container">
+            <div class="minicart-drop-close">CLOSE</div>
+            <div class="minicart-drop-content">
+                {% if cart.item_count > 0 %}
+                    <h3>{{ 'general.theme.recently_added_items' | t }}:</h3>
+                    <div class="cart-list-prd">
+                        {% for item in cart.items %}
+                            <div class="minicart-prd">
+                                <div class="minicart-prd-image">
+                                    <a href="{{ item.url }}" title="{{ item.title | escape }}">
+                                        <img class="lazyload blur-up" data-src="{{ item | img_url: 'grande' }}" data-aspectratio="{{ item.aspect_ratio }}" alt="{{ item.title | escape }}">
+                                    </a>
+                                </div>
+                                <div class="minicart-prd-name">
+                                    <h5><span>{{ item.vendor }}</span></h5>
+                                    {% unless item.variant.title contains 'Title' %}<h5><a href="{{ item.url }}">{{ item.variant.title }}</a></h5>{% endunless %}
+                                    <h2><a href="{{ item.url }}" title="{{ item.title }}">{{ item.product.title }}</a></h2>
+
+                                    {% unless item.variant.title contains 'Default' %}
+                                    <div class="options_title">
+
+                                    </div>
+                                    {% endunless %}
+                                    <div class="options_title">
+                                        {% assign propertySize = item.properties | size %}
+                                        {% if propertySize > 0 %}
+                                            {% for p in item.properties %}
+                                                <h2>{% assign first_character_in_key = p.first | truncate: 1, '' %}
+                                                    {% unless p.last == blank or first_character_in_key == '_' %}
+                                                    {{ p.first }}:
+                                                    {% if p.last contains '/uploads/' %}
+                                                        <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                                                    {% else %}
+                                                        {{ p.last }}<br/>
+                                                    {% endif %}
+
+                                                    {% endunless %}
+                                                </h2>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="minicart-prd-qty"><span>{{ 'cart.label.quantity' | t }}:</span> <b>{{ item.quantity }}</b></div>
+                                <div class="minicart-prd-price"><span>{{ 'general.theme.price' | t }}:</span> <b>{{ item.price | money }}</b></div>
+                                <div class="minicart-prd-action">
+                                    <a href="{{ item.url }}" class="icon-pencil"></a>
+                                    <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" data-variant-id="{{ item.variant_id }}" data-line-number="{{ forloop.index }}"  title="{{ 'cart.general.remove' | t }}" class="icon-cross js-minicart-remove-item"></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% include 'free-shipping-bar' %}
+                    <div class="minicart-drop-total">
+                        <div class="pull-right">
+                            <span class="minicart-drop-summa"><span>{{ 'cart.general.subtotal' | t }}:</span> <b>{{ cart.total_price | money }}</b></span>
+                            <div class="minicart-drop-btns-wrap">
+                                <a href="/checkout" class="btn" id="checkoutButton"><i class="icon-check-box"></i><span>{{ 'general.theme.go_to_checkout' | t }}</span></a>
+                                {% render 'agreement-checkbox', button: '#checkoutButton', name: 'agreementCheckboxHeader' %}
+                                <a href="/cart" class="btn btn--alt"><i class="icon-handbag"></i><span>{{ 'general.theme.view_cart' | t }}</span></a>
+                            </div>
+                        </div>
+                        <div class="pull-left"><a href="/cart" class="btn btn--alt"><i class="icon-handbag"></i><span>{{ 'general.theme.view_cart' | t }}</span></a></div>
+                    </div>
+                {% else %}
+                    <div class="cart-empty mx-auto">
+                        <div class="cart-empty-icon">
+                            <i class="icon icon-handbag"></i>
+                        </div>
+                        <div class="cart-empty-text">
+                            <h3 class="cart-empty-title">{{ 'general.theme.empty_minicart_text_1' | t }}</h3>
+                            <p>{{ 'general.theme.empty_minicart_text_2' | t }} <a href="/collections/all/">{{ 'general.theme.empty_minicart_text_3' | t }}</a></p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endunless %}

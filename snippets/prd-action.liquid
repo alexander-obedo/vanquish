@@ -1,0 +1,33 @@
+<div class="prd-hover">
+    <div class="prd-action">
+        {% if product.options.size >= 1 or product.metafields.c_f.line_properties != blank %}
+            {% if product.options[0] contains 'Title' and product.metafields.c_f.line_properties == blank %}
+                {% include 'product-card-add-to-cart-button' %}
+            {% else %}
+                {% unless settings.catalog_mode %}
+                <form method="post" action="/cart/add">
+                    {% if settings.advanced_add_to_cart  %}
+                        <div class="form-group select-wrapper">
+                            {% include 'product-select-variant' %}
+                        </div>
+                        <button type="submit"  class="btn btn--animate js-add-to-cart-select btn-select-desktop" data-variant-id="{{ product.selected_or_first_available_variant.id }}" title="{{ 'general.theme.add_to_cart' | t }}"><span class="text-sent"><i class="icon-check-box"></i></span><i class="icon-handbag"></i></button>
+                        <button type="submit"  class="btn btn--animate btn-select-mobile js-qview-link"  data-fancybox data-type="ajax" data-src="{{ product.url }}?view=quick-view&output=embed" title="{{ 'general.theme.add_to_cart' | t }}"><span>{{ 'general.theme.select_options' | t }}</span></button>
+                    {% else %}
+                        <a class="btn prd-qview-link js-qview-link" data-fancybox data-type="ajax" data-src="{{ product.url }}?view=quick-view&output=embed"><span>{{ 'general.theme.select_options' | t }}</span></a>
+                    {% endif %}
+                </form>
+                {% endunless %}
+            {% endif %}
+        {% else %}
+            {% include 'product-card-add-to-cart-button' %}
+        {% endif %}
+        {% unless settings.catalog_mode %}
+        {% if no_quickview != true %}
+        {% comment %}<div class="prd-links {% unless quick_view_in_mobile == 1 %}prd-hidemobile{% endunless %}">{% endcomment %}
+        <div class="prd-links">
+            {% if settings.show_quick_view and no_quickview != false %}<a title="{{ 'general.theme.quick_view' | t }}" class="icon-eye prd-qview-link js-qview-link " data-fancybox data-type="ajax" data-src="{{ product.url }}{% if template == 'search' %}&{% else %}?{% endif %}view=quick-view&output=embed"></a>{% endif %}
+        </div>
+        {% endif %}
+        {% endunless %}
+    </div>
+</div>

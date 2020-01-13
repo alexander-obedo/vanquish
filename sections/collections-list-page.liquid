@@ -1,0 +1,278 @@
+{% assign show_only = '' %}
+<div class="holder {{ section.settings.outer_margin }}">
+  <div class="container">
+    
+    <div class="title-wrap text-center">
+      <div class="h1-style"><b>{{ section.settings.heading }}</b></div>
+      <div class="h4-style under-title">{{ section.settings.description }}</div>
+	</div>
+
+    {% assign blocks = section.blocks | sort: 'collection.all_products_count' %}
+
+    {% case section.settings.per_row_desktop %}
+    {% when '2' %}
+    {% assign column_grid = 'col-6' %}
+    {% assign image_size = '560x' %}
+    {% when '3' %}
+    {% assign column_grid = 'col-6 col-md-4' %}
+    {% assign image_size = '360x' %}
+    {% when '4' %}
+    {% assign column_grid = 'col-6 col-md-4 col-lg-3' %}
+    {% assign image_size = '265x' %}
+    {% endcase %}
+
+    {% assign image_height = section.settings.collection_image_height_d %}
+
+    {% if section.settings.cover %}
+    {% assign image_size = 'x500' %}
+    {% endif %} 
+
+    <div class="row collections-wrap collections-list mobile-sm-pad">    
+      {% if section.settings.display_type == 'all' %}
+      {% case section.settings.sort %}
+      {% when 'products_high' or 'products_low' %}
+      {% assign collections = collections | sort: 'all_products_count' %}
+      {% when 'date' or 'date_reversed' %}
+      {% assign collections = collections | sort: 'published_at' %}
+      {% endcase %}
+      {% if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical' %}
+      {% for collection in collections %}
+      {% unless collection.handle == 'frontpage' %}
+      {% assign featured = collection.handle %}
+      {% capture collection_title %}{{ collections[featured].title | escape }}{% endcapture %}
+      {% assign flag = 0 %}
+      {% for check in show_only %}{% if check == collection.title %}{% assign flag = 1 %}{% endif %}{% endfor %}
+      {% if show_only == '' %}{% assign flag = 1 %}{% endif %}
+      {% if flag == 1 %}      
+      <div class="{{ column_grid }}">
+        {% include 'list-collection-item', collection_image_size: image_size %}
+      </div>
+      {% endif %}      
+      {% endunless %}
+      {% endfor %}
+      {% else %}
+      {% for collection in collections reversed %}
+      {% unless collection.handle == 'frontpage' %}
+      {% assign featured = collection.handle %}
+      {% capture collection_title %}{{ collections[featured].title | escape }}{% endcapture %}
+      {% assign flag = 0 %}
+      {% for check in show_only %}{% if check == collection.title %}{% assign flag = 1 %}{% endif %}{% endfor %}
+      {% if show_only == '' %}{% assign flag = 1 %}{% endif %}
+      {% if flag == 1 %}      
+      <div class="{{ column_grid }}">
+        {% include 'list-collection-item', collection_image_size: image_size %}
+      </div>
+      {% endif %}      
+      {% endunless %}
+      {% endfor %}
+      {% endif %}
+      {% else %}
+      {% for block in section.blocks %}
+      <div class="{{ column_grid }}">
+        {% assign collection = collections[block.settings.collection] %}
+        {% assign collection_custom_image = block.settings.collection_image %}
+        {% include 'list-collection-item', collection_image_size: image_size %}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <STYLE scoped>
+        {% if section.settings.cover %}
+        .collection-item-img > a {
+        background-size: cover;
+        }
+        {% endif %}
+        {% unless section.settings.collection_image_height_m == "" %}
+        @media (max-width: 767px) {
+        .collection-item-img {
+        height: {{ section.settings.collection_image_height_m | floor }}px !important;
+        }
+        }
+        {% endunless %}
+      </STYLE>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+"name": "Collections list Manual 2",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-0"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "heading",
+"label": "Heading",
+"default": "Collections"
+},
+{
+"type": "text",
+"id": "description",
+"label": "Description",
+"default": "DON'T MISS OUT ON THE BIGGEST SALE DISCOUNTS OF TE SEASON"
+},
+{
+"type": "paragraph",
+"content": "All collections are displayed by default. To customize your list of collections, check 'Selected' and add content."
+},
+{
+"type": "radio",
+"id": "display_type",
+"label": "Select collections to show",
+"default": "all",
+"options": [
+{
+"value": "all",
+"label": "All"
+},
+{
+"value": "selected",
+"label": "Selected"
+}
+]
+},
+{
+"type": "select",
+"id": "sort",
+"label": "Sort collections by:",
+"info": "It only works when 'All' is selected",
+"default": "alphabetical",
+"options": [
+{
+"value": "products_high",
+"label": "Product count, high to low"
+},
+{
+"value": "products_low",
+"label": "Product count, low to high"
+},
+{
+"value": "alphabetical",
+"label": "Alphabetically, A-Z"
+},
+{
+"value": "alphabetical_reversed",
+"label": "Alphabetically, Z-A"
+},
+{
+"value": "date",
+"label": "Date, old to new"
+},
+{
+"value": "date_reversed",
+"label": "Date, new to old"
+}
+]
+},
+{
+"type": "checkbox",
+"id": "show_vendor",
+"label": "Show vendors on hover",
+"default": false
+},
+{
+"type": "checkbox",
+"id": "cover",
+"label": "Cover Image",
+"default": false
+},
+{
+"type": "text",
+"id": "collection_image_height_d",
+"label": "Collection image height",
+"default": "315",
+"info": "value in pixels / default 360"
+},
+{
+"type": "text",
+"id": "collection_image_height_m",
+"label": "Collection image height mobile (for screens less 768px )",
+"default": "200",
+"info": "value in pixels / default 200"
+},
+{
+"type": "header",
+"content": "Collections per row:"
+},
+{
+"type": "select",
+"id": "per_row_desktop",
+"label": "Desktop",
+"default": "4",
+"options": [
+{ "value": "2", "label": "2" },
+{ "value": "3", "label": "3" },
+{ "value": "4", "label": "4" }
+]
+}
+],
+"blocks": [
+{
+"type": "collection",
+"name": "Collection",
+"settings": [
+{
+"type": "collection",
+"id": "collection",
+"label": "Collection"
+},
+{
+"type": "image_picker",
+"id": "collection_image",
+"label": "Squared Collection Image"
+}
+]
+}
+],
+"presets": [{
+"name": "Collections list Manual 2",
+"category": "Collections list",
+"blocks": [
+{
+"type": "collection"
+},
+{
+"type": "collection"
+},
+{
+"type": "collection"
+},
+{
+"type": "collection"
+},
+{
+"type": "collection"
+},
+{
+"type": "collection"
+}
+]
+}]
+}
+{% endschema %}

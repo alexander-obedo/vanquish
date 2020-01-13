@@ -1,0 +1,128 @@
+{% unless settings.slides_mode %}
+{% if section.settings.enable %}
+    <div class="holder fullboxed py-3 py-md-6 holder-bg-14">
+        <div class="container">
+            <h2 class="h1-style text-center">{{ section.settings.title }}</h2>
+            <div class="timeLine">
+            {% for block in section.blocks %}
+                {% if block.settings.enable %}
+                <div class="timeLine-item">
+                    <div class="timeLine-item-image">
+                        {%- assign _img = block.settings.image -%}
+                        {%- assign _img_size = '500x' -%}
+                        {%- if _img -%}
+                            <img class="lazyload blur-up responsive"
+                                 data-src="{{ _img | img_url: _img_size }}"
+                                 data-srcset="{{ _img | img_url: _img_size }} 1x, {{ _img | img_url: _img_size, scale: 2 }} 2x"
+                                 data-aspectratio="{{ _img.aspect_ratio }}"
+                                 data-sizes="auto"
+                                 alt="{{ block.settings.title }}">
+                        {%- else -%}
+                            <div style="width: 320px">
+                                {% include 'image-placeholder-aspect-ratio', width: 400, height: 400 %}
+                            </div>
+                        {%- endif -%}
+                        <div class="timeLine-item-text">
+                            <h5>{{ block.settings.title }}</h5>
+                            <p>{{ block.settings.desc }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endunless %}
+{% schema %}
+{
+"name": "Our History",
+"class": "index-section",
+"settings": [
+{
+"type": "checkbox",
+"id": "enable",
+"label": "Enable",
+"default": true
+},
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default":"Our History"
+}
+],
+"blocks":[
+{
+"type": "date",
+"name": "Date",
+"settings": [
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type": "image_picker",
+"id": "image",
+"label":"Image",
+"info":"Recommended 395x400px or 290x290px"
+},{
+"type": "text",
+"id": "title",
+"label":"Date",
+"default":"2007"
+},
+{
+"type": "textarea",
+"id": "desc",
+"label":"Description",
+"default":"Lorem ipsum dolor sit amet, consectetur adipiscing"
+}
+]
+}
+],
+"presets": [
+{
+"name": "Our History",
+"category": "About Us",
+"blocks": [
+{
+"type": "date"
+},
+{
+"type": "date"
+},
+{
+"type": "date"
+},
+{
+"type": "date"
+},
+{
+"type": "date"
+},
+{
+"type": "date"
+},
+{
+"type": "date"
+},
+{
+"type": "date"
+}
+]
+}
+]
+}
+{% endschema %}

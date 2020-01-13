@@ -1,0 +1,30 @@
+{% assign t_item =  'general.theme.item' | t %}
+{% assign t_items = 'general.theme.items_c' | t %}
+{% if section.settings.shopping_by %}
+    {% if current_tags.size > 0 %}
+        {% assign current_tags_str = current_tags | downcase %}
+        {% assign href = 'href="' | append:collection.url | append:'/' %}
+
+        <div class="sidebar-block">
+            <div class="sidebar-block_title">
+                <span>{{ 'general.theme.shopping_by' | t }}</span>
+                <div class="toggle-arrow"></div>
+            </div>
+            <div class="selected-filters-wrap">
+                <ul class="selected-filters">
+                    {% for tag in collection.all_tags %}
+                        {% assign tag_only_dawncase = tag | downcase | append:'"'| prepend:'"' %}
+                        {% assign tag_handle = tag | handle | append:'+' | prepend:'+' %}
+                        {% if current_tags_str contains tag_only_dawncase %}
+                            <li>{{ tag  | link_to_remove_tag: tag }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="/collections/{{ collection.handle }}" class="clear-filters"><span>{{ 'general.theme.clear_all' | t }}</span></a>
+                    <div class="selected-count ml-auto d-none d-lg-block">{{ 'general.theme.selected' | t }} <span><b>{{ collection.products_count }} {{ paginate.items | pluralize: t_item, t_items }}</b></span></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}

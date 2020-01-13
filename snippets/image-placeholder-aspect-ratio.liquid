@@ -1,0 +1,13 @@
+<div class="placeholder-svg-aspect-ratio">
+    {% assign h = height | times: 1 %}
+    {% assign w = width | times: 0.01 %}
+    {% assign top = h | divided_by: w %}
+    <div class="placeholder-frame" style="padding-top: {{ top }}%">
+        {% if text != blank %}
+            <span>{{ text }}</span>
+        {% else %}
+            <span>{{ width }}x{{ height }}</span>
+        {% endif %}
+    </div>
+    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+</div>

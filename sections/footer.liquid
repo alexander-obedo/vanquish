@@ -1,0 +1,223 @@
+{% include 'global_vars' %}
+{% assign style = section.settings.style %}
+{% assign style_file = 'footer-style-' | append:style %}
+{% if home and slides_mode %}{% assign style_file = 'footer-style-13' %}{% endif %}
+{% unless template contains '404' %}{% include style_file %}{% endunless %}
+{% schema %}
+{
+    "name": "Footer",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Layout"
+        },
+
+        {
+            "type": "select",
+            "id": "outer_margin",
+            "label": "Outer top margin",
+            "options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+            ],
+            "default": "mt-65"
+        },
+{
+"type": "select",
+"id": "style",
+"label": "Style",
+"options": [
+{ "value": "1", "label": "Footer 1 (Default)" },
+{ "value": "2", "label": "Footer 2" },
+{ "value": "3", "label": "Footer 3" },
+{ "value": "4", "label": "Footer 4" },
+{ "value": "5", "label": "Footer 5" },
+{ "value": "6", "label": "Footer 6" },
+{ "value": "7", "label": "Footer 7" },
+{ "value": "8", "label": "Footer 8" },
+{ "value": "9", "label": "Footer 9" },
+{ "value": "10", "label": "Footer 10" },
+{ "value": "11", "label": "Footer 11(dark bg, t-hisrts home page style)" },
+{ "value": "12", "label": "Footer 12" }
+],
+"default": "1"
+},
+
+        {
+            "type": "header",
+            "content": "Logo"
+        },
+        {
+            "type": "checkbox",
+            "id": "logo_yes",
+            "label": "Enable",
+            "default":true
+        },
+        {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo image"
+        },
+        {
+            "type": "header",
+            "content": "Navigation 1"
+        },
+        {
+            "type": "link_list",
+            "id": "navigation_1",
+            "label": "Choose navigation 1",
+            "default":"main-menu"
+        },
+        {
+            "type": "header",
+            "content": "Navigation 2"
+        },
+        {
+            "type": "link_list",
+            "id": "navigation_2",
+            "label": "Choose navigation 2",
+            "default":"main-menu"
+        },
+{
+"type": "header",
+"content": "Navigation 3"
+},
+{
+"type": "link_list",
+"id": "navigation_3",
+"label": "Choose navigation 3",
+"default":"main-menu"
+},
+{
+"type": "header",
+"content": "Navigation 4"
+},
+{
+"type": "checkbox",
+"id": "navigation_4_yes",
+"label": "Enable",
+"default":true
+},
+{
+"type": "link_list",
+"id": "navigation_4",
+"label": "Choose navigation 4",
+"default":"main-menu"
+},
+{
+"type": "link_list",
+"id": "navigation_5",
+"label": "Choose navigation 5",
+"default":"footer"
+},
+{
+"type": "link_list",
+"id": "navigation_6",
+"label": "Choose navigation 6",
+"default":"footer"
+},
+
+
+        {
+            "type": "header",
+            "content": "Additional blocks"
+        },
+        {
+            "type": "checkbox",
+            "id": "shop_info_yes",
+            "label": "Shop Info",
+            "default": true,
+            "info":"setup in General Settings / Shop Info (footer)"
+        },
+        {
+            "type": "checkbox",
+            "id": "newsletter",
+            "label": "Newsletter Subscription",
+            "default": true,
+            "info":"setup in General Settings / Newsletter Subscription"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_methods_of_payment",
+            "label": "Methods of Payment",
+            "default": true,
+            "info":"setup in General Settings / Methods of Payment (footer)"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_instagram",
+            "label": "Instagram photos",
+            "default": true,
+            "info":"setup in General Settings / Instagram"
+        },
+        {
+            "type": "checkbox",
+            "id": "social_icons",
+            "label": "Social media",
+            "default": true,
+            "info":"setup in General Settings / Social media"
+        },
+        {
+            "type": "header",
+            "content": "Contacts"
+        },
+        {
+            "type": "text",
+            "id": "support_time_title",
+            "label": "Title",
+            "default":"CONNECT WITH US"
+        },
+        {
+            "type": "textarea",
+            "id": "support_time",
+            "label": "Support time",
+            "default":"<ul class='contact-list'> <li><i class='icon-phone'></i><span><span class='h6-style'>Call Us:</span><span>1 (800) 233-2742</span></span> </li> <li> <i class='icon-clock4'></i><span><span class='h6-style'>Hours:</span><span>Mon-fri 9am-8pm<br>sat 9am-6pm</span></span> </li> <li> <i class='icon-mail-envelope1'></i><span><span class='h6-style'>E-mail:</span><span><a href='mailto:info@goodwin.us'>info@goodwin.us</a></span></span> </li> <li> <i class='icon-location1'></i><span><span class='h6-style'>Address:</span><span>goodwin store 140 new str., suite 21 brooklyn, NY</span></span> </li> </ul>"
+        },
+        {
+        "type": "textarea",
+        "id": "short_description",
+        "label": "About Us",
+        "default":"Lorem ipsum dolor sit amet consestuer adicpising elitr anno dolor sit amet. Lorem ipsum dolor sit amet consestuer adicpising."
+        },
+{
+"type": "textarea",
+"id": "google_map",
+"label": "Google Map",
+"default":"<iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1798.3693703617603!2d-74.01304569028459!3d40.70734488791827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a17292434ef%3A0x13cceefedbab92d0!2z0KPQvtC70Lsg0YHRgtGA0LjRgg!5e0!3m2!1sru!2sua!4v1531821064393' width='600' height='450' frameborder='0' style='border:0' allowfullscreen=''></iframe>"
+},
+{
+"type": "checkbox",
+"id": "chat_yes",
+"label": "Chat",
+"default": false
+},
+{
+"type": "text",
+"id": "chat_link",
+"label": "Chat Link or code",
+"info":"<a href='#' data-fancybox data-src='#modalChat'><i class='icon-chat3'></i>Live Chat</a>"
+},
+
+        {
+            "type": "header",
+            "content": "Copyright"
+        },
+        {
+            "type": "textarea",
+            "id": "copyright",
+            "label": "Copyright",
+            "default": "<p class='footer-copyright-text'><span>&copy; Copyright</span> 2018 <a href='#'>GoodwinStore</a>. <span>All rights reserved.</span></p><p class='footer-copyright-links'><a href=''>Terms & conditions</a> <a href='#'>Privacy policy</a></p>"
+        }
+    ]
+}
+{% endschema %}

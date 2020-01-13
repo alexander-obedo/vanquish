@@ -1,0 +1,922 @@
+{% unless settings.slides_mode %}
+{% if section.settings.limit != blank %}
+    {%- assign product_limit = section.settings.limit -%}
+{% endif %}
+{%- assign collection = collections[section.settings.collection] -%}
+{% if section.settings.limit_2 != blank %}
+    {%- assign product_limit_2 = section.settings.limit_2 -%}
+{% endif %}
+{%- assign collection_2 = collections[section.settings.collection_2] -%}
+<div class="holder  {{ section.settings.outer_margin }}">
+    <div class="container">
+        <div class="row vert-margin-double">
+            <div class="col-md-8">
+                <div {% if section.settings.collection != blank and section.settings.tabs and section.settings.tags != blank %}class="title-with-right"{% else %}class="title-wrap text-left"{% endif %}>
+                    <h2 class="h1-style">{{ section.settings.title }}</h2>
+                    {% if section.settings.collection != blank and section.settings.tabs and section.settings.tags != blank %}
+                    <div class="prd-carousel-tabs js-filters-prd">
+                        <span class="filters-label active" data-filter=".tag-all-{{ collection.handle }}">{{ 'general.theme.all' | t }}</span>
+                        {%  assign tags = section.settings.tags | split:',' %}
+                        {% for tag in tags %}
+                        <span class="filters-label" data-filter=".tag-{{ tag | handle }}">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="prd-grid {% if settings.column-left-right == 'none-column' %}data-to-show-3{% else %}data-to-show-2{% endif %} data-to-show-md-2 data-to-show-sm-3 data-to-show-xs-2 js-product-isotope prd-text-center prd-grid--sm-pad">
+                    {% for product in collection.products limit: product_limit %}
+                        {% include 'product-card' %}
+                    {% else %}
+                        <div class="alert alert-warning">
+                            To Init <b>Product's carousel</b>:<br />
+                            1.<b>Choose Collection</b><br />
+                            2.<b>Save</b>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if section.settings.show_view_all and section.settings.collection != blank %}<div class="more-link-wrapper text-center"><a href="{{ collection.url }}" class="btn-decor">{{ 'general.theme.show_all' | t }}</a></div>{% endif %}
+            </div>
+            <div class="col-md-4">
+                <div class="vert-margin">
+                    <div>
+                        <h2 class="h1-style text-center-sm">{{ section.settings.title_2 }}</h2>
+                        <div class="single-prd-carousel data-slick prd-text-center"
+                             data-slick='{"slidesToShow": 1, "dots": true, "arrows": false, "adaptiveHeight": false}'>
+                            {% for product in collection_2.products limit: product_limit_2 %}
+                                {% include 'product-card' grid_image_width:'368x',quick_view_in_mobile:1 %}
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    To Init <b>Product's carousel</b>:<br />
+                                    1.<b>Choose Collection</b><br />
+                                    2.<b>Save</b>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if section.settings.bnr_enable %}
+                        <div style="position: relative;">
+                        {% assign gutters = 0.1 %}
+                        {% assign body_w = 1170 %}
+                        {% if section.settings.bnr_source == 'admin' %}
+                            {% assign banner = section.settings %}
+                            {% assign col_md = 4 %}
+                            {% unless banner.image %}
+                            {% include 'image-placeholder-aspect-ratio', width: 360, height: 650 %}
+                            {%- endunless -%}
+                            {% render 'banner', banner: banner, col_md: col_md, gutters: gutters, body_w: body_w %}
+                        {% else %}
+                            {{ section.settings.html }}
+                        {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endunless %}
+{% schema %}
+{
+"name": "Products Grid - Advanced",
+"class": "index-section",
+"settings": [
+{
+"type": "header",
+"content": "Layout"
+},
+{
+"type": "select",
+"id": "outer_margin",
+"label": "Outer top margin",
+"options":[
+{"value":"mt-0","label":"None"},
+{"value":"mt-1","label":"10px"},
+{"value":"mt-2","label":"20px"},
+{"value":"mt-3","label":"30px"},
+{"value":"mt-4","label":"40px"},
+{"value":"mt-5","label":"50px"},
+{"value":"mt-6","label":"60px"},
+{"value":"mt-65","label":"65px"},
+{"value":"mt-7","label":"70px"},
+{"value":"mt-8","label":"80px"},
+{"value":"mt-9","label":"90px"},
+{"value":"mt-10","label":"100px"}
+],
+"default": "mt-65"
+},
+{
+"type": "header",
+"content": "General"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Heading",
+"default": "Collection"
+},
+{
+"id": "collection",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"6"
+},
+{
+"type": "checkbox",
+"id": "show_view_all",
+"label": "Show 'Show all' button",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "tabs",
+"label": "Show Filter by Tags",
+"default": false
+},
+{
+"type": "textarea",
+"id": "tags",
+"label": "Write product's tags separated by coma",
+"default": "popular, sale, new",
+"info": "for example popular, sale, new. Tags must be assigned to products from the selected collection as well."
+},
+{
+"type": "header",
+"content": "Carousel right"
+},
+{
+"type": "text",
+"id": "title_2",
+"label": "Heading",
+"default": "deal of the day"
+},
+{
+"id": "collection_2",
+"type": "collection",
+"label": "Collection"
+},
+{
+"id": "limit_2",
+"type": "text",
+"label": "Products limit",
+"info":"if no limit keep empty, for better perfomance try reduce limit and enable 'View all' button",
+"default":"3"
+},
+
+{
+"type": "header",
+"content": "Right Column banner"
+},
+{
+"type":"checkbox",
+"id":"bnr_enable",
+"label":"Enable",
+"default":true
+},
+{
+"type":"select",
+"id":"bnr_source",
+"label":"Сreate banner with:",
+"default":"admin",
+"options":[
+{
+"value":"online",
+"label":"Banner generator"
+},
+{
+"value":"admin",
+"label":"Admin panel"
+}
+],
+"info":"*All banner's setting in the Admin panel don't apply for a banner made with the Banner generator"
+},
+{
+"type":"textarea",
+"id":"html",
+"label":"HTML (from Banner generator)",
+"info":"*Will apply only if you check 'Banner generator'. Generate banners [here](http://frontend.big-skins.com/goodwin-html/banners-generator)"
+},
+{
+"type":"image_picker",
+"id":"image",
+"label":"Image"
+},
+{
+"type":"checkbox",
+"id":"enable",
+"label":"Enable",
+"default":true
+},
+{
+"type":"url",
+"id":"link",
+"label":"Collection link"
+},
+{
+"type":"select",
+"id":"link_target",
+"label":"Link Target",
+"default":"_self",
+"options":[
+{
+"value":"_blank",
+"label":"New page"
+},
+{
+"value":"_self",
+"label":"In current page"
+}
+]
+},
+{
+"type":"radio",
+"id":"link_area",
+"label":"Link area",
+"options": [
+{ "value": "all", "label": "All image" },
+{ "value": "button", "label": "Button only" }
+],
+"default":"all"
+},
+{
+"type": "select",
+"id": "bnr_text_pos",
+"options": [
+{ "value": "bnr--top bnr--left", "label": "Top/Left"},
+{ "value": "bnr--top bnr--right", "label": "Top/Right"},
+{ "value": "bnr--top bnr--center", "label": "Top/Center"},
+{ "value": "bnr--bottom bnr--left", "label": "Bottom/Left"},
+{ "value": "bnr--bottom bnr--right", "label": "Bottom/Right"},
+{ "value": "bnr--bottom bnr--center", "label": "Bottom/Center"},
+{ "value": "bnr--middle bnr--left", "label": "Middle/Left"},
+{ "value": "bnr--middle bnr--right", "label": "Middle/Right"},
+{ "value": "bnr--middle bnr--center", "label": "Middle/Center"}
+],
+"label": "Text Position (Vertical/Horizontal)",
+"default":"bnr--middle bnr--center"
+},
+{
+"type":"range",
+"id":"bnr_text_paddingh",
+"min":1,
+"max":30,
+"step":1,
+"label":"Text Offset Horizontal",
+"unit":"%",
+"default":4
+},
+{
+"type":"range",
+"id":"bnr_text_paddingv",
+"min":1,
+"max":30,
+"step":1,
+"label":"Text Offset Vertical",
+"unit":"%",
+"default":4
+},
+{
+"type":"range",
+"id":"bnr_maxw",
+"min":30,
+"max":100,
+"step":1,
+"label":"Caption Max width",
+"unit":"%",
+"default":100
+},
+{
+"type":"select",
+"id":"hover",
+"label":"Hover Effect",
+"options":[
+{"value":"none","label":"None"},
+{"value":"bnr-hover-scale","label":"Scale Out"}
+],
+"default":"bnr-hover-scale"
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"TEXT 1"
+},
+{
+"type": "checkbox",
+"id": "bnr_text",
+"default": true,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_text_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"1"
+},
+{
+"type":"text",
+"id":"bnr_text_text",
+"label":"Text",
+"default":"Text 1"
+},
+{
+"type": "checkbox",
+"id": "bnr_text_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"color",
+"id":"bnr_text_color",
+"label":"Color"
+},
+{
+"type":"color",
+"id":"bnr_text_bgcolor",
+"label":"Background Color"
+},
+{
+"type":"select",
+"id": "bnr_text_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_text_lineheight",
+"min":1,
+"max":2,
+"step":0.1,
+"label":"Line Height",
+"unit":"em",
+"default":1.2
+},
+{
+"type":"range",
+"id":"bnr_text_space",
+"min":0,
+"max":100,
+"step":1,
+"label":"Letter Space",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 0
+},
+{
+"type": "select",
+"id": "bnr_text_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "*Use padding if background color is set"
+},
+{
+"type":"range",
+"id":"bnr_text1_paddingh",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Horizontal",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text1_paddingv",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Vertical",
+"unit":"%",
+"default":0
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"TEXT 2"
+},
+{
+"type": "checkbox",
+"id": "bnr_text2",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_text2_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"2"
+},
+{
+"type":"text",
+"id":"bnr_text2_text",
+"label":"Text",
+"default":"Text 2"
+},
+{
+"type": "checkbox",
+"id": "bnr_text2_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"color",
+"id":"bnr_text2_color",
+"label":"Color"
+},
+{
+"type":"color",
+"id":"bnr_text2_bgcolor",
+"label":"Background Color"
+},
+{
+"type":"select",
+"id": "bnr_text2_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text2_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_text2_lineheight",
+"min":1,
+"max":2,
+"step":0.1,
+"label":"Line Height",
+"unit":"em",
+"default":1.2
+},
+{
+"type":"range",
+"id":"bnr_text2_space",
+"min":0,
+"max":100,
+"step":1,
+"label":"Letter Space",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text2_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 25
+},
+{
+"type": "select",
+"id": "bnr_text2_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "*Use padding if background color is set"
+},
+{
+"type":"range",
+"id":"bnr_text2_paddingh",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Horizontal",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text2_paddingv",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Vertical",
+"unit":"%",
+"default":0
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"TEXT 3"
+},
+{
+"type": "checkbox",
+"id": "bnr_text3",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_text3_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"3"
+},
+{
+"type":"text",
+"id":"bnr_text3_text",
+"label":"Text",
+"default":"Text 2"
+},
+{
+"type": "checkbox",
+"id": "bnr_text3_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"color",
+"id":"bnr_text3_color",
+"label":"Color"
+},
+{
+"type":"color",
+"id":"bnr_text3_bgcolor",
+"label":"Background Color"
+},
+{
+"type":"select",
+"id": "bnr_text3_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_text3_size",
+"min":6,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_text3_lineheight",
+"min":1,
+"max":2,
+"step":0.1,
+"label":"Line Height",
+"unit":"em",
+"default":1.2
+},
+{
+"type":"range",
+"id":"bnr_text3_space",
+"min":0,
+"max":100,
+"step":1,
+"label":"Letter Space",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text3_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 25
+},
+{
+"type": "select",
+"id": "bnr_text3_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "*Use padding if background color is set"
+},
+{
+"type":"range",
+"id":"bnr_text3_paddingh",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Horizontal",
+"unit":"%",
+"default":0
+},
+{
+"type":"range",
+"id":"bnr_text3_paddingv",
+"min":0,
+"max":30,
+"step":1,
+"label":"Text Inside Padding Vertical",
+"unit":"%",
+"default":0
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"DISCOUNT"
+},
+{
+"type": "checkbox",
+"id": "bnr_sale",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_sale_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"4"
+},
+{
+"type":"text",
+"id":"bnr_sale_num",
+"label":"Text",
+"default":"25"
+},
+{
+"type":"text",
+"id":"bnr_sale_sup",
+"label":"Text",
+"default":"%"
+},
+{
+"type":"text",
+"id":"bnr_sale_sub",
+"label":"Text",
+"default":"OFF"
+},
+{
+"type":"color",
+"id":"bnr_sale_color",
+"label":"Color"
+},
+{
+"type": "checkbox",
+"id": "bnr_sale_color_theme",
+"default": false,
+"label": "Use Theme Color"
+},
+{
+"type":"select",
+"id": "bnr_sale_fontweight",
+"label": "Font Weight",
+"options": [
+{ "value": "100", "label": "Thin" },
+{ "value": "300", "label": "Light" },
+{ "value": "400", "label": "Regular" },{ "value": "500", "label": "Medium" },
+{ "value": "600", "label": "Semibold" },
+{ "value": "700", "label": "Bold" },
+{ "value": "900", "label": "Black" }
+],
+"default":"700"
+},
+{
+"type":"range",
+"id":"bnr_sale_size",
+"min":10,
+"max":160,
+"step":2,
+"label":"Font Size",
+"unit":"%",
+"default":60
+},
+{
+"type":"range",
+"id":"bnr_sale_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 25
+},
+{
+"type": "select",
+"id": "bnr_sale_alignment",
+"label": "Self alignment",
+"default": "inherit",
+"options": [
+{ "value": "inherit", "label": "Default" },
+{ "value": "text-center", "label": "Center" },
+{ "value": "text-left", "label": "Left" },
+{ "value": "text-right", "label": "Right" }
+]
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"BUTTON"
+},
+{
+"type": "checkbox",
+"id": "bnr_button",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"select",
+"id":"bnr_button_order",
+"label":"Order",
+"options":[
+{"value":"1","label":"1"},
+{"value":"2","label":"2"},
+{"value":"3","label":"3"},
+{"value":"4","label":"4"},
+{"value":"5","label":"5"}
+],
+"default":"5"
+},
+{
+"type":"select",
+"id":"bnr_button_size",
+"label":"Button Size",
+"options":[
+{"value":"btn-decor","label":"Normal"},
+{"value":"btn-decor btn-decor--xs","label":"Small"}
+],
+"default": "btn-decor"
+},
+{
+"type":"range",
+"id":"bnr_button_margin-top",
+"min":0,
+"max":300,
+"step":5,
+"label":"Top Margin",
+"unit":"%",
+"default": 10
+},
+{
+"type":"text",
+"id":"bnr_button_text",
+"label":"Text",
+"default":"Shop Now"
+},
+{
+"type":"color",
+"id": "bnr_button_color",
+"label": "Color"
+},
+{
+"type":"color",
+"id": "bnr_button_line_color",
+"label": "Line Color"
+},
+{
+"type": "paragraph",
+"content": "………………………………………………………………"
+},
+{
+"type":"header",
+"content":"BORDER"
+},
+{
+"type": "checkbox",
+"id": "bnr_border",
+"default": false,
+"label": "Enable"
+},
+{
+"type":"color",
+"id": "bnr_border_color",
+"label": "Color"
+},
+{
+"type":"range",
+"id":"bnr_border_offset",
+"min":0,
+"max":50,
+"step":1,
+"label":"Offset Margin",
+"unit":"%",
+"default": 10
+}
+],
+"presets": [
+{
+"name": "Products Grid - Advanced",
+"category": "Collections Grid"
+}
+]
+}
+{% endschema %}

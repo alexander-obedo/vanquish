@@ -1,0 +1,67 @@
+{%- assign banner = block.settings %}
+    {% if banner.link_area == 'all' %}
+<a href="{{ banner.link }}" target="{{ banner.link_target }}" class="bnr-wrap">
+    {% endif %}
+    {%- assign fontratio = 2.62 -%}
+    <div class="bnr bnr--style-1 bnr-admin {% if banner.hover != 'none' %}{{ banner.hover }}{% endif %} {{ banner.bnr_text_pos }}" data-fontratio= {{ fontratio }}>
+        {% if banner.image %}
+            {%- assign img_url = banner.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img id="{{ img_id }}"
+                 class="lazyload blur-up"
+                 src="{{ banner.image | img_url: '300x300' }}"
+                 data-src="{{ img_url }}"
+                 data-widths="[180, 360, 540, 720, 900]"
+                 data-aspectratio="{{ banner.image.aspect_ratio }}"
+                 data-sizes="auto"
+                 alt="">
+        {%- else -%}
+        {% include 'image-placeholder-aspect-ratio', width: 360, height: 430 %}
+        {%- endif -%}
+        <div class="bnr-caption" style="padding: {{ banner.bnr_text_paddingv }}% {{ banner.bnr_text_paddingh }}%; max-width: {{ banner.bnr_maxw }}%;">
+            {% if banner.bnr_text %}
+                {% if banner.bnr_text_bgcolor != blank %}<span class="order-{{ banner.bnr_text_order }} w-100">{% endif %}
+                <span class="bnr-text1 {% if banner.bnr_text_bgcolor != blank %}d-inline-block{% endif %} {{ banner.bnr_text_top }} order-{{ banner.bnr_text_order }} {% if banner.bnr_text_color_theme %}custom-color{% endif %} {{ banner.bnr_text_alignment }}" style="padding: {{ banner.bnr_text1_paddingv }}% {{ banner.bnr_text1_paddingh }}%; background:{{ banner.bnr_text_bgcolor }};color:{{ banner.bnr_text_color }}; font-size:{{ banner.bnr_text_size | times: 0.01 }}em; font-weight:{{ banner.bnr_text_fontweight }}; line-height:{{ banner.bnr_text_lineheight }}em; margin-top:{{ banner.bnr_text_margin-top | times: 0.01 }}em; letter-spacing:{{ banner.bnr_text_space | times: 0.01 }}em;">{{ banner.bnr_text_text }}</span>
+                {% if banner.bnr_text_bgcolor != blank %}
+                    <div class="clearfix"></div></span>{% endif %}
+            {% endif %}
+            {% if banner.bnr_text2 %}
+                {% if banner.bnr_text2_bgcolor != blank %}<span class="order-{{ banner.bnr_text2_order }} w-100">{% endif %}
+                <span class="bnr-text2 {% if banner.bnr_text2_bgcolor != blank %}d-inline-block{% endif %} {{ banner.bnr_text2_top }} order-{{ banner.bnr_text2_order }} {% if banner.bnr_text2_color_theme %}custom-color{% endif %} {{ banner.bnr_text2_alignment }} " style="padding: {{ banner.bnr_text2_paddingv }}% {{ banner.bnr_text2_paddingh }}%; background:{{ banner.bnr_text2_bgcolor }};color:{{ banner.bnr_text2_color }}; font-size:{{ banner.bnr_text2_size | times: 0.01 }}em; font-weight:{{ banner.bnr_text2_fontweight }}; line-height:{{ banner.bnr_text2_lineheight }}em; margin-top:{{ banner.bnr_text2_margin-top | times: 0.01 }}em; letter-spacing:{{ banner.bnr_text2_space | times: 0.01 }}em;">{{ banner.bnr_text2_text }}</span>
+                {% if banner.bnr_text2_bgcolor != blank %}
+                    <div class="clearfix"></div></span>{% endif %}
+            {% endif %}
+            {% if banner.bnr_text3 %}
+                {% if banner.bnr_text3_bgcolor != blank %}<span class="order-{{ banner.bnr_text3_order }} w-100">{% endif %}
+                <span class="bnr-text3 {% if banner.bnr_text3_bgcolor != blank %}d-inline-block{% endif %} {{ banner.bnr_text3_top }} order-{{ banner.bnr_text3_order }} {% if banner.bnr_text3_color_theme %}custom-color{% endif %} {{ banner.bnr_text3_alignment }} " style="padding: {{ banner.bnr_text3_paddingv }}% {{ banner.bnr_text3_paddingh }}%; background:{{ banner.bnr_text3_bgcolor }};color:{{ banner.bnr_text2_color }}; font-size:{{ banner.bnr_text3_size | times: 0.01 }}em; font-weight:{{ banner.bnr_text3_fontweight }}; line-height:{{ banner.bnr_text3_lineheight }}em; margin-top:{{ banner.bnr_text3_margin-top | times: 0.01 }}em; letter-spacing:{{ banner.bnr_text3_space | times: 0.01 }}em;">{{ banner.bnr_text3_text }}</span>
+                {% if banner.bnr_text3_bgcolor != blank %}
+                    <div class="clearfix"></div></span>{% endif %}
+            {% endif %}
+            {% if banner.bnr_sale %}
+                <span class="bnr-sale {{ banner.bnr_sale_top }} order-{{ banner.bnr_sale_order }}  {{ banner.bnr_sale_alignment }} " style="color:{{ banner.bnr_sale_color }}; font-size:{{ banner.bnr_sale_size | times: 0.01 }}em; font-weight:{{ banner.bnr_sale_fontweight }}; margin-top:{{ banner.bnr_sale_margin-top | times: 0.01 }}em">
+                                        <span>{{ banner.bnr_sale_num }}</span><span><span class="sup">{{ banner.bnr_sale_sup }}</span><span class="sub">{{ banner.bnr_sale_sub }}</span></span>
+                                    </span>
+                <div class="clearfix"></div>
+            {% endif %}
+            {% if banner.bnr_button %}
+                <span class="order-{{ banner.bnr_button_order }} d-inline-flex" style="margin-top:{{ banner.bnr_button_margin-top | times: 0.01 }}em">
+                                        {% if banner.link_area == 'all' %}
+                                            <span class="{{ banner.bnr_button_size }} {{ banner.bnr_button_top }}" style="color:{{ banner.bnr_button_color }}">
+                                                {{ banner.bnr_button_text }}
+                                                <span class="btn-line" style="background: {{ banner.bnr_button_line_color }}"></span>
+                                            </span>
+                                        {% else %}
+                                            <a href="{{ banner.link }}" target="{{ banner.link_target }}" class="{{ banner.bnr_button_size }} {{ banner.bnr_button_top }}" style="color:{{ banner.bnr_button_color }}">
+                                                {{ banner.bnr_button_text }}
+                                                <span class="btn-line" style="background: {{ banner.bnr_button_line_color }}"></span>
+                                            </a>
+                                        {% endif %}
+                                        </span>
+            {% endif %}
+        </div>
+        {% if banner.bnr_border %}
+            <div class="bnr-border" style="margin: {{ banner.bnr_border_offset }}%; border-color: {{ banner.bnr_border_color }}"></div>
+        {% endif %}
+    </div>
+    {% if banner.link_area == 'all' %}
+</a>
+{% endif %}

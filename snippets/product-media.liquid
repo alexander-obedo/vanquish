@@ -1,0 +1,40 @@
+{%- assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image -%}
+<!-- Product Gallery -->
+<div class="prd-block_main-image main-image--slide js-main-image--slide">
+  <div class="prd-block_main-image-holder {% if section.settings.zoom %}js-main-image-zoom{% endif %}" data-zoomtype="inner">
+    <div class="prd-block_main-image-video js-main-image-video">
+      <video loop muted preload="metadata" controls="controls">
+        <source src="#" />
+      </video>
+      <div class="gdw-loader"></div>
+    </div>
+    <div class="prd-has-loader">
+		<div class="gdw-loader"></div>
+    	<img src="{{ featured_image.src | img_url: 'master' }}" alt="{{ featured_image.alt | escape }}" class="zoom"  data-zoom-image="{{ featured_image.src | img_url: 'master' }}" />
+    </div>
+    {% if product.images.size > 1 %}
+    <div class="prd-block_main-image-next slick-next js-main-image-next">NEXT</div>
+    <div class="prd-block_main-image-prev slick-prev js-main-image-prev">PREV</div>
+    {% endif %}
+  </div>
+  <div class="prd-block_main-image-links">
+    {% assign video_youtube = product.metafields.c_f.video %}
+    {% if video_youtube != blank %}<a data-fancybox data-width="800"   href="{{ video_youtube }}" class="prd-block_video-link"><i class="icon icon-play"></i></a>{% endif %}
+    <a href="{{ featured_image.src | img_url: 'master' }}" class="prd-block_zoom-link" data-caption="{{ featured_image.alt | escape }}"><i class="icon icon-zoomin"></i></a>
+  </div>
+</div>
+{% if product.images.size > 1 %}
+  {% for image in product.images %} <img alt="" src="{{ image.src | img_url: 'master' }}" style="display: none" />{% endfor %}
+  <div class="product-previews-wrapper {% if section.settings.always_visible_previews %}always-visible{% endif %}">
+    <div class="product-previews-carousel" id="previewsGallery{{ product.id }}">
+      {% for image in product.images %}
+        {% if image.alt contains 'video:' %}
+          <a {% if featured_image == image %}class="active"{% endif %} data-image-id="{{ image.id }}" href="#" data-video="{{ image.alt | replace:'video:' }}"><img src="{{ image.src | img_url: 'medium' }}" alt="" /></a>
+        {% else %}
+          <a {% if featured_image == image %}class="active"{% endif %} data-image-id="{{ image.id }}" href="#" data-name="{{ image.src | split:'products/' | last | split:'.' | first }}" data-image="{{ image.src | img_url: 'master' }}" data-zoom-image="{{ image.src | img_url: 'master' }}"><img src="{{ image.src | img_url: 'medium' }}" alt="{{ image.alt }}" /></a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+<!-- /Product Gallery -->

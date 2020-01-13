@@ -1,0 +1,32 @@
+<footer class="page-footer footer-style-5  {{ section.settings.outer_margin }}">
+    <div class="footer-top container">
+        <div class="text-center py-1">
+            <div class="footer-logo-lined">
+                {% include 'footer-logo' %}
+            </div>
+        </div>
+        {% if section.settings.navigation_1 != blank %}
+        <div class="footer-block py-1 py-md-0 mt-0 text-center">
+            <div class="footer-menu">
+                <ul>
+                    {% for link in linklists[section.settings.navigation_1].links %}
+                        <li>
+                            {{ link.title | append:label | link_to: link.url }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        <div class="footer-block mt-1 text-center">
+            {% include 'social-media-links' %}
+        </div>
+    </div>
+    <div class="footer-bottom container mt-2 pb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="footer-copyright">{{ section.settings.copyright }}</div>
+            </div>
+        </div>
+    </div>
+</footer>
